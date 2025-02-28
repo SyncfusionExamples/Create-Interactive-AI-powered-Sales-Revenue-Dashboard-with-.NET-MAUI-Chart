@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\ShowCase Demo\\SampleApplication\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E47B2218-CBAC-4222-A0E7-44DE0FC010A3}|SampleApplication\\SalesPerformanceAnalysis.csproj|d:\\showcase demo\\sampleapplication\\sampleapplication\\views\\productdetails.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{E47B2218-CBAC-4222-A0E7-44DE0FC010A3}|SampleApplication\\SalesPerformanceAnalysis.csproj|solutionrelative:sampleapplication\\views\\productdetails.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProductDetails.xaml",
+              "DocumentMoniker": "D:\\ShowCase Demo\\SampleApplication\\SampleApplication\\Views\\ProductDetails.xaml",
+              "RelativeDocumentMoniker": "SampleApplication\\Views\\ProductDetails.xaml",
+              "ToolTip": "D:\\ShowCase Demo\\SampleApplication\\SampleApplication\\Views\\ProductDetails.xaml",
+              "RelativeToolTip": "SampleApplication\\Views\\ProductDetails.xaml",
+              "ViewState": "AgIAAEUAAAAAAAAAAAAAAE8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-02-27T17:20:49.335Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

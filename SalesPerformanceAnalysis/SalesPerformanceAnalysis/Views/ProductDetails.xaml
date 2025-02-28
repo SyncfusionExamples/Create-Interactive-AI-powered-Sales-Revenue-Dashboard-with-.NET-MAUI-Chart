@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:local="clr-namespace:SalesPerformanceAnalysis"
+             x:DataType="local:ViewModel"
+             x:Class="SalesPerformanceAnalysis.ProductDetails">
+
+    <ContentView.Resources>
+        <Style TargetType="dataGrid:DataGridCell">
+            <Setter Property="TextColor" Value="#FEF8F5"/>
+        </Style>
+    </ContentView.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <HorizontalStackLayout Grid.Row="0" HorizontalOptions="End" Spacing="10">
+
+            <Border Padding="10"
+                   Background="Transparent"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Stroke="#19C4DA">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                          Tapped="ExportPDF" />
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout>
+                    <Image WidthRequest="20" HeightRequest="20"
+                           Source="pdf.png"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center" />
+                    <Label Text="Export PDF"
+                           TextColor="#FEF8F5"
+                           Padding="0,0,0,1"
+                           HorizontalTextAlignment="Start"
+                           VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+
+            </Border>
+            <Border Padding="10"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center"
+                   Stroke="#19C4DA" 
+                   Background="Transparent">
+                
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20" />
+                </Border.StrokeShape>
+
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                                           Tapped="ExportAsExcel"/>
+                </Border.GestureRecognizers>
+                <HorizontalStackLayout>
+                    <Image Source="excel.png" WidthRequest="20" HeightRequest="20"
+                           HorizontalOptions="End"
+                           VerticalOptions="Center" />
+                    <Label Text="Export Excel"
+                           TextColor="#FEF8F5"
+                           Padding="5,0,0,1"
+                           HorizontalTextAlignment="Start"
+                           VerticalTextAlignment="Center" />
+                </HorizontalStackLayout>
+            </Border>
+        </HorizontalStackLayout>
+
+        <dataGrid:SfDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ProductInfos}"
+                             HorizontalScrollBarVisibility="Always"
+                             VerticalScrollBarVisibility="Always"
+                             AutoGenerateColumnsMode="None" SortingMode="Single">
+
+            <dataGrid:SfDataGrid.Columns>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="150" HeaderText="Product">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="8" Padding="8" >
+                                <Image x:DataType="local:ProductInfo" Source="{Binding Image}" WidthRequest="32" HeightRequest="32" />
+                                <Label Text="{Binding Product}" TextColor="White"
+                                       x:DataType="local:ProductInfo"
+                                       VerticalTextAlignment="Center" 
+                                       HorizontalTextAlignment="Center"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                    <dataGrid:DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                            <Setter Property="Background" Value="#E8E8E8" />
+                        </Style>
+                    </dataGrid:DataGridTemplateColumn.HeaderStyle>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="Stock" MappingName="ProductStockCount" Format="0" HeaderTextAlignment="Center">
+                    <dataGrid:DataGridNumericColumn.HeaderStyle>
+                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                            <Setter Property="Background" Value="LightGray" />
+                        </Style>
+                    </dataGrid:DataGridNumericColumn.HeaderStyle>
+                </dataGrid:DataGridNumericColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="Price" MappingName="BuyingPrice" Format="$0.00" HeaderTextAlignment="Center">
+                    <dataGrid:DataGridNumericColumn.HeaderStyle>
+                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                            <Setter Property="Background" Value="#E8E8E8" />
+                        </Style>
+                    </dataGrid:DataGridNumericColumn.HeaderStyle>
+                </dataGrid:DataGridNumericColumn>
+
+                <dataGrid:DataGridCheckBoxColumn HeaderText="Availability" MappingName="Availability" HeaderTextAlignment="Center">
+                    <dataGrid:DataGridCheckBoxColumn.HeaderStyle>
+                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                            <Setter Property="Background" Value="LightGray" />
+                        </Style>
+                    </dataGrid:DataGridCheckBoxColumn.HeaderStyle>
+                </dataGrid:DataGridCheckBoxColumn>
+
+            </dataGrid:SfDataGrid.Columns>
+
+        </dataGrid:SfDataGrid>
+
+    </Grid>
+
+    
+</ContentView>

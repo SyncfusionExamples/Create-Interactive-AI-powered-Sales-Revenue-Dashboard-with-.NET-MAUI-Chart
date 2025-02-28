@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:local="clr-namespace:SalesPerformanceAnalysis"
+             x:Class="SalesPerformanceAnalysis.SalesChart">
+
+    <chart:SfCartesianChart Grid.Column="0" x:Name="salesChart" Background="#2A2B4D" Margin="0">
+
+        <chart:SfCartesianChart.ZoomPanBehavior>
+            <chart:ChartZoomPanBehavior EnablePanning="True" EnableDoubleTap="False" EnablePinchZooming="False"/>
+        </chart:SfCartesianChart.ZoomPanBehavior>
+
+        <chart:SfCartesianChart.XAxes>
+            <chart:CategoryAxis ShowMajorGridLines="False"
+                               AutoScrollingDelta="{Binding AutoScrollingDelta}">
+
+                <chart:CategoryAxis.MajorTickStyle>
+                    <chart:ChartAxisTickStyle Stroke="Transparent" TickSize="0"/>
+                </chart:CategoryAxis.MajorTickStyle>
+
+                <chart:CategoryAxis.AxisLineStyle>
+                    <chart:ChartLineStyle Stroke="Transparent" StrokeWidth="0"/>
+                </chart:CategoryAxis.AxisLineStyle>
+
+                <chart:CategoryAxis.LabelStyle>
+                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#F7F8FB"/>
+                </chart:CategoryAxis.LabelStyle>
+            </chart:CategoryAxis>
+        </chart:SfCartesianChart.XAxes>
+
+        <chart:SfCartesianChart.YAxes>
+            <chart:NumericalAxis EdgeLabelsDrawingMode="Fit">
+                
+                <chart:NumericalAxis.AxisLineStyle>
+                    <chart:ChartLineStyle StrokeWidth="0"/>
+                </chart:NumericalAxis.AxisLineStyle>
+                
+                <chart:NumericalAxis.MajorTickStyle>
+                    <chart:ChartAxisTickStyle TickSize="0"/>
+                </chart:NumericalAxis.MajorTickStyle>
+                
+                <chart:NumericalAxis.MajorGridLineStyle>
+                    <chart:ChartLineStyle StrokeDashArray="2,3" Stroke="#E5DEC8"
+                                      StrokeWidth="1"/>
+                </chart:NumericalAxis.MajorGridLineStyle>
+
+                <chart:NumericalAxis.LabelStyle>
+                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#F7F8FB"/>
+                </chart:NumericalAxis.LabelStyle>
+
+                <chart:NumericalAxis.PlotBands>
+                    <chart:NumericalPlotBandCollection>
+                        <chart:NumericalPlotBand Start="5000" End="6000"/>
+                    </chart:NumericalPlotBandCollection>
+                </chart:NumericalAxis.PlotBands>
+                
+            </chart:NumericalAxis>
+        </chart:SfCartesianChart.YAxes>
+
+        <chart:SplineAreaSeries ItemsSource="{Binding SalesReport}"  XBindingPath="Category"  YBindingPath="Revenue"
+                                EnableTooltip="True" Stroke="#19C4DA" Fill="#5919C4DA" StrokeWidth="2">
+        </chart:SplineAreaSeries>
+
+    </chart:SfCartesianChart>
+
+</ContentView>

@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfButton="clr-namespace:Syncfusion.Maui.Toolkit.Buttons;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:popup="clr-namespace:Syncfusion.Maui.Popup;assembly=Syncfusion.Maui.Popup"
+             xmlns:local="clr-namespace:SalesPerformanceAnalysis"
+             x:Class="SalesPerformanceAnalysis.MainPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style TargetType="sfButton:SfButton">
+                <Setter Property="FontSize" Value="18"/>
+                <Setter Property="TextColor" Value="#FEF8F5"/>
+                <Setter Property="Stroke" Value="#19C4DA"/>
+                <Setter Property="StrokeThickness" Value="2"/>
+                <Setter Property="Background" Value="#353666"/>
+                <Setter Property="ShowIcon" Value="True"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <Grid Margin="10" BackgroundColor="#2A2B4D">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="2.2*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="6.8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="5*"/>
+        </Grid.ColumnDefinitions>
+
+        <popup:SfPopup x:Name="popUp" AutoSizeMode="None" ShowHeader="False" ShowCloseButton="True" AnimationMode="SlideOnBottom" AnimationEasing="SinIn">
+            <popup:SfPopup.ContentTemplate>
+                <DataTemplate x:DataType="local:ViewModel">
+                    <VerticalStackLayout>
+                        <ScrollView >
+                            <VerticalStackLayout Margin="10">
+                                <Label Text="{Binding Text}"/>
+                                <sfButton:SfButton ImageSource="sparkles.svg" Text="Data"/>
+                            </VerticalStackLayout>
+                        </ScrollView>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </popup:SfPopup.ContentTemplate>
+        </popup:SfPopup>
+
+
+        <Grid Grid.Row="0" Grid.Column="0" RowDefinitions="5*,5*">
+
+            <sfButton:SfButton  x:Name="revenue" Margin="5" ImageSource="revenue.png" ImageSize="50"
+             Text="Revenue" Clicked="Revenue_Clicked" />
+            <sfButton:SfButton Grid.Row="1" Margin="5" x:Name="product" ImageSource="sales.png" ImageSize="40" 
+                Text="Products"  Clicked="Product_Clicked" />
+
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1" RowDefinitions="5*,5*">
+
+            <sfButton:SfButton Grid.Row="0" x:Name="orders" Margin="5" ImageSource="order.png" ImageSize="40" 
+                           Text="Orders" Clicked="Order_Clicked" />
+            <sfButton:SfButton Grid.Row="1" Margin="5" x:Name="sales" ImageSource="sales.png" ImageSize="40" 
+                           Text="Sales"  Clicked="Sales_Clicked" />
+
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" ColumnDefinitions="6*,4*,0.5*" >
+            <HorizontalStackLayout Grid.Column="0" VerticalOptions="Center" Margin="20,0,0,0">
+                <Label Text="{Binding AverageRevenue}" FontAttributes="Bold" FontSize="16" TextColor="#FEF8F5"/>
+            </HorizontalStackLayout>
+
+            <comboBox:SfComboBox Grid.Column="1" Margin="6" ItemsSource="{Binding ComboBoxData}"  DropDownIconColor="#FEF8F5" 
+                     SelectionChanged="SfComboBox_SelectionChanged" WidthRequest="{OnPlatform Android=150, iOS=150}"
+                     Background="#353666" DropDownStroke="#19C4DA" HorizontalTextAlignment="Center" ShowBorder="False" 
+                     FontSize="17" IsClearButtonVisible="False" SelectedIndex="1" TextColor="#FEF8F5"/>
+
+            <sfButton:SfButton Grid.Column="2" ImageSource="sparkles.png" ShowIcon="True" Background="White" ImageSize="20" Clicked="SfButton_Clicked">
+            </sfButton:SfButton>
+        </Grid>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Stroke="#353666" StrokeShape="RoundRectangle 10,10,10,10">
+            <ContentView x:Name="contentView" BindingContext="{Binding .}"/>
+        </Border>
+
+    </Grid>
+
+</ContentPage>

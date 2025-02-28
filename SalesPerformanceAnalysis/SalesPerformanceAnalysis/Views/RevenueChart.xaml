@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:local="clr-namespace:SalesPerformanceAnalysis"
+             x:Class="SalesPerformanceAnalysis.RevenueChart">
+
+    <chart:SfCartesianChart x:Name="revenueChart" Background="#353666">
+
+        <chart:SfCartesianChart.ZoomPanBehavior>
+            <chart:ChartZoomPanBehavior EnablePanning="True" EnableDoubleTap="False" EnablePinchZooming="False"/>
+        </chart:SfCartesianChart.ZoomPanBehavior>
+
+        <chart:SfCartesianChart.XAxes>
+            <chart:CategoryAxis ShowMajorGridLines="False" LabelCreated="CategoryAxis_LabelCreated"
+                               AutoScrollingDelta="{Binding AutoScrollingDelta}">
+
+                <chart:CategoryAxis.MajorTickStyle>
+                    <chart:ChartAxisTickStyle Stroke="Transparent" TickSize="0"/>
+                </chart:CategoryAxis.MajorTickStyle>
+                
+                <chart:CategoryAxis.AxisLineStyle>
+                    <chart:ChartLineStyle Stroke="Transparent" StrokeWidth="0"/>
+                </chart:CategoryAxis.AxisLineStyle>
+                
+                <chart:CategoryAxis.LabelStyle>
+                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#F7F8FB"/>
+                </chart:CategoryAxis.LabelStyle>
+            </chart:CategoryAxis>
+        </chart:SfCartesianChart.XAxes>
+
+        <chart:SfCartesianChart.YAxes>
+            <chart:NumericalAxis IsVisible="False" ShowMajorGridLines="False"/>
+        </chart:SfCartesianChart.YAxes>
+
+        <chart:ColumnSeries ItemsSource="{Binding SalesReport}"  XBindingPath="Category"  YBindingPath="Revenue"
+                            CornerRadius="30" Fill="#16D1DE"  EnableTooltip ="{OnPlatform Android= True, iOS= True, Default=False}"
+                            ShowDataLabels="{OnPlatform Android= False, iOS= False, Default=True}"/>
+
+    </chart:SfCartesianChart>
+
+</ContentView>
