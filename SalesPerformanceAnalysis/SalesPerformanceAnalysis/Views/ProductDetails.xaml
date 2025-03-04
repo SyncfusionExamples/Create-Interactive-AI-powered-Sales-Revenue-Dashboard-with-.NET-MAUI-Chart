@@ -41,7 +41,7 @@
                         <map:SfMaps>
                             <map:SfMaps.Layer>
                                 <map:MapShapeLayer DataSource="{Binding Regions}" ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
-                                        PrimaryValuePath="Name" ShowBubbles="True">
+                                        PrimaryValuePath="Name" ShowBubbles="True"  ShapeHoverFill="Transparent" ShowMarkerTooltip="True">
 
                                     <map:MapShapeLayer.MarkerTemplate>
                                         <DataTemplate>
@@ -52,6 +52,21 @@
                                             </StackLayout>
                                         </DataTemplate>
                                     </map:MapShapeLayer.MarkerTemplate>
+
+                                <!--<map:MapShapeLayer.MarkerTooltipTemplate>
+                                    <DataTemplate>
+                                        <HorizontalStackLayout>
+                                            --><!--<HorizontalStackLayout.BindingContext>
+                                                <Binding Path="DataItem"/>
+                                            </HorizontalStackLayout.BindingContext>
+                                            <Label x:DataType="local:ViewModel" Text="{Binding SelectedCityName}"/>
+                                            <Label Text=":"
+                                           Margin="2,0,2,0"/>
+                                            <Label x:DataType="local:ViewModel" Text="{Binding Density}" />
+                                            <Label Text="per sq. km." Margin="2,0,0,0" />--><!--
+                                        </HorizontalStackLayout>
+                                    </DataTemplate>
+                                </map:MapShapeLayer.MarkerTooltipTemplate>-->
 
                                     <map:MapShapeLayer.Markers>
                                         <map:MapMarkerCollection>
@@ -121,7 +136,7 @@
                     </dataGrid:DataGridNumericColumn>
 
                     <dataGrid:DataGridImageColumn  MappingName="AvailabilityImage" CellPadding="12"
-                                         HeaderText="Availability" />
+                                 AllowSorting="False"  HeaderText="Availability" />
 
 
                 </dataGrid:SfDataGrid.Columns>

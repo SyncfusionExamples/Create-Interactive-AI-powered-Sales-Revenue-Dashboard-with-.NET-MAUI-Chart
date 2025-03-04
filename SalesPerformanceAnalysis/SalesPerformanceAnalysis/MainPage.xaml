@@ -16,7 +16,7 @@
                 <Setter Property="Background" Value="#FFFFFF"/>
                 <Setter Property="ShowIcon" Value="True"/>
                 <Setter Property="Stroke" Value="#C4C7C5"/>
-                <Setter Property="StrokeThickness" Value="1"/>
+                <Setter Property="StrokeThickness" Value="2"/>
             </Style>
 
         </ResourceDictionary>
@@ -27,9 +27,9 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="0.5*"/>
-                <RowDefinition Height="1.2*"/>
                 <RowDefinition Height="1*"/>
-                <RowDefinition Height="7.3*"/>
+                <RowDefinition Height="1.1*"/>
+                <RowDefinition Height="7.4*"/>
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
@@ -52,7 +52,7 @@
             <Label Grid.Row="0" Grid.ColumnSpan="2" HorizontalOptions="Start" VerticalOptions="Center"
              Text="Sales Trends Dashboard" FontSize="19"/>
 
-            <Grid Grid.Row="1" Grid.ColumnSpan="2" RowDefinitions="{OnPlatform Android='*,*', iOS='*,*', Default='*'}" Margin="0,0,0,10"
+            <Grid Grid.Row="1" Grid.ColumnSpan="2" RowDefinitions="{OnPlatform Android='*,*', iOS='*,*', Default='*'}" Margin="0,0,0,15"
                     ColumnDefinitions="{OnPlatform Android='*,*', iOS='*,*', Default='*,*,*,*'}" RowSpacing="{OnPlatform WinUI=10, MacCatalyst=10}">
 
                 <sfButton:SfButton x:Name="revenue" Grid.Row="{OnPlatform Android=0, iOS=0, Default=0}" Grid.Column="{OnPlatform Android=0,iOS=0, Default=3}"
@@ -69,11 +69,43 @@
 
             </Grid>
 
-            <Grid Grid.Row="2" Grid.ColumnSpan="2" ColumnDefinitions="4.5*,5.5*" >
+            <Grid Grid.Row="2" Grid.ColumnSpan="2" Margin="0,5,0,0" ColumnDefinitions="4.5*,5.5*" >
 
-                <Label x:Name="average" Text="{Binding AverageRevenue}" Grid.Column="0" VerticalOptions="Center" Margin="20,0,0,0" FontSize="24" TextColor="#000000"/>
+              <Grid Grid.Column="0" ColumnDefinitions="*,*,*,*" ColumnSpacing="10">
+                <!-- Total Revenue Card -->
+                <Border Grid.Column="0" StrokeThickness="1" Stroke="LightGray" StrokeShape="RoundRectangle 8" Padding="10">
+                    <VerticalStackLayout>
+                        <Label Text="Total Revenue" FontAttributes="Bold" FontSize="14" />
+                        <Label Text="{Binding TotalRevenue, StringFormat='${0:N0}'}" FontSize="20" FontAttributes="Bold" TextColor="#4CAF50" />
+                    </VerticalStackLayout>
+                </Border>
 
-                <HorizontalStackLayout x:Name="middleLayout" Grid.Column="1" HorizontalOptions="End">
+                <!-- Total Profit Card -->
+                <Border Grid.Column="1" StrokeThickness="1" Stroke="LightGray" StrokeShape="RoundRectangle 8" Padding="10">
+                    <VerticalStackLayout>
+                        <Label Text="Total Profit" FontAttributes="Bold" FontSize="14" />
+                        <Label Text="{Binding TotalProfit, StringFormat='${0:N0}'}" FontSize="20" FontAttributes="Bold" TextColor="#2196F3" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Profit Margin Card -->
+                <Border Grid.Column="2" StrokeThickness="1" Stroke="LightGray" StrokeShape="RoundRectangle 8" Padding="10">
+                    <VerticalStackLayout>
+                        <Label Text="Profit Margin" FontAttributes="Bold" FontSize="14" />
+                        <Label Text="{Binding ProfitMargin, StringFormat='{0:N1}%'}" FontSize="20" FontAttributes="Bold" TextColor="#FF9800" />
+                    </VerticalStackLayout>
+                </Border>
+
+                <!-- Growth Rate Card -->
+                <Border Grid.Column="3" StrokeThickness="1" Stroke="LightGray" StrokeShape="RoundRectangle 8" Padding="10">
+                    <VerticalStackLayout>
+                        <Label Text="Growth Rate" FontAttributes="Bold" FontSize="14" />
+                        <Label Text="{Binding GrowthRate, StringFormat='{0:N1}%'}" FontSize="20" FontAttributes="Bold" TextColor="#9C27B0" />
+                    </VerticalStackLayout>
+                </Border>
+            </Grid>
+
+            <HorizontalStackLayout x:Name="middleLayout" Grid.Column="1" HorizontalOptions="End">
 
                 <comboBox:SfComboBox Margin="6" x:Name="periodSelection"  ItemsSource="{Binding DateRanges}" 
                     DisplayMemberPath="DisplayText"  DropDownIconColor="#333333"
@@ -112,11 +144,9 @@
             </Grid>
 
             <Border Grid.Row="3" Grid.ColumnSpan="2" Stroke="#C4C7C5" StrokeShape="RoundRectangle 10,10,10,10" Margin="0,10,0,0">
-
             <ScrollView>
                 <ContentView x:Name="contentView" Grid.Row="1" BindingContext="{Binding .}"/>
             </ScrollView>
-
             </Border>
 
         </Grid>

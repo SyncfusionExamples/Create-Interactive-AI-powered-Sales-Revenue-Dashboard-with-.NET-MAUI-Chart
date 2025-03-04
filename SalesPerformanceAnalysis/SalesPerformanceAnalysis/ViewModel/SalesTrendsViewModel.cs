@@ -146,12 +146,57 @@ namespace SalesPerformanceAnalysis
         }
 
 
+        private decimal _totalRevenue;
+        public decimal TotalRevenue
+        {
+            get => _totalRevenue;
+            set
+            {
+                _totalRevenue = value;
+                OnPropertyChanged(nameof(TotalRevenue));
+            }
+        }
+
+        private decimal _totalProfit;
+        public decimal TotalProfit
+        {
+            get => _totalProfit;
+            set
+            {
+                _totalProfit = value;
+                OnPropertyChanged(nameof(TotalProfit));
+            }
+        }
+
+        private double _profitMargin;
+        public double ProfitMargin
+        {
+            get => _profitMargin;
+            set
+            {
+                _profitMargin = value;
+                OnPropertyChanged(nameof(ProfitMargin));
+            }
+        }
+
+        private double _growthRate;
+        public double GrowthRate
+        {
+            get => _growthRate;
+            set
+            {
+                _growthRate = value;
+                OnPropertyChanged(nameof(GrowthRate));
+            }
+        }
+
+
         public SalesTrendsViewModel(SalesDataService salesDataService)
         {
             _salesDataService = salesDataService;
             Title = "Sales Trends";
             Initialize();
-
+            LoadDashboardData();    
             DateRanges = new List<DateRangeOption>
         {
             new DateRangeOption { DisplayText = "Last 30 Days", Value = DateRange.Last30Days },
@@ -159,6 +204,17 @@ namespace SalesPerformanceAnalysis
             new DateRangeOption { DisplayText = "Year to Date", Value = DateRange.YearToDate },
             new DateRangeOption { DisplayText = "Last Year", Value = DateRange.LastYear }
         };
+        }
+
+
+        public async Task LoadDashboardData()
+        {
+            // Load financial summary
+            var summary = await _salesDataService.GetSalesSummaryAsync(SelectedDateRange);
+            TotalRevenue = summary["TotalRevenue"];
+            TotalProfit = summary["TotalProfit"];
+            ProfitMargin = (double)summary["AverageProfitMargin"];
+            GrowthRate = (double)summary["RevenueGrowth"];
         }
 
         public async Task Initialize()
@@ -195,9 +251,6 @@ namespace SalesPerformanceAnalysis
 
         public async Task LoadSalesData()
         {
-            //if (IsBusy)
-            //    return;
-
             try
             {
                 SetBusy(true, "Loading sales data...");

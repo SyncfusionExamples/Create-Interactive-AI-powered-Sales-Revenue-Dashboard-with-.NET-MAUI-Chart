@@ -42,7 +42,7 @@ namespace SalesPerformanceAnalysis
             else AddChildIfNotExists(periodSelection, 0);
 
             AddChildIfNotExists(additionalChild, 1);
-            average.SetBinding(Label.TextProperty, new Binding(bindingProperty));
+           // average.SetBinding(Label.TextProperty, new Binding(bindingProperty));
         }
 
         private void SetButtonStyles(SfButton activeButton)
