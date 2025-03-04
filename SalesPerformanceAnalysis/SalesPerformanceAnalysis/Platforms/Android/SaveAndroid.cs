@@ -14,7 +14,13 @@ namespace SalesPerformanceAnalysis
         public partial void SaveAndView(string filename, string contentType, MemoryStream stream)
         {
             string exception = string.Empty;
-            string? root = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
+            string? root = null;
+            if (Android.OS.Environment.IsExternalStorageEmulated)
+            {
+                root = Android.App.Application.Context.GetExternalFilesDir(Android.OS.Environment.DirectoryDownloads)?.AbsolutePath;
+            }
+            else
+                root = System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments);
 
             Java.IO.File myDir = new(root + "/Syncfusion");
             myDir.Mkdir();
@@ -40,7 +46,6 @@ namespace SalesPerformanceAnalysis
             }
             if (file.Exists())
             {
-
                 if (Build.VERSION.SdkInt >= Android.OS.BuildVersionCodes.N)
                 {
                     var fileUri = AndroidX.Core.Content.FileProvider.GetUriForFile(Android.App.Application.Context, Android.App.Application.Context.PackageName + ".provider", file);
@@ -48,7 +53,14 @@ namespace SalesPerformanceAnalysis
                     intent.SetData(fileUri);
                     intent.AddFlags(ActivityFlags.NewTask);
                     intent.AddFlags(ActivityFlags.GrantReadUriPermission);
-                    Android.App.Application.Context.StartActivity(intent);
+                    try
+                    {
+                        Android.App.Application.Context.StartActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e.ToString();
+                    }
                 }
                 else
                 {

@@ -2,132 +2,182 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
              xmlns:local="clr-namespace:SalesPerformanceAnalysis"
              x:DataType="local:ViewModel"
              x:Class="SalesPerformanceAnalysis.ProductDetails">
 
     <ContentView.Resources>
         <Style TargetType="dataGrid:DataGridCell">
-            <Setter Property="TextColor" Value="#FEF8F5"/>
+            <Setter Property="TextColor" Value="#7E7E7E"/>
         </Style>
     </ContentView.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="56" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ScrollView>
+        <Grid RowDefinitions="4*,6*">
 
-        <HorizontalStackLayout Grid.Row="0" HorizontalOptions="End" Spacing="10">
+            <Grid Grid.Row="0" ColumnDefinitions="*,*">
 
-            <Border Padding="10"
-                   Background="Transparent"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Stroke="#19C4DA">
-                
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20" />
-                </Border.StrokeShape>
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1"
-                                          Tapped="ExportPDF" />
-                </Border.GestureRecognizers>
-                <HorizontalStackLayout>
-                    <Image WidthRequest="20" HeightRequest="20"
-                           Source="pdf.png"
-                           HorizontalOptions="End"
-                           VerticalOptions="Center" />
-                    <Label Text="Export PDF"
-                           TextColor="#FEF8F5"
-                           Padding="0,0,0,1"
-                           HorizontalTextAlignment="Start"
-                           VerticalTextAlignment="Center" />
-                </HorizontalStackLayout>
 
-            </Border>
-            <Border Padding="10"
-                   HorizontalOptions="Center"
-                   VerticalOptions="Center"
-                   Stroke="#19C4DA" 
-                   Background="Transparent">
-                
-                <Border.StrokeShape>
-                    <RoundRectangle CornerRadius="20" />
-                </Border.StrokeShape>
+                <Border Grid.Column="0" Stroke="#C4C7C5" StrokeShape="RoundRectangle 10,10,10,10" Margin="10">
+                    <chart:SfCircularChart >
+                        <chart:SfCircularChart.Title>
+                            <Label Text="Top Products" HorizontalOptions="Center"/>
+                        </chart:SfCircularChart.Title>
 
-                <Border.GestureRecognizers>
-                    <TapGestureRecognizer NumberOfTapsRequired="1"
-                                           Tapped="ExportAsExcel"/>
-                </Border.GestureRecognizers>
-                <HorizontalStackLayout>
-                    <Image Source="excel.png" WidthRequest="20" HeightRequest="20"
-                           HorizontalOptions="End"
-                           VerticalOptions="Center" />
-                    <Label Text="Export Excel"
-                           TextColor="#FEF8F5"
-                           Padding="5,0,0,1"
-                           HorizontalTextAlignment="Start"
-                           VerticalTextAlignment="Center" />
-                </HorizontalStackLayout>
-            </Border>
-        </HorizontalStackLayout>
+                        <chart:SfCircularChart.Legend>
+                            <chart:ChartLegend Placement="Bottom"/>
+                        </chart:SfCircularChart.Legend>
 
-        <dataGrid:SfDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ProductInfos}"
-                             HorizontalScrollBarVisibility="Always"
-                             VerticalScrollBarVisibility="Always"
-                             AutoGenerateColumnsMode="None" SortingMode="Single">
+                        <chart:PieSeries ItemsSource="{Binding TopProducts}"   ShowDataLabels="True"
+                            XBindingPath="Name" YBindingPath="BasePrice"/>
+                    </chart:SfCircularChart>
+                </Border>
 
-            <dataGrid:SfDataGrid.Columns>
+                <Border Grid.Column="1" Stroke="#C4C7C5" StrokeShape="RoundRectangle 10,10,10,10" Margin="10" Padding="10">
 
-                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="150" HeaderText="Product">
-                    <dataGrid:DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <HorizontalStackLayout Spacing="8" Padding="8" >
-                                <Image x:DataType="local:ProductInfo" Source="{Binding Image}" WidthRequest="32" HeightRequest="32" />
-                                <Label Text="{Binding Product}" TextColor="White"
-                                       x:DataType="local:ProductInfo"
-                                       VerticalTextAlignment="Center" 
-                                       HorizontalTextAlignment="Center"/>
-                            </HorizontalStackLayout>
-                        </DataTemplate>
-                    </dataGrid:DataGridTemplateColumn.CellTemplate>
-                    <dataGrid:DataGridTemplateColumn.HeaderStyle>
-                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
-                            <Setter Property="Background" Value="#E8E8E8" />
-                        </Style>
-                    </dataGrid:DataGridTemplateColumn.HeaderStyle>
-                </dataGrid:DataGridTemplateColumn>
+                    <VerticalStackLayout>
 
-                <dataGrid:DataGridNumericColumn HeaderText="Stock" MappingName="ProductStockCount" Format="0" HeaderTextAlignment="Center">
-                    <dataGrid:DataGridNumericColumn.HeaderStyle>
-                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
-                            <Setter Property="Background" Value="LightGray" />
-                        </Style>
-                    </dataGrid:DataGridNumericColumn.HeaderStyle>
-                </dataGrid:DataGridNumericColumn>
+                        <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5"/>
 
-                <dataGrid:DataGridNumericColumn HeaderText="Price" MappingName="BuyingPrice" Format="$0.00" HeaderTextAlignment="Center">
-                    <dataGrid:DataGridNumericColumn.HeaderStyle>
-                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
-                            <Setter Property="Background" Value="#E8E8E8" />
-                        </Style>
-                    </dataGrid:DataGridNumericColumn.HeaderStyle>
-                </dataGrid:DataGridNumericColumn>
+                        <map:SfMaps>
+                            <map:SfMaps.Layer>
+                                <map:MapShapeLayer DataSource="{Binding Regions}" ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
+                            PrimaryValuePath="Name"   ShowBubbles="True">
 
-                <dataGrid:DataGridCheckBoxColumn HeaderText="Availability" MappingName="Availability" HeaderTextAlignment="Center">
-                    <dataGrid:DataGridCheckBoxColumn.HeaderStyle>
-                        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
-                            <Setter Property="Background" Value="LightGray" />
-                        </Style>
-                    </dataGrid:DataGridCheckBoxColumn.HeaderStyle>
-                </dataGrid:DataGridCheckBoxColumn>
+                                    <map:MapShapeLayer.MarkerTemplate>
+                                        <DataTemplate>
+                                            <StackLayout HorizontalOptions="Center">
+                                                <Image Source="map_pin.png"  HeightRequest="30" WidthRequest="30"/>
+                                                <Label Text="{Binding SelectedCityName, Source={x:Reference viewModel}}" 
+                                        HorizontalTextAlignment="Center" FontSize="10" FontAttributes="Bold"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </map:MapShapeLayer.MarkerTemplate>
 
-            </dataGrid:SfDataGrid.Columns>
+                                    <map:MapShapeLayer.Markers>
+                                        <map:MapMarkerCollection>
+                                            <map:MapMarker Latitude="40.7128"
+                                                Longitude="-74.0060" />
 
-        </dataGrid:SfDataGrid>
+                                            <map:MapMarker Latitude="52.5200"
+                                                    Longitude="13.4050" />
 
-    </Grid>
+                                            <map:MapMarker Latitude="35.6762"
+                                                Longitude="139.6503" />
 
-    
+                                            <map:MapMarker Latitude="-23.5505"
+                                                Longitude="-46.6333" />
+
+                                        </map:MapMarkerCollection>
+
+
+                                    </map:MapShapeLayer.Markers>
+
+
+
+                                    <map:MapShapeLayer.BubbleSettings>
+                                        <map:MapBubbleSettings ColorValuePath="Value"
+                         SizeValuePath="Value"
+                         MinSize="30"
+                         MaxSize="80">
+
+                                            <map:MapBubbleSettings.ColorMappings>
+                                                <map:EqualColorMapping Color="LightGreen"
+                                 Value="21"
+                                 Text="India" />
+                                                <map:EqualColorMapping Color="Black"
+                                 Value="58"
+                                 Text="United States" />
+                                                <map:EqualColorMapping Color="Blue"
+                                 Value="41"
+                                 Text="Kazakhstan" />
+                                                <map:EqualColorMapping Color="PaleGoldenrod"
+                                 Value="48"
+                                 Text="Italy" />
+                                                <map:EqualColorMapping Color="MediumVioletRed"
+                                 Value="14"
+                                 Text="Korea" />
+                                                <map:EqualColorMapping Color="LightGreen"
+                                 Value="23"
+                                 Text="China" />
+                                            </map:MapBubbleSettings.ColorMappings>
+                                        </map:MapBubbleSettings>
+                                    </map:MapShapeLayer.BubbleSettings>
+
+                                    <map:MapShapeLayer.Legend>
+                                        <map:MapLegend SourceType="Shape" Placement="Top" />
+                                    </map:MapShapeLayer.Legend>
+
+                                </map:MapShapeLayer>
+                            </map:SfMaps.Layer>
+                        </map:SfMaps>
+                    </VerticalStackLayout>
+
+                   
+
+                </Border>
+
+
+            </Grid>
+
+            <dataGrid:SfDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ProductInfos}"
+                     HorizontalScrollBarVisibility="Always"
+                     VerticalScrollBarVisibility="Always"
+                     AutoGenerateColumnsMode="None" SortingMode="Single">
+
+                <dataGrid:SfDataGrid.Columns>
+
+                    <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="150" HeaderText="Product">
+                        <dataGrid:DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <HorizontalStackLayout Spacing="8" Padding="8" >
+                                    <Image x:DataType="local:ProductInfo" Source="{Binding Image}" WidthRequest="32" HeightRequest="32" />
+                                    <Label Text="{Binding Product}" TextColor="#7E7E7E"
+                               x:DataType="local:ProductInfo"
+                               VerticalTextAlignment="Center" 
+                               HorizontalTextAlignment="Center"/>
+                                </HorizontalStackLayout>
+                            </DataTemplate>
+                        </dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <dataGrid:DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                                <Setter Property="Background" Value="#F9FAFB" />
+                            </Style>
+                        </dataGrid:DataGridTemplateColumn.HeaderStyle>
+                    </dataGrid:DataGridTemplateColumn>
+
+                    <dataGrid:DataGridNumericColumn HeaderText="Stock" MappingName="ProductStockCount" Format="0" HeaderTextAlignment="Center">
+                        <dataGrid:DataGridNumericColumn.HeaderStyle>
+                            <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                                <Setter Property="Background" Value="#F9FAFB" />
+                            </Style>
+                        </dataGrid:DataGridNumericColumn.HeaderStyle>
+                    </dataGrid:DataGridNumericColumn>
+
+                    <dataGrid:DataGridNumericColumn HeaderText="Price" MappingName="BuyingPrice" Format="$0.00" HeaderTextAlignment="Center">
+                        <dataGrid:DataGridNumericColumn.HeaderStyle>
+                            <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                                <Setter Property="Background" Value="#F9FAFB" />
+                            </Style>
+                        </dataGrid:DataGridNumericColumn.HeaderStyle>
+                    </dataGrid:DataGridNumericColumn>
+
+                    <dataGrid:DataGridCheckBoxColumn HeaderText="Availability" MappingName="Availability" HeaderTextAlignment="Center">
+                        <dataGrid:DataGridCheckBoxColumn.HeaderStyle>
+                            <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+                                <Setter Property="Background" Value="#F9FAFB" />
+                            </Style>
+                        </dataGrid:DataGridCheckBoxColumn.HeaderStyle>
+                    </dataGrid:DataGridCheckBoxColumn>
+
+                </dataGrid:SfDataGrid.Columns>
+
+            </dataGrid:SfDataGrid>
+
+        </Grid>
+    </ScrollView>
+ 
+
 </ContentView>

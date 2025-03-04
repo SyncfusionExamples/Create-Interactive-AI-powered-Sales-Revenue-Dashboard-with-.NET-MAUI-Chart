@@ -22,14 +22,56 @@ namespace SalesPerformanceAnalysis
             {
                 //Creates file save picker to save a file. 
                 FileSavePicker savePicker = new();
-                if (extension == ".pdf")
+                if (extension == ".xlsx")
+                {
+                    savePicker.DefaultFileExtension = ".xlsx";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as xlsx file.
+                    savePicker.FileTypeChoices.Add("XLSX", new List<string>() { ".xlsx" });
+                }
+                if (extension == ".docx")
+                {
+                    savePicker.DefaultFileExtension = ".docx";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as Docx file.
+                    savePicker.FileTypeChoices.Add("DOCX", new List<string>() { ".docx" });
+                }
+                else if (extension == ".doc")
+                {
+                    savePicker.DefaultFileExtension = ".doc";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as Doc file.
+                    savePicker.FileTypeChoices.Add("DOC", new List<string>() { ".doc" });
+                }
+                else if (extension == ".rtf")
+                {
+                    savePicker.DefaultFileExtension = ".rtf";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as Rtf file.
+                    savePicker.FileTypeChoices.Add("RTF", new List<string>() { ".rtf" });
+                }
+                else if (extension == ".pdf")
                 {
                     savePicker.DefaultFileExtension = ".pdf";
                     savePicker.SuggestedFileName = filename;
-
                     //Saves the file as Pdf file.
                     savePicker.FileTypeChoices.Add("PDF", new List<string>() { ".pdf" });
                 }
+                else if (extension == ".pptx")
+                {
+                    savePicker.DefaultFileExtension = ".pptx";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as pptx file.
+                    savePicker.FileTypeChoices.Add("PPTX", new List<string>() { ".pptx" });
+                }
+                else if (extension == ".png")
+                {
+                    savePicker.DefaultFileExtension = ".png";
+                    savePicker.SuggestedFileName = filename;
+                    //Saves the file as png file.
+                    savePicker.FileTypeChoices.Add("PNG", new List<string>() { ".png" });
+                }
+
                 WinRT.Interop.InitializeWithWindow.Initialize(savePicker, windowHandle);
                 stFile = await savePicker.PickSaveFileAsync();
             }

@@ -96,7 +96,6 @@ namespace SalesPerformanceAnalysis
         }
     }
 
-
     public class PreviewControllerDS : QLPreviewControllerDataSource
     {
         private readonly QLPreviewItem _item;

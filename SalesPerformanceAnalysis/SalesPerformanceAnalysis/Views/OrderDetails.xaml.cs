@@ -9,7 +9,7 @@ public partial class OrderDetails : ContentView
 		InitializeComponent();
 	}
 
-    private void ExportPDF(object sender, TappedEventArgs e)
+    public void ExportPDF(object sender, TappedEventArgs e)
     {
         MemoryStream stream = new MemoryStream();
         DataGridPdfExportingController pdfExport = new DataGridPdfExportingController();
@@ -21,7 +21,7 @@ public partial class OrderDetails : ContentView
         saveService.SaveAndView("ExportFeature.pdf", "application/pdf", stream);
     }
 
-    private void ExportAsExcel(object sender, TappedEventArgs e)
+    public void ExportAsExcel(object sender, TappedEventArgs e)
     {
         DataGridExcelExportingController excelExport = new DataGridExcelExportingController();
         DataGridExcelExportingOption option = new DataGridExcelExportingOption();

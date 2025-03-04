@@ -67,5 +67,32 @@ namespace SalesPerformanceAnalysis
 
         public string? Category { get; set; } // Instead of DateTime
         public double Revenue { get; set; }
+        public double Sales { get; set; }
     }
+
+    public class ExportOption
+    {
+        public string? Name { get; set; }
+        public string? Icon { get; set; } // Path to the image
+    }
+
+    public class Product
+    {
+        public string? Id { get; set; }
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public decimal BasePrice { get; set; }
+        public bool IsActive { get; set; }
+    }
+
+    public class Region
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Country { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public double Value { get; set; }
+    }
+
 }

@@ -5,14 +5,14 @@
              xmlns:local="clr-namespace:SalesPerformanceAnalysis"
              x:Class="SalesPerformanceAnalysis.SalesChart">
 
-    <chart:SfCartesianChart Grid.Column="0" x:Name="salesChart" Background="#2A2B4D" Margin="0">
+    <chart:SfCartesianChart Grid.Column="0" x:Name="salesChart" Background="#FFFFFF" Margin="10,20,10,10">
 
         <chart:SfCartesianChart.ZoomPanBehavior>
             <chart:ChartZoomPanBehavior EnablePanning="True" EnableDoubleTap="False" EnablePinchZooming="False"/>
         </chart:SfCartesianChart.ZoomPanBehavior>
 
         <chart:SfCartesianChart.XAxes>
-            <chart:CategoryAxis ShowMajorGridLines="False"
+            <chart:CategoryAxis ShowMajorGridLines="False" LabelCreated="CategoryAxis_LabelCreated"
                                AutoScrollingDelta="{Binding AutoScrollingDelta}">
 
                 <chart:CategoryAxis.MajorTickStyle>
@@ -24,7 +24,7 @@
                 </chart:CategoryAxis.AxisLineStyle>
 
                 <chart:CategoryAxis.LabelStyle>
-                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#F7F8FB"/>
+                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#000000"/>
                 </chart:CategoryAxis.LabelStyle>
             </chart:CategoryAxis>
         </chart:SfCartesianChart.XAxes>
@@ -41,12 +41,12 @@
                 </chart:NumericalAxis.MajorTickStyle>
                 
                 <chart:NumericalAxis.MajorGridLineStyle>
-                    <chart:ChartLineStyle StrokeDashArray="2,3" Stroke="#E5DEC8"
+                    <chart:ChartLineStyle StrokeDashArray="2,3" Stroke="#E5E7EB"
                                       StrokeWidth="1"/>
                 </chart:NumericalAxis.MajorGridLineStyle>
 
                 <chart:NumericalAxis.LabelStyle>
-                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#F7F8FB"/>
+                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#000000"/>
                 </chart:NumericalAxis.LabelStyle>
 
                 <chart:NumericalAxis.PlotBands>
@@ -58,8 +58,8 @@
             </chart:NumericalAxis>
         </chart:SfCartesianChart.YAxes>
 
-        <chart:SplineAreaSeries ItemsSource="{Binding SalesReport}"  XBindingPath="Category"  YBindingPath="Revenue"
-                                EnableTooltip="True" Stroke="#19C4DA" Fill="#5919C4DA" StrokeWidth="2">
+        <chart:SplineAreaSeries ItemsSource="{Binding SalesReport}"  XBindingPath="Category"  YBindingPath="Sales"
+                                EnableTooltip="True" Stroke="#6C03C7" Fill="#596C03C7" StrokeWidth="2">
         </chart:SplineAreaSeries>
 
     </chart:SfCartesianChart>
