@@ -2,66 +2,105 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
              xmlns:local="clr-namespace:SalesPerformanceAnalysis"
              x:Class="SalesPerformanceAnalysis.SalesChart">
 
-    <chart:SfCartesianChart Grid.Column="0" x:Name="salesChart" Background="#FFFFFF" Margin="10,20,10,10">
+    <ContentView.Resources>
+        
+        <Style TargetType="dataGrid:DataGridCell">
+            <Setter Property="TextColor" Value="#7E7E7E"/>
+        </Style>
 
-        <chart:SfCartesianChart.ZoomPanBehavior>
-            <chart:ChartZoomPanBehavior EnablePanning="True" EnableDoubleTap="False" EnablePinchZooming="False"/>
-        </chart:SfCartesianChart.ZoomPanBehavior>
+        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+            <Setter Property="Background" Value="#F9FAFB" />
+        </Style>
+        
+    </ContentView.Resources>
 
-        <chart:SfCartesianChart.XAxes>
-            <chart:CategoryAxis ShowMajorGridLines="False" LabelCreated="CategoryAxis_LabelCreated"
-                               AutoScrollingDelta="{Binding AutoScrollingDelta}">
+    <ScrollView>
+        <Grid RowDefinitions="3.99*,0.01*,2.99*,3*" ColumnDefinitions="5*,0.01*,4.99*">
 
-                <chart:CategoryAxis.MajorTickStyle>
-                    <chart:ChartAxisTickStyle Stroke="Transparent" TickSize="0"/>
-                </chart:CategoryAxis.MajorTickStyle>
+            <chart:SfCartesianChart Grid.Row="0" Grid.ColumnSpan="3" Margin="10">
 
-                <chart:CategoryAxis.AxisLineStyle>
-                    <chart:ChartLineStyle Stroke="Transparent" StrokeWidth="0"/>
-                </chart:CategoryAxis.AxisLineStyle>
+                <chart:SfCartesianChart.Title>
+                    <Label Text="Revenue Trend" FontAttributes="Bold" FontSize="16" Margin="10,0,0,10" />
+                </chart:SfCartesianChart.Title>
 
-                <chart:CategoryAxis.LabelStyle>
-                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#000000"/>
-                </chart:CategoryAxis.LabelStyle>
-            </chart:CategoryAxis>
-        </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.XAxes>
+                    <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" />
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis />
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:AreaSeries XBindingPath="Date" YBindingPath="Revenue" 
+                                       ItemsSource="{Binding SalesData}" EnableTooltip="True"
+                                       Fill="#8028A7F1" Stroke="#2196F3" StrokeWidth="2" />
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
 
-        <chart:SfCartesianChart.YAxes>
-            <chart:NumericalAxis EdgeLabelsDrawingMode="Fit">
-                
-                <chart:NumericalAxis.AxisLineStyle>
-                    <chart:ChartLineStyle StrokeWidth="0"/>
-                </chart:NumericalAxis.AxisLineStyle>
-                
-                <chart:NumericalAxis.MajorTickStyle>
-                    <chart:ChartAxisTickStyle TickSize="0"/>
-                </chart:NumericalAxis.MajorTickStyle>
-                
-                <chart:NumericalAxis.MajorGridLineStyle>
-                    <chart:ChartLineStyle StrokeDashArray="2,3" Stroke="#E5E7EB"
-                                      StrokeWidth="1"/>
-                </chart:NumericalAxis.MajorGridLineStyle>
+            <HorizontalStackLayout HeightRequest="1" Background="#C4C7C5" Grid.Row="1" Grid.ColumnSpan="3"/>
 
-                <chart:NumericalAxis.LabelStyle>
-                    <chart:ChartAxisLabelStyle FontSize="14" TextColor="#000000"/>
-                </chart:NumericalAxis.LabelStyle>
+            <chart:SfCartesianChart Grid.Row="2" Grid.Column="0" Margin="10">
 
-                <chart:NumericalAxis.PlotBands>
-                    <chart:NumericalPlotBandCollection>
-                        <chart:NumericalPlotBand Start="5000" End="6000"/>
-                    </chart:NumericalPlotBandCollection>
-                </chart:NumericalAxis.PlotBands>
-                
-            </chart:NumericalAxis>
-        </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Title>
+                    <Label Text="Quantity Sold" FontAttributes="Bold" FontSize="16" Margin="10,0,0,10" />
+                </chart:SfCartesianChart.Title>
 
-        <chart:SplineAreaSeries ItemsSource="{Binding SalesReport}"  XBindingPath="Category"  YBindingPath="Sales"
-                                EnableTooltip="True" Stroke="#6C03C7" Fill="#596C03C7" StrokeWidth="2">
-        </chart:SplineAreaSeries>
+                <chart:SfCartesianChart.XAxes>
+                    <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" />
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis />
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:ColumnSeries XBindingPath="Date" YBindingPath="Quantity" 
+                                        ItemsSource="{Binding SalesData}" EnableTooltip="True"
+                                        Fill="#4CAF50" />
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
 
-    </chart:SfCartesianChart>
+            <VerticalStackLayout Background="#C4C7C5" Grid.Row="2" WidthRequest="1" Grid.Column="1"/>
 
+            <chart:SfCartesianChart Grid.Row="2" Grid.Column="2" Margin="10">
+
+                <chart:SfCartesianChart.Title>
+                    <Label Text="Profit Margin %" FontAttributes="Bold" FontSize="16" Margin="10,0,0,10" />
+                </chart:SfCartesianChart.Title>
+
+                <chart:SfCartesianChart.XAxes>
+                    <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" />
+                </chart:SfCartesianChart.XAxes>
+                <chart:SfCartesianChart.YAxes>
+                    <chart:NumericalAxis Minimum="10" Maximum="100"/>
+                </chart:SfCartesianChart.YAxes>
+                <chart:SfCartesianChart.Series>
+                    <chart:LineSeries XBindingPath="Date" YBindingPath="ProfitMargin" 
+                                      ItemsSource="{Binding SalesData}" EnableTooltip="True"
+                                      Fill="#FF9800" StrokeWidth="2" />
+                </chart:SfCartesianChart.Series>
+            </chart:SfCartesianChart>
+
+            <VerticalStackLayout Grid.Row="3" Grid.ColumnSpan="3">
+                <Label Text="Sales Data" FontAttributes="Bold" FontSize="16" Margin="10,0,0,10" />
+                <dataGrid:SfDataGrid ItemsSource="{Binding FilteredSalesData}" 
+                  AutoGenerateColumnsMode="None" SortingMode="Single" ColumnWidthMode="FitByCell"
+                  GridLinesVisibility="Both" HeaderGridLinesVisibility="Both">
+                    <dataGrid:SfDataGrid.Columns>
+                        <dataGrid:DataGridTextColumn HeaderText="Date" MappingName="Date" Format="d" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Product" MappingName="ProductName" HeaderTextAlignment="Start" />
+                        <dataGrid:DataGridTextColumn HeaderText="Region" MappingName="RegionName" HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Quantity" MappingName="Quantity" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Revenue" MappingName="Revenue" Format="C2" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Cost" MappingName="Cost" Format="C2" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Profit" MappingName="Profit" Format="C2" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Profit %" MappingName="ProfitMargin" Format="P2" HeaderTextAlignment="Start"/>
+                    </dataGrid:SfDataGrid.Columns>
+                </dataGrid:SfDataGrid>
+            </VerticalStackLayout>
+
+        </Grid>
+    </ScrollView>
+    
 </ContentView>

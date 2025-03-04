@@ -151,53 +151,50 @@ namespace SalesPerformanceAnalysis
         }
 
 
-        public static string GeneratePrompt(List<SalesData> items, string selectedCategory)
+        public string GeneratePrompt(List<SalesData> items, string selectedCategory)
         {
-            string prompt = $"Predicted revenue values for {selectedCategory} data in 2026:\n";
+            StringBuilder prompt = new StringBuilder();
+            prompt.AppendLine($"📊 **Sales Insights Based on {selectedCategory} Data for 2025**:");
 
             switch (selectedCategory)
             {
                 case "Year":
-                    prompt += "Yearly Revenue Data for 2026:\n";
+                    prompt.AppendLine("\n📅 **Yearly Revenue1 Data (Jan - Dec, 2025):**");
                     for (int month = 1; month <= 12; month++)
                     {
                         string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(month);
-                        var data = items.FirstOrDefault(d => d.Category == $"{monthName} 2026");
-                        prompt += $"{monthName} 2026: {data?.Revenue ?? 0}\n";
+                        var data = items.FirstOrDefault(d => d.Category == monthName);
+                        prompt.AppendLine($"{monthName} 2025: ${data?.Revenue ?? 0}");
                     }
                     break;
 
                 case "Month":
-                    int selectedMonth = 1; // January
-                    string monthNameForMonth = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(selectedMonth);
-                    int daysInMonth = DateTime.DaysInMonth(2026, selectedMonth);
-
-                    prompt += $"Daily Revenue Data for {monthNameForMonth} 2026:\n";
-                    for (int day = 1; day <= daysInMonth; day++)
+                    prompt.AppendLine("\n **Daily Revenue1 Data for January 2025:**");
+                    for (int day = 1; day <= 31; day++)
                     {
-                        string dateKey = $"{monthNameForMonth} {day}, 2026";
-                        var data = items.FirstOrDefault(d => d.Category == dateKey);
-                        prompt += $"{dateKey}: {data?.Revenue ?? 0}\n";
+                        var data = items.FirstOrDefault(d => d.Category == $"Jan {day}");
+                        prompt.AppendLine($"Jan {day}, 2025: ${data?.Revenue ?? 0}");
                     }
                     break;
 
                 case "Week":
-                    DateTime startOfWeek = new DateTime(2025, 1, 1);
-
-                    prompt += "Weekly Revenue Data (Jan 1 - Jan 7, 2026):\n";
-                    for (int i = 0; i < 7; i++)
+                    prompt.AppendLine("\n **Weekly Revenue1 Data (Jan 1 - 7, 2025):**");
+                    string[] weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+                    for (int day = 1; day <= 7; day++)
                     {
-                        DateTime date = startOfWeek.AddDays(i);
-                        string dateLabel = date.ToString("MMM d, yyyy", CultureInfo.InvariantCulture);
-
-                        var data = items.FirstOrDefault(d => d.Category == dateLabel);
-                        prompt += $"{dateLabel} ({date.DayOfWeek}): {data?.Revenue ?? 0}\n";
+                        var data = items.FirstOrDefault(d => d.Category == $"Jan {day}");
+                        prompt.AppendLine($"{weekDays[day - 1]} (Jan {day}, 2025): ${data?.Revenue ?? 0}");
                     }
+                    break;
+
+                default:
+                    prompt.AppendLine("\n⚠️ Invalid selection. Please choose 'Year', 'Month', or 'Week'.");
                     break;
             }
 
-            return prompt;
+            return prompt.ToString();
         }
+        
 
         #endregion
     }

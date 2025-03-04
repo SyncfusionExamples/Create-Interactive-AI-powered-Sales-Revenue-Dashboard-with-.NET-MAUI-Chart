@@ -1,190 +1,96 @@
 ﻿using Microsoft.Maui.Controls;
-using Syncfusion.XlsIO.Implementation.PivotAnalysis;
+using Syncfusion.Maui.Inputs;
+using Syncfusion.Maui.Toolkit.Buttons;
 using System.ComponentModel;
 
 namespace SalesPerformanceAnalysis
 {
     public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
-        ViewModel viewModel;
-        ChartAIService aiService = new ChartAIService();
-        private ProductDetails productDetailsPage;
-        private OrderDetails orderDetailsPage;
+        private readonly ViewModel viewModel = new();
+        private readonly ChartAIService aiService = new();
+        private readonly SalesTrendsViewModel salesTrendsViewModel;
+        private readonly SalesDataService salesDataService = new();
 
         public MainPage()
         {
             InitializeComponent();
-
-            viewModel = new ViewModel(); // Ensure ViewModel is initialized and set
-            BindingContext = viewModel; 
-
-            contentView.Content = new RevenueChart() { BindingContext = viewModel };
-            revenue.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
-
-            if (exportSelection != null && middleLayout.Children.Contains(exportSelection))
-            {
-                middleLayout.Children.Remove(exportSelection);
-            }
-        }
-
-        private void Revenue_Clicked(object sender, EventArgs e)
-        {
-            contentView.Content = new RevenueChart() { BindingContext = this.BindingContext };
-            revenue.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
-            product.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            orders.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            sales.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-
-            if (exportSelection != null && middleLayout.Children.Contains(exportSelection))
-            {
-                middleLayout.Children.Remove(exportSelection);
-                exportSelection.SelectedIndex = -1;
-            }
-           
-            average.SetBinding(Label.TextProperty, new Binding("AverageRevenue"));
-        }
-
-        private void Sales_Clicked(object sender, EventArgs e)
-        {
-            contentView.Content = new SalesChart() { BindingContext = this.BindingContext };
-            revenue.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            product.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            orders.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
+            salesTrendsViewModel = new SalesTrendsViewModel(salesDataService);
+            contentView.Content = new SalesChart(salesTrendsViewModel);
             sales.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
 
-            if (exportSelection != null && middleLayout.Children.Contains(exportSelection))
-            {
-                middleLayout.Children.Remove(exportSelection);
-                exportSelection.SelectedIndex = -1;
-            }
-
-            average.SetBinding(Label.TextProperty, new Binding("AverageSales"));
+            RemoveChildIfExists(exportSelection);
+            BindingContext = salesTrendsViewModel;
         }
 
-        private void Order_Clicked(object sender, EventArgs e)
+        private void Revenue_Clicked(object sender, EventArgs e) => SetPageContent(new RevenueChart() { BindingContext = viewModel}, "AverageRevenue", revenue, null, false);
+
+        private void Sales_Clicked(object sender, EventArgs e) => SetPageContent(new SalesChart(salesTrendsViewModel), "AverageSales", sales, aiButton, false);
+
+        private void Order_Clicked(object sender, EventArgs e) => SetPageContent(new OrderDetails() { BindingContext = viewModel }, "AverageRevenue", orders, exportSelection, false);
+
+        private void Product_Clicked(object sender, EventArgs e) => SetPageContent(new ProductDetails() { BindingContext = viewModel }, "AverageRevenue", product, exportSelection,  true);
+
+        private void SetPageContent(View newContent, string bindingProperty, SfButton activeButton, View additionalChild, bool removePeriod )
         {
-            orderDetailsPage = new OrderDetails() { BindingContext = this.BindingContext };
-            contentView.Content = orderDetailsPage;
-            revenue.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            product.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            orders.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
-            sales.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
+            contentView.Content = newContent;
+            SetButtonStyles(activeButton);
 
-            if (!middleLayout.Children.Contains(exportSelection))
-            {
-                middleLayout.Children.Insert(1, exportSelection);
-                exportSelection.SelectedIndex = -1;
-            }
+            RemoveChildIfExists(exportSelection);
+            RemoveChildIfExists(aiButton);
+            if (removePeriod) RemoveChildIfExists(periodSelection);
+            else AddChildIfNotExists(periodSelection, 0);
 
-            average.SetBinding(Label.TextProperty, new Binding("AverageRevenue"));
+            AddChildIfNotExists(additionalChild, 1);
+            average.SetBinding(Label.TextProperty, new Binding(bindingProperty));
         }
 
-        private void Product_Clicked(object sender, EventArgs e)
+        private void SetButtonStyles(SfButton activeButton)
         {
-            productDetailsPage = new ProductDetails() { BindingContext = this.BindingContext };
-            contentView.Content = productDetailsPage;
-            revenue.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            product.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
-            orders.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-            sales.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
-
-            if (!middleLayout.Children.Contains(exportSelection))
-            {
-                middleLayout.Children.Insert(1, exportSelection);
-                exportSelection.SelectedIndex = -1;
-            }
-
-            average.SetBinding(Label.TextProperty, new Binding("AverageRevenue"));
+            revenue.Background = product.Background = orders.Background = sales.Background = new SolidColorBrush(Color.FromArgb("#FFFFFF"));
+            activeButton.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
         }
 
-        private void SfComboBox_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
+        private void RemoveChildIfExists(View child)
         {
-            double averageRevenue;
-            double averageSales;
-            switch (e.AddedItems?[0].ToString())
+            if (child != null && middleLayout.Children.Contains(child))
             {
-                case "Year":
-                    viewModel.SalesReport = viewModel.GenerateYearlyData();
-                    viewModel.RevenueData = viewModel.GenerateYearlyRevenueData();
-                    viewModel.OrderInfos = viewModel.YearlyOrders();
-                    viewModel.AutoScrollingDelta = 6;
-                    viewModel.SelectedItem = "Year";
-                    averageRevenue = viewModel.RevenueData.Average(x => x.Revenue);
-                    averageSales = viewModel.SalesReport.Average(x => x.Sales);
-                    viewModel.AverageRevenue = $"${averageRevenue:F2} / Month";
-                    viewModel.AverageSales = $"{averageSales:F2} / Month";
-                    break;
-
-                case "Month":
-                    viewModel.SalesReport = viewModel.GenerateMonthlyData(1); // Defaulting to January
-                    viewModel.RevenueData = viewModel.GenerateMonthlyRevenueData(1);
-                    viewModel.OrderInfos = viewModel.MonthlyOrders(1);
-                    viewModel.AutoScrollingDelta = 8;
-                    viewModel.SelectedItem = "Month";
-                    averageRevenue = viewModel.RevenueData.Average(x => x.Revenue);
-                    averageSales = viewModel.SalesReport.Average(x => x.Sales);
-                    viewModel.AverageRevenue = $"${averageRevenue:F2} / Day";
-                    viewModel.AverageSales = $"{averageSales:F2} / Day";
-                    break;
-
-                case "Week":
-                    viewModel.SalesReport = viewModel.GenerateWeeklyData();
-                    viewModel.RevenueData = viewModel.GenerateWeeklyRevenueData();
-                    viewModel.OrderInfos = viewModel.WeeklyOrders();
-                    viewModel.AutoScrollingDelta = 5;
-                    viewModel.SelectedItem = "Week";
-                    averageRevenue = viewModel.RevenueData.Average(x => x.Revenue);
-                    averageSales = viewModel.SalesReport.Average(x => x.Sales);
-                    viewModel.AverageRevenue = $"${averageRevenue:F2} / Week";
-                    viewModel.AverageSales = $"{averageSales:F2} / Week";
-                    break;
+                middleLayout.Children.Remove(child);
             }
         }
+
+        void AddChildIfNotExists(View child, int index)
+        {
+            if (child != null && !middleLayout.Children.Contains(child))
+            {
+                // Ensure index is within valid bounds
+                if (index < 0) index = 0;
+                if (index > middleLayout.Children.Count) index = middleLayout.Children.Count;
+
+                middleLayout.Children.Insert(index, child);
+            }
+        }
+
 
         private async void SfButton_Clicked(object sender, EventArgs e)
         {
-            var data = viewModel.RevenueData;
-            var items = data.Take(40).ToList();
-            var prompt = ChartAIService.GeneratePrompt(items, periodSelection.SelectedItem.ToString());
-
-
+            var items = viewModel.RevenueData.Take(40).ToList();
+            var prompt = aiService.GeneratePrompt(items, periodSelection.SelectedItem.ToString());
             viewModel.Text = await aiService.GetAnswerFromGPT(prompt);
-            // viewModel.Text = prompt;
             popUp.Show();
-            // popup
-            // busy 
-            // content - prompt
-            // stop busy
-        }
-
-        private void ForecaseData_Clicked(object sender, EventArgs e)
-        {
-
         }
 
         private void Export_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
         {
-            if (exportSelection.SelectedIndex == 1)
+            if (contentView.Content is OrderDetails orderPage)
             {
-                if (contentView.Content == orderDetailsPage)
-                {
-                    orderDetailsPage.ExportPDF(sender, null);
-                }
-                else
-                {
-                    productDetailsPage.ExportPDF(sender, null);
-                }
+                if (exportSelection.SelectedIndex == 1) orderPage.ExportPDF(sender, null);
+                else if (exportSelection.SelectedIndex == 0) orderPage.ExportAsExcel(sender, null);
             }
-            else if(exportSelection.SelectedIndex == 0)
+            else if (contentView.Content is ProductDetails productPage)
             {
-                if (contentView.Content == orderDetailsPage)
-                {
-                    orderDetailsPage.ExportAsExcel(sender, null);
-                }
-                else
-                {
-                    productDetailsPage.ExportAsExcel(sender, null);
-                }
+                if (exportSelection.SelectedIndex == 1) productPage.ExportPDF(sender, null);
+                else if (exportSelection.SelectedIndex == 0) productPage.ExportAsExcel(sender, null);
             }
         }
     }

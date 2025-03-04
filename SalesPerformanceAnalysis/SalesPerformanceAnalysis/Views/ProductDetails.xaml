@@ -17,41 +17,38 @@
     <ScrollView>
         <Grid RowDefinitions="4*,6*">
 
-            <Grid Grid.Row="0" ColumnDefinitions="*,*">
+            <Grid Grid.Row="0" ColumnDefinitions="5*,0.01*,4.99*" >
 
-
-                <Border Grid.Column="0" Stroke="#C4C7C5" StrokeShape="RoundRectangle 10,10,10,10" Margin="10">
-                    <chart:SfCircularChart >
+                <chart:SfCircularChart Grid.Column="0" Margin="10">
                         <chart:SfCircularChart.Title>
-                            <Label Text="Top Products" HorizontalOptions="Center"/>
+                            <Label Text="Top Products" HorizontalOptions="Center" FontSize="17"/>
                         </chart:SfCircularChart.Title>
 
                         <chart:SfCircularChart.Legend>
                             <chart:ChartLegend Placement="Bottom"/>
                         </chart:SfCircularChart.Legend>
 
-                        <chart:PieSeries ItemsSource="{Binding TopProducts}"   ShowDataLabels="True"
-                            XBindingPath="Name" YBindingPath="BasePrice"/>
+                        <chart:PieSeries ItemsSource="{Binding TopProducts}" ShowDataLabels="True"
+                            XBindingPath="Name" YBindingPath="BasePrice"  PaletteBrushes="{Binding PaletteBrushes}"/>
                     </chart:SfCircularChart>
-                </Border>
 
-                <Border Grid.Column="1" Stroke="#C4C7C5" StrokeShape="RoundRectangle 10,10,10,10" Margin="10" Padding="10">
+                <StackLayout Background="#D1D5DB" Grid.Column="1"/>
 
-                    <VerticalStackLayout>
+                <VerticalStackLayout Grid.Column="2" Margin="10">
 
-                        <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5"/>
+                        <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5" FontSize="17"/>
 
                         <map:SfMaps>
                             <map:SfMaps.Layer>
                                 <map:MapShapeLayer DataSource="{Binding Regions}" ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
-                            PrimaryValuePath="Name"   ShowBubbles="True">
+                                        PrimaryValuePath="Name" ShowBubbles="True">
 
                                     <map:MapShapeLayer.MarkerTemplate>
                                         <DataTemplate>
                                             <StackLayout HorizontalOptions="Center">
                                                 <Image Source="map_pin.png"  HeightRequest="30" WidthRequest="30"/>
                                                 <Label Text="{Binding SelectedCityName, Source={x:Reference viewModel}}" 
-                                        HorizontalTextAlignment="Center" FontSize="10" FontAttributes="Bold"/>
+                                                     HorizontalTextAlignment="Center" FontSize="10" FontAttributes="Bold"/>
                                             </StackLayout>
                                         </DataTemplate>
                                     </map:MapShapeLayer.MarkerTemplate>
@@ -60,52 +57,16 @@
                                         <map:MapMarkerCollection>
                                             <map:MapMarker Latitude="40.7128"
                                                 Longitude="-74.0060" />
-
                                             <map:MapMarker Latitude="52.5200"
                                                     Longitude="13.4050" />
-
                                             <map:MapMarker Latitude="35.6762"
                                                 Longitude="139.6503" />
-
                                             <map:MapMarker Latitude="-23.5505"
                                                 Longitude="-46.6333" />
-
                                         </map:MapMarkerCollection>
 
-
                                     </map:MapShapeLayer.Markers>
-
-
-
-                                    <map:MapShapeLayer.BubbleSettings>
-                                        <map:MapBubbleSettings ColorValuePath="Value"
-                         SizeValuePath="Value"
-                         MinSize="30"
-                         MaxSize="80">
-
-                                            <map:MapBubbleSettings.ColorMappings>
-                                                <map:EqualColorMapping Color="LightGreen"
-                                 Value="21"
-                                 Text="India" />
-                                                <map:EqualColorMapping Color="Black"
-                                 Value="58"
-                                 Text="United States" />
-                                                <map:EqualColorMapping Color="Blue"
-                                 Value="41"
-                                 Text="Kazakhstan" />
-                                                <map:EqualColorMapping Color="PaleGoldenrod"
-                                 Value="48"
-                                 Text="Italy" />
-                                                <map:EqualColorMapping Color="MediumVioletRed"
-                                 Value="14"
-                                 Text="Korea" />
-                                                <map:EqualColorMapping Color="LightGreen"
-                                 Value="23"
-                                 Text="China" />
-                                            </map:MapBubbleSettings.ColorMappings>
-                                        </map:MapBubbleSettings>
-                                    </map:MapShapeLayer.BubbleSettings>
-
+                             
                                     <map:MapShapeLayer.Legend>
                                         <map:MapLegend SourceType="Shape" Placement="Top" />
                                     </map:MapShapeLayer.Legend>
@@ -114,11 +75,6 @@
                             </map:SfMaps.Layer>
                         </map:SfMaps>
                     </VerticalStackLayout>
-
-                   
-
-                </Border>
-
 
             </Grid>
 
@@ -164,13 +120,9 @@
                         </dataGrid:DataGridNumericColumn.HeaderStyle>
                     </dataGrid:DataGridNumericColumn>
 
-                    <dataGrid:DataGridCheckBoxColumn HeaderText="Availability" MappingName="Availability" HeaderTextAlignment="Center">
-                        <dataGrid:DataGridCheckBoxColumn.HeaderStyle>
-                            <Style TargetType="dataGrid:SfDataGridHeaderLabel">
-                                <Setter Property="Background" Value="#F9FAFB" />
-                            </Style>
-                        </dataGrid:DataGridCheckBoxColumn.HeaderStyle>
-                    </dataGrid:DataGridCheckBoxColumn>
+                    <dataGrid:DataGridImageColumn  MappingName="AvailabilityImage" CellPadding="12"
+                                         HeaderText="Availability" />
+
 
                 </dataGrid:SfDataGrid.Columns>
 
