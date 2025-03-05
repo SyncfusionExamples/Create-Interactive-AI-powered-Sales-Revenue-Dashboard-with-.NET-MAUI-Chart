@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SalesPerformanceAnalysis
+﻿namespace SalesPerformanceAnalysis
 {
     public class PredictionService
     {
-        private readonly OpenAIService _openAIService;
+        private readonly AzureBaseService _baseAIService;
         private readonly SalesDataService _salesDataService;
 
-        public PredictionService(OpenAIService openAIService, SalesDataService salesDataService)
+        public PredictionService(AzureBaseService baseAIService, SalesDataService salesDataService)
         {
-            _openAIService = openAIService;
+            _baseAIService = baseAIService;
             _salesDataService = salesDataService;
         }
 
@@ -32,7 +26,7 @@ namespace SalesPerformanceAnalysis
             }
 
             // Get predictions from OpenAI
-            var predictions = await _openAIService.PredictSalesTrend(historicalData, futurePeriod, productId, regionId);
+            var predictions = await _baseAIService.PredictSalesTrend(historicalData, futurePeriod, productId, regionId);
 
             return predictions;
         }
@@ -80,7 +74,7 @@ namespace SalesPerformanceAnalysis
                 return "No sales data available for analysis.";
             }
 
-            return await _openAIService.AnalyzeSalesInsights(salesData, period);
+            return await _baseAIService.AnalyzeSalesInsights(salesData, period);
         }
     }
 }

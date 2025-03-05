@@ -46,7 +46,6 @@ namespace SalesPerformanceAnalysis
             }
         }
 
-
         public bool Availability
         {
             get => availability;
@@ -70,18 +69,23 @@ namespace SalesPerformanceAnalysis
         public double SellingPrice { get; set; }
     }
 
+    //public class SalesData
+    //{
+    //    public DateTime Date { get; set; }
+    //    public string ProductId { get; set; }
+    //    public string ProductName { get; set; }
+    //    public string RegionId { get; set; }
+    //    public string RegionName { get; set; }
+    //    public decimal Revenue { get; set; }
+    //    public int Quantity { get; set; }
+    //    public decimal UnitPrice { get; set; }
+    //    public decimal Cost { get; set; }
+    //    public decimal Profit => Revenue - Cost;
+    //    public decimal ProfitMargin => Revenue > 0 ? Profit / Revenue * 100 : 0;
+    //}
+
     public class SalesData
     {
-
-        public string? Category { get; set; } // Instead of DateTime
-        public double Revenue1 { get; set; }
-        public double Sales { get; set; }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
         public DateTime Date { get; set; }
         public string ProductId { get; set; }
         public string ProductName { get; set; }
@@ -107,12 +111,6 @@ namespace SalesPerformanceAnalysis
         public string Explanation { get; set; }
         public bool IsAnomaly { get; set; }
         public string AnomalyExplanation { get; set; }
-    }
-
-    public class ExportOption
-    {
-        public string? Name { get; set; }
-        public string? Icon { get; set; } // Path to the image
     }
 
     public class Product
@@ -167,5 +165,4 @@ namespace SalesPerformanceAnalysis
         public string DisplayText { get; set; }
         public DateRange Value { get; set; }
     }
-
 }

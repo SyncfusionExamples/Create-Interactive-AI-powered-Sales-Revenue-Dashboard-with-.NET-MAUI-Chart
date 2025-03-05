@@ -40,10 +40,10 @@
             <popup:SfPopup x:Name="popUp" ShowHeader="False" 
                            AnimationMode="SlideOnBottom" AutoSizeMode="Both">
                 <popup:SfPopup.ContentTemplate>
-                    <DataTemplate x:DataType="local:ViewModel">
+                <DataTemplate x:DataType="local:SalesTrendsViewModel">
                         <ScrollView Orientation="Both">
                             <VerticalStackLayout Margin="10">
-                            <Label Text="{Binding Text}"/>
+                            <Label Text="{Binding Text}" TextType="Html"/>
                             </VerticalStackLayout>
                         </ScrollView>
                     </DataTemplate>
@@ -57,7 +57,7 @@
                     ColumnDefinitions="{OnPlatform Android='*,*', iOS='*,*', Default='*,*,*,*'}" RowSpacing="{OnPlatform WinUI=10, MacCatalyst=10}">
 
                 <sfButton:SfButton x:Name="revenue" Grid.Row="{OnPlatform Android=0, iOS=0, Default=0}" Grid.Column="{OnPlatform Android=0,iOS=0, Default=3}"
-                             Margin="5" ImageSource="revenue.png" ImageSize="40" Text="Forecast" Clicked="Revenue_Clicked" CornerRadius="5"/>
+                             Margin="5" ImageSource="revenue.png" ImageSize="40" Text="Prediction" Clicked="Revenue_Clicked" CornerRadius="5"/>
 
                 <sfButton:SfButton Grid.Row="{OnPlatform Android=0, iOS=0, Default=0}" Grid.Column="{OnPlatform Android=1,iOS=1, Default=1}"
                              Margin="5" x:Name="product" ImageSource="product.png" ImageSize="40" Text="Products"  Clicked="Product_Clicked" CornerRadius="5"/>

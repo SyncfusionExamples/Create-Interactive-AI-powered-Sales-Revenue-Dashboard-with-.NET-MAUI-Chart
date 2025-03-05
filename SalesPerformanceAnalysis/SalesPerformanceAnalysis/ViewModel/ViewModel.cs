@@ -1,70 +1,10 @@
-﻿using Syncfusion.Maui.Toolkit.Charts;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
 namespace SalesPerformanceAnalysis
 {
     public class ViewModel : INotifyPropertyChanged
     {
-        string text;
-
-        public string Text
-        {
-            get
-            {
-                return text;
-            }
-            set
-            {
-                if (text != value)
-                {
-                    text = value;
-                    OnPropertyChanged(nameof(Text));
-                }
-            }
-        }
-
-        private ObservableCollection<SalesData> revenueData;
-
-        public ObservableCollection<SalesData> RevenueData
-        {
-            get => revenueData;
-            set
-            {
-                revenueData = value;
-                OnPropertyChanged(nameof(RevenueData));
-            }
-        }
-
-        private ObservableCollection<SalesData> salesReport;
-
-        public ObservableCollection<SalesData> SalesReport
-        {
-            get => salesReport;
-            set
-            {
-                salesReport = value;
-                OnPropertyChanged(nameof(SalesReport));
-            }
-        }
-
-        double autoScrollingDelta = 1;
-
-        public double AutoScrollingDelta
-        {
-            get
-            {
-                return autoScrollingDelta;
-            }
-            set
-            {
-                if (autoScrollingDelta != value)
-                {
-                    autoScrollingDelta = value;
-                    OnPropertyChanged(nameof(AutoScrollingDelta));
-                }
-            }
-        }
 
         private ObservableCollection<ProductInfo> productInfos;
 
@@ -102,70 +42,6 @@ namespace SalesPerformanceAnalysis
             }
         }
 
-        string averageRevenue;
-
-        public string AverageRevenue
-        {
-            get
-            {
-                return averageRevenue;
-            }
-            set
-            {
-                if (averageRevenue != null)
-                {
-                    averageRevenue = value;
-                    OnPropertyChanged(nameof(AverageRevenue));
-                }
-            }
-        }
-
-        string averageSales;
-
-        public string AverageSales
-        {
-            get
-            {
-                return averageSales;
-            }
-            set
-            {
-                if (averageSales != null)
-                {
-                    averageSales = value;
-                    OnPropertyChanged(nameof(AverageSales));
-                }
-            }
-        }
-
-        public ObservableCollection<string> ComboBoxData { get; set; }
-
-    
-        private string selectedItem = "Month";
-        public string SelectedItem
-        {
-            get
-            {
-                return selectedItem;
-            }
-            set
-            {
-                selectedItem = value;
-                OnPropertyChanged(nameof(SelectedItem));
-            }
-        }
-
-        private ObservableCollection<ExportOption> exportOptions;
-        public ObservableCollection<ExportOption> ExportOptions
-        {
-            get { return exportOptions; }
-            set
-            {
-                exportOptions = value;
-                OnPropertyChanged(nameof(ExportOptions));
-            }
-        }
-
         public ObservableCollection<Product> TopProducts { get; set; }
 
         private List<Region> _regions;
@@ -179,8 +55,6 @@ namespace SalesPerformanceAnalysis
             }
         }
 
-
-        internal bool IsRunning = false;
         public ObservableCollection<Brush> PaletteBrushes { get; set; }
 
         public ViewModel()
@@ -195,16 +69,6 @@ namespace SalesPerformanceAnalysis
                  new SolidColorBrush(Color.FromArgb("#597FCA"))
             };
 
-            AutoScrollingDelta = 1;
-
-            averageRevenue = string.Empty;
-            averageSales = string.Empty;
-
-            ExportOptions = new ObservableCollection<ExportOption>
-        {
-            new ExportOption { Name = "Export Excel", Icon = "excel.png" },
-            new ExportOption { Name = "Export Pdf", Icon = "pdf.png" }
-        };
 
             ProductInfos = new()
             {
@@ -262,15 +126,6 @@ namespace SalesPerformanceAnalysis
 
             OrderInfos = MonthlyOrders(1);
 
-            ComboBoxData = new ObservableCollection<string>
-            {
-                "Year",
-                "Month",
-                "Week"
-            };
-
-            SalesReport = GenerateMonthlyData(1);
-            RevenueData = GenerateMonthlyRevenueData(1);
 
             TopProducts = new ObservableCollection<Product>()
                 {
@@ -356,120 +211,8 @@ namespace SalesPerformanceAnalysis
             return weeklyOrders;
         }
 
-        #region Sales Data
-
-        public ObservableCollection<SalesData> GenerateYearlyData()
-        {
-            var months = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-            var fixedRevenues = new[] { 8000, 7500, 8200, 9000, 6700, 7100, 8800, 9400, 6100, 5800, 7200, 9900 };
-
-            var yearlyData = months.Select((month, index) => new SalesData
-            {
-                Category = month,
-                Sales = fixedRevenues[index]
-            }).ToList();
-
-            return new ObservableCollection<SalesData>(yearlyData);
-        }
-        public ObservableCollection<SalesData> GenerateMonthlyData(int month)
-        {
-            int daysInMonth = DateTime.DaysInMonth(2024, month);
-            var monthlyData = new List<SalesData>();
-
-            // Predefined revenue values for a fluctuating pattern
-            double[] revenueValues = { 5200, 4609, 2400, 4100, 4700, 5600, 5554, 4700, 4950, 5250, 4850, 5050,
-                               3150, 4600, 5405, 2900, 5007, 5300, 5200, 3206, 5500, 5100, 4150, 6000,
-                               5252, 4950, 5201, 5100, 4250, 5300, 5000 };
-
-            for (int day = 1; day <= daysInMonth; day++)
-            {
-                monthlyData.Add(new SalesData
-                {
-                    Category = $"Jan {day}",
-                    Sales = revenueValues[(day - 1) % revenueValues.Length] // Cycle through values
-                });
-            }
-
-            return new ObservableCollection<SalesData>(monthlyData);
-        }
-        public ObservableCollection<SalesData> GenerateWeeklyData()
-        {
-            var fixedRevenues = new[] { 5100, 5200, 4200, 5400, 4300, 5500, 6100 };
-
-            var weeklyData = new List<SalesData>();
-            for (int day = 1; day <= 7; day++)
-            {
-                weeklyData.Add(new SalesData
-                {
-                    Category = $"Jan {day}",
-                    Sales = fixedRevenues[day - 1]
-                });
-            }
-
-            return new ObservableCollection<SalesData>(weeklyData);
-        }
-
-        #endregion
-
-        #region Revenue Data
-
-        public ObservableCollection<SalesData> GenerateYearlyRevenueData()
-        {
-            var months = new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-            var fixedRevenues = new[] { 9000, 8200, 8600, 9500, 7100, 7600, 9200, 9800, 6500, 6200, 7600, 10400 };
-
-            var yearlyRevenue = months.Select((month, index) => new SalesData
-            {
-                Category = month,
-                Revenue = fixedRevenues[index]
-            }).ToList();
-
-            return new ObservableCollection<SalesData>(yearlyRevenue);
-        }
-
-        public ObservableCollection<SalesData> GenerateMonthlyRevenueData(int month)
-        {
-            int daysInMonth = DateTime.DaysInMonth(2024, month);
-            var monthlyRevenueData = new List<SalesData>();
-
-            // Adjusted revenue values based on a pattern different from sales
-            double[] revenueValues = { 5800, 5000, 2600, 4300, 5000, 6000, 5900, 5100, 5200, 5500, 5000, 5300,
-                         3500, 4900, 5700, 3200, 5300, 5600, 5500, 3500, 5800, 5400, 4400, 6300,
-                         5500, 5200, 5500, 5300, 4600, 5600, 5300 };
-
-            for (int day = 1; day <= daysInMonth; day++)
-            {
-                monthlyRevenueData.Add(new SalesData
-                {
-                    Category = $"Jan {day}",
-                //    Revenue = revenueValues[(day - 1) % revenueValues.Length] // Cycle through values
-                });
-            }
-
-            return new ObservableCollection<SalesData>(monthlyRevenueData);
-        }
-
-        public ObservableCollection<SalesData> GenerateWeeklyRevenueData()
-        {
-            var fixedRevenues = new[] { 5400, 5600, 4600, 5800, 4700, 6000, 6500 };
-
-            var weeklyRevenueData = new List<SalesData>();
-            for (int day = 1; day <= 7; day++)
-            {
-                weeklyRevenueData.Add(new SalesData
-                {
-                    Category = $"Jan {day}",
-                    Revenue = fixedRevenues[day - 1]
-                });
-            }
-
-            return new ObservableCollection<SalesData>(weeklyRevenueData);
-        } 
-
-        #endregion
-
         public event PropertyChangedEventHandler? PropertyChanged;
-       
+
         private void OnPropertyChanged(string v)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(v));

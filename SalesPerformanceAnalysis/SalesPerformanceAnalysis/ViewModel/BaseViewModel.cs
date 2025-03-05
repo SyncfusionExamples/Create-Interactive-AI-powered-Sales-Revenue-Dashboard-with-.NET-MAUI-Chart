@@ -66,8 +66,6 @@ namespace SalesPerformanceAnalysis
             }
         }
 
-   
-
         private DateRange _selectedDateRange = DateRange.Last30Days;
         public DateRange SelectedDateRange
         {
