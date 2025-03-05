@@ -3,6 +3,7 @@
 using Azure;
 using Azure.AI.OpenAI;
 using Microsoft.Extensions.AI;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Text;
 
@@ -101,8 +102,8 @@ namespace SalesPerformanceAnalysis
         {
             try
             {
-                var client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(key)).AsChatClient(modelId: deploymentName);
-                this.Client = client;
+                //var client = new AzureOpenAIClient(new Uri(endpoint), new AzureKeyCredential(key)).AsChatClient(modelId: deploymentName);
+                //this.Client = client;
             }
             catch (Exception)
             {
@@ -151,50 +152,16 @@ namespace SalesPerformanceAnalysis
         }
 
 
-        public string GeneratePrompt(List<SalesData> items, string selectedCategory)
+        public string GeneratePrompt(ObservableCollection<SalesData> items, DateRange selectedCategory)
         {
             StringBuilder prompt = new StringBuilder();
             prompt.AppendLine($"📊 **Sales Insights Based on {selectedCategory} Data for 2025**:");
 
-            switch (selectedCategory)
-            {
-                case "Year":
-                    prompt.AppendLine("\n📅 **Yearly Revenue1 Data (Jan - Dec, 2025):**");
-                    for (int month = 1; month <= 12; month++)
-                    {
-                        string monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetAbbreviatedMonthName(month);
-                        var data = items.FirstOrDefault(d => d.Category == monthName);
-                        prompt.AppendLine($"{monthName} 2025: ${data?.Revenue ?? 0}");
-                    }
-                    break;
-
-                case "Month":
-                    prompt.AppendLine("\n **Daily Revenue1 Data for January 2025:**");
-                    for (int day = 1; day <= 31; day++)
-                    {
-                        var data = items.FirstOrDefault(d => d.Category == $"Jan {day}");
-                        prompt.AppendLine($"Jan {day}, 2025: ${data?.Revenue ?? 0}");
-                    }
-                    break;
-
-                case "Week":
-                    prompt.AppendLine("\n **Weekly Revenue1 Data (Jan 1 - 7, 2025):**");
-                    string[] weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
-                    for (int day = 1; day <= 7; day++)
-                    {
-                        var data = items.FirstOrDefault(d => d.Category == $"Jan {day}");
-                        prompt.AppendLine($"{weekDays[day - 1]} (Jan {day}, 2025): ${data?.Revenue ?? 0}");
-                    }
-                    break;
-
-                default:
-                    prompt.AppendLine("\n⚠️ Invalid selection. Please choose 'Year', 'Month', or 'Week'.");
-                    break;
-            }
+     
 
             return prompt.ToString();
         }
-        
+
 
         #endregion
     }

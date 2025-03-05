@@ -66,6 +66,8 @@ namespace SalesPerformanceAnalysis
             }
         }
 
+   
+
         private DateRange _selectedDateRange = DateRange.Last30Days;
         public DateRange SelectedDateRange
         {
@@ -76,14 +78,8 @@ namespace SalesPerformanceAnalysis
                 {
                     _selectedDateRange = value;
                     OnPropertyChanged();
-                    ChangeDateRange(_selectedDateRange);
                 }
             }
-        }
-
-        public virtual async Task ChangeDateRange(DateRange dateRange)
-        {
-           
         }
 
 

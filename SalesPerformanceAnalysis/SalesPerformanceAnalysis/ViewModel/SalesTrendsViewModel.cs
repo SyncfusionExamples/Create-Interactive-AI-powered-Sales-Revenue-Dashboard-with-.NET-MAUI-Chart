@@ -139,10 +139,10 @@ namespace SalesPerformanceAnalysis
                     SelectedProduct?.Id,
                     SelectedRegion?.Id);
 
-                return data; // ✅ Return the sales data
+                return data; 
             }
 
-            return new List<SalesData>(); // ✅ Ensure it always returns a value
+            return new List<SalesData>(); 
         }
 
 
@@ -190,13 +190,24 @@ namespace SalesPerformanceAnalysis
             }
         }
 
+        private string text;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                OnPropertyChanged(nameof(Text));
+            }
+        }
 
         public SalesTrendsViewModel(SalesDataService salesDataService)
         {
             _salesDataService = salesDataService;
             Title = "Sales Trends";
             Initialize();
-            LoadDashboardData();    
+            LoadDashboardData();
+
             DateRanges = new List<DateRangeOption>
         {
             new DateRangeOption { DisplayText = "Last 30 Days", Value = DateRange.Last30Days },
@@ -310,11 +321,7 @@ namespace SalesPerformanceAnalysis
                 filtered.OrderByDescending(x => x.Date).Take(100));
         }
 
-        public override async Task ChangeDateRange(DateRange dateRange)
-        {
-            SelectedDateRange = dateRange;
-            await LoadSalesData();
-        }
+       
 
         public async Task RefreshData()
         {

@@ -142,7 +142,7 @@ namespace SalesPerformanceAnalysis
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
+       
         public DateRange(DateTime startDate, DateTime endDate)
         {
             StartDate = startDate;

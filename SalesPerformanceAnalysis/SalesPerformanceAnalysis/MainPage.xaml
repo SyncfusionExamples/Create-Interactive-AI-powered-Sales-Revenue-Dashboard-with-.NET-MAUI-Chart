@@ -37,12 +37,13 @@
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
 
-            <popup:SfPopup x:Name="popUp" ShowHeader="False" AnimationMode="SlideOnBottom" AutoSizeMode="Both">
+            <popup:SfPopup x:Name="popUp" ShowHeader="False" 
+                           AnimationMode="SlideOnBottom" AutoSizeMode="Both">
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate x:DataType="local:ViewModel">
-                        <ScrollView Orientation="Both" >
+                        <ScrollView Orientation="Both">
                             <VerticalStackLayout Margin="10">
-                                <Label Text="{Binding Text}"/>
+                            <Label Text="{Binding Text}"/>
                             </VerticalStackLayout>
                         </ScrollView>
                     </DataTemplate>
@@ -56,16 +57,16 @@
                     ColumnDefinitions="{OnPlatform Android='*,*', iOS='*,*', Default='*,*,*,*'}" RowSpacing="{OnPlatform WinUI=10, MacCatalyst=10}">
 
                 <sfButton:SfButton x:Name="revenue" Grid.Row="{OnPlatform Android=0, iOS=0, Default=0}" Grid.Column="{OnPlatform Android=0,iOS=0, Default=3}"
-                             Margin="5" ImageSource="revenue.png" ImageSize="50" Text="Revenue" Clicked="Revenue_Clicked" />
+                             Margin="5" ImageSource="revenue.png" ImageSize="40" Text="Forecast" Clicked="Revenue_Clicked" CornerRadius="5"/>
 
                 <sfButton:SfButton Grid.Row="{OnPlatform Android=0, iOS=0, Default=0}" Grid.Column="{OnPlatform Android=1,iOS=1, Default=1}"
-                             Margin="5" x:Name="product" ImageSource="product.png" ImageSize="40" Text="Products"  Clicked="Product_Clicked" />
+                             Margin="5" x:Name="product" ImageSource="product.png" ImageSize="40" Text="Products"  Clicked="Product_Clicked" CornerRadius="5"/>
 
                 <sfButton:SfButton x:Name="orders"  Grid.Row="{OnPlatform Android=1, iOS=1, Default=0}" Grid.Column="{OnPlatform Android=0,iOS=0, Default=2}"
-                             Margin="5" ImageSource="order.png" ImageSize="40" Text="Orders" Clicked="Order_Clicked" />
+                             Margin="5" ImageSource="order.png" ImageSize="40" Text="Orders" Clicked="Order_Clicked" CornerRadius="5"/>
 
                 <sfButton:SfButton Grid.Row="{OnPlatform Android=1, iOS=1, Default=0}" Grid.Column="{OnPlatform Android=1,iOS=1, Default=0}"
-                             Margin="5" x:Name="sales" ImageSource="sales.png" ImageSize="40" Text="Sales"  Clicked="Sales_Clicked" />
+                             Margin="5" x:Name="sales" ImageSource="sales.png" ImageSize="40" Text="Sales"  Clicked="Sales_Clicked" CornerRadius="5"/>
 
             </Grid>
 
@@ -109,7 +110,7 @@
 
                 <comboBox:SfComboBox Margin="6" x:Name="periodSelection"  ItemsSource="{Binding DateRanges}" 
                     DisplayMemberPath="DisplayText"  DropDownIconColor="#333333"
-                    WidthRequest="{OnPlatform Android=150, iOS=150, Default=160}"
+                    WidthRequest="{OnPlatform Android=150, iOS=150, Default=160}" SelectionChanged="periodSelection_SelectionChanged"
                     Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB"
                     FontSize="16" IsClearButtonVisible="False" SelectedIndex="0" TextColor="#333333"/>
         

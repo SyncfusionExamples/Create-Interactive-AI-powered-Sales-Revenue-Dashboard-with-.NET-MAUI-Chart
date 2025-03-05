@@ -8,13 +8,25 @@ namespace SalesPerformanceAnalysis
     public partial class MainPage : ContentPage, INotifyPropertyChanged
     {
         private readonly ViewModel viewModel = new();
-        private readonly ChartAIService aiService = new();
         private readonly SalesTrendsViewModel salesTrendsViewModel;
-        private readonly SalesDataService salesDataService = new();
+        private readonly SalesDataService salesDataService;
+        private readonly ChartAIService aiService;
+        private readonly OpenAIService openAIService;
+        private readonly PredictionService predictionService;
+        private readonly PredictionViewModel predictionViewModel;
 
         public MainPage()
         {
             InitializeComponent();
+
+            salesDataService = new SalesDataService();
+            aiService = new ChartAIService();
+            var settingsService = new SettingsService();
+            openAIService = new OpenAIService(settingsService);
+            predictionService = new PredictionService(openAIService, salesDataService);
+
+
+            predictionViewModel = new PredictionViewModel(predictionService, salesDataService);
             salesTrendsViewModel = new SalesTrendsViewModel(salesDataService);
             contentView.Content = new SalesChart(salesTrendsViewModel);
             sales.Background = new SolidColorBrush(Color.FromArgb("#F5F5F5"));
@@ -23,7 +35,7 @@ namespace SalesPerformanceAnalysis
             BindingContext = salesTrendsViewModel;
         }
 
-        private void Revenue_Clicked(object sender, EventArgs e) => SetPageContent(new RevenueChart() { BindingContext = viewModel}, "AverageRevenue", revenue, null, false);
+        private void Revenue_Clicked(object sender, EventArgs e) => SetPageContent(new RevenueChart(predictionViewModel), "AverageRevenue", revenue, null, false);
 
         private void Sales_Clicked(object sender, EventArgs e) => SetPageContent(new SalesChart(salesTrendsViewModel), "AverageSales", sales, aiButton, false);
 
@@ -42,7 +54,6 @@ namespace SalesPerformanceAnalysis
             else AddChildIfNotExists(periodSelection, 0);
 
             AddChildIfNotExists(additionalChild, 1);
-           // average.SetBinding(Label.TextProperty, new Binding(bindingProperty));
         }
 
         private void SetButtonStyles(SfButton activeButton)
@@ -74,11 +85,24 @@ namespace SalesPerformanceAnalysis
 
         private async void SfButton_Clicked(object sender, EventArgs e)
         {
-            var items = viewModel.RevenueData.Take(40).ToList();
-            var prompt = aiService.GeneratePrompt(items, periodSelection.SelectedItem.ToString());
-            viewModel.Text = await aiService.GetAnswerFromGPT(prompt);
-            popUp.Show();
+            if (viewModel == null || aiService == null)
+                return;
+
+            // Ensure period selection is valid
+            if (periodSelection.SelectedItem is DateRangeOption selectedOption)
+            {
+                salesTrendsViewModel.SelectedDateRange = selectedOption.Value;
+               
+                await Task.Run(() => salesTrendsViewModel.Initialize());
+
+                var prompt = aiService.GeneratePrompt(salesTrendsViewModel.SalesData, salesTrendsViewModel.SelectedDateRange);
+
+                salesTrendsViewModel.Text = await aiService.GetAnswerFromGPT(prompt);
+
+                popUp.Show();
+            }
         }
+
 
         private void Export_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
         {
@@ -91,6 +115,20 @@ namespace SalesPerformanceAnalysis
             {
                 if (exportSelection.SelectedIndex == 1) productPage.ExportPDF(sender, null);
                 else if (exportSelection.SelectedIndex == 0) productPage.ExportAsExcel(sender, null);
+            }
+        }
+
+        private void periodSelection_SelectionChanged(object sender, Syncfusion.Maui.Inputs.SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0 && e.AddedItems[0] is DateRangeOption selectedOption)
+            {
+                var viewModel = BindingContext as SalesTrendsViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.SelectedDateRange = selectedOption.Value; 
+                    viewModel.Initialize();
+                    viewModel.LoadDashboardData();
+                }
             }
         }
     }
