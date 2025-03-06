@@ -127,9 +127,9 @@
                                 HeightRequest="300">
                     <dataGrid:SfDataGrid.Columns>
                         <dataGrid:DataGridTextColumn HeaderText="Date" MappingName="Date" Format="d"/>
-                        <dataGrid:DataGridTextColumn HeaderText="Predicted Revenue" MappingName="PredictedRevenue" Format="C2" />
-                        <dataGrid:DataGridTextColumn HeaderText="Lower Bound" MappingName="LowerBound" Format="C2" />
-                        <dataGrid:DataGridTextColumn HeaderText="Upper Bound" MappingName="UpperBound" Format="C2" />
+                        <dataGrid:DataGridTextColumn HeaderText="Predicted Revenue" MappingName="PredictedRevenue" Format="$#.##" />
+                        <!--<dataGrid:DataGridTextColumn HeaderText="Lower Bound" MappingName="LowerBound" Format="$#.##" />
+                        <dataGrid:DataGridTextColumn HeaderText="Upper Bound" MappingName="UpperBound" Format="$#.##" />-->
                         <dataGrid:DataGridTextColumn HeaderText="Confidence" MappingName="Confidence" Format="P0" />
                         <!--<dataGrid:DataGridCheckBoxColumn HeaderText="Anomaly" MappingName="IsAnomaly" />-->
 

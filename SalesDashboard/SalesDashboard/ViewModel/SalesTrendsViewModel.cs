@@ -260,7 +260,6 @@ namespace SalesDashboard
 
             OrderInfos = Orders(1);
 
-
             MapMarkerCollection = new ObservableCollection<CustomMarker>();
 
             _salesDataService = salesDataService;
@@ -325,7 +324,6 @@ namespace SalesDashboard
                 var products = await _salesDataService.GetProductsAsync();
                 Products = new ObservableCollection<Product>(products);
 
-
                 var regions = await _salesDataService.GetRegionsAsync();
                 Regions = new ObservableCollection<Region>(regions);
 
@@ -340,8 +338,6 @@ namespace SalesDashboard
                         Name = region.Country,
                     });
                 }
-
-
 
                 await LoadSalesData();
             }

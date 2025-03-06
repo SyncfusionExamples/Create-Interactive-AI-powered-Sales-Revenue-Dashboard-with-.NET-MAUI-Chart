@@ -141,9 +141,9 @@
                         <dataGrid:DataGridTextColumn HeaderText="Product" MappingName="ProductName" HeaderTextAlignment="Start" />
                         <dataGrid:DataGridTextColumn HeaderText="Region" MappingName="RegionName" HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill"/>
                         <dataGrid:DataGridTextColumn HeaderText="Quantity" MappingName="Quantity" HeaderTextAlignment="Start"/>
-                        <dataGrid:DataGridTextColumn HeaderText="Revenue" MappingName="Revenue" Format="C2" HeaderTextAlignment="Start"/>
-                        <dataGrid:DataGridTextColumn HeaderText="Cost" MappingName="Cost" Format="C2" HeaderTextAlignment="Start"/>
-                        <dataGrid:DataGridTextColumn HeaderText="Profit" MappingName="Profit" Format="C2" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Revenue" MappingName="Revenue" Format="$#.##" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Cost" MappingName="Cost" Format="$#.##" HeaderTextAlignment="Start"/>
+                        <dataGrid:DataGridTextColumn HeaderText="Profit" MappingName="Profit" Format="$#.##" HeaderTextAlignment="Start"/>
                         <dataGrid:DataGridTextColumn HeaderText="Profit %" MappingName="ProfitMargin" Format="P2" HeaderTextAlignment="Start"/>
                     </dataGrid:SfDataGrid.Columns>
                 </dataGrid:SfDataGrid>
