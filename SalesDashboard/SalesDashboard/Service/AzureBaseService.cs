@@ -3,7 +3,6 @@ using Azure;
 using Microsoft.Extensions.AI;
 using System.Text.Json;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace SalesDashboard
 {
@@ -54,11 +53,6 @@ namespace SalesDashboard
         internal IChatClient? Client { get; set; }
 
         /// <summary>
-        /// The chat histroy
-        /// </summary>
-        internal string? ChatHistory { get; set; }
-
-        /// <summary>
         /// Gets or Set a value indicating whether an credentials are valid or not.
         /// </summary>
         internal static bool IsCredentialValid { get; set; }
@@ -84,13 +78,8 @@ namespace SalesDashboard
                 if (Client != null)
                 {
                     await Client!.CompleteAsync("Hello, Test Check");
-                    ChatHistory = string.Empty;
                     IsCredentialValid = true;
                     isAlreadyValidated = true;
-                }
-                else
-                {
-                    ShowAlertAsync();
                 }
             }
             catch (Exception)
@@ -114,29 +103,14 @@ namespace SalesDashboard
             }
         }
 
-        /// <summary>
-        /// Show Alert Popup
-        /// </summary>
-        private async void ShowAlertAsync()
-        {
-            var page = Application.Current?.Windows[0].Page;
-            if (page != null && !IsCredentialValid)
-            {
-                isAlreadyValidated = true;
-                await page.DisplayAlert("Alert", "The Azure API key or endpoint is missing or incorrect. Please verify your credentials. You can also continue with the offline data.", "OK");
-            }
-        }
-
         internal async Task<string> GetAnswerFromGPT(string userPrompt)
         {
             try
             {
                 if (IsCredentialValid && Client != null)
                 {
-                    ChatHistory = string.Empty;
-                    // Add the system message and user message to the options
-                    ChatHistory = ChatHistory + userPrompt;
-                    var response = await Client.CompleteAsync(ChatHistory);
+
+                    var response = await Client.CompleteAsync(userPrompt);
                     return response.ToString();
                 }
             }
@@ -147,41 +121,6 @@ namespace SalesDashboard
             }
 
             return "";
-        }
-
-        public async Task<string> AnalyzeSalesInsights(List<SalesData> salesData, DateRange period)
-        {
-            var systemMessage = @"
-        You are an expert sales analyst AI. Provide concise insights about the sales data, focusing on:
-        1. Key trends and patterns
-        2. Top and bottom performing products and regions
-        3. Anomalies or unusual patterns
-        4. Actionable recommendations
-        Keep your analysis concise, business-focused and actionable.
-        ";
-
-            var salesSummary = salesData
-                .GroupBy(x => x.ProductName)
-                .Select(g => new
-                {
-                    Product = g.Key,
-                    TotalRevenue = g.Sum(x => x.Revenue),
-                    TotalQuantity = g.Sum(x => x.Quantity)
-                })
-                .OrderByDescending(x => x.TotalRevenue)
-                .Take(10)
-                .ToList();
-
-            var jsonSummary = JsonSerializer.Serialize(salesSummary);
-
-            var userMessage = $@"
-        Here is a summary of the sales data from {period.StartDate:yyyy-MM-dd} to {period.EndDate:yyyy-MM-dd}:
-        {jsonSummary}
-        
-        Please provide a concise business analysis with actionable insights.
-        ";
-
-            return await GetAnswerFromGPT(systemMessage + "\n\n" + userMessage);
         }
 
         public async Task<List<SalesPrediction>> PredictSalesTrend(
@@ -219,7 +158,7 @@ namespace SalesDashboard
             {
                 return JsonSerializer.Deserialize<List<SalesPrediction>>(extractedJson) ?? new List<SalesPrediction>();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new List<SalesPrediction>();
             }

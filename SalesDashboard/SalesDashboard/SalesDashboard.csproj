@@ -66,15 +66,23 @@
 	  <None Remove="Resources\Images\order.png" />
 	  <None Remove="Resources\Images\pdf.png" />
 	  <None Remove="Resources\Images\product.png" />
-	  <None Remove="Resources\Images\Products\apple.png" />
-	  <None Remove="Resources\Images\Products\laptop.png" />
-	  <None Remove="Resources\Images\Products\smartphone.png" />
-	  <None Remove="Resources\Images\Products\smart_tv.png" />
-	  <None Remove="Resources\Images\Products\tv_app.png" />
+	  <None Remove="Resources\Images\Product\gaming.png" />
+	  <None Remove="Resources\Images\Product\hard_drive.png" />
+	  <None Remove="Resources\Images\Product\headset.png" />
+	  <None Remove="Resources\Images\Product\laptop.png" />
+	  <None Remove="Resources\Images\Product\mobile.png" />
+	  <None Remove="Resources\Images\Product\monitor.png" />
+	  <None Remove="Resources\Images\Product\smartlight.png" />
+	  <None Remove="Resources\Images\Product\watch.png" />
+	  <None Remove="Resources\Images\Product\webcam.png" />
 	  <None Remove="Resources\Images\revenue.png" />
 	  <None Remove="Resources\Images\sales.png" />
 	  <None Remove="Resources\Images\sparkles.png" />
 	  <None Remove="Resources\Images\wrong.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiImage Include="Resources\Images\Product\gaming.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -85,6 +93,9 @@
 	  <MauiImage Include="Resources\Images\ai_button.png">
 	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </MauiImage>
+	  <MauiImage Include="Resources\Images\closebutton.png">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </MauiImage>
 	  <MauiImage Include="Resources\Images\correct.png" />
 	  <MauiImage Include="Resources\Images\dotnet_bot.png" />
 	  <MauiImage Include="Resources\Images\excel.png" />
@@ -93,18 +104,18 @@
 	  <MauiImage Include="Resources\Images\order.png" />
 	  <MauiImage Include="Resources\Images\pdf.png" />
 	  <MauiImage Include="Resources\Images\product.png" />
-	  <MauiImage Include="Resources\Images\Products\apple.png" />
-	  <MauiImage Include="Resources\Images\Products\laptop.png" />
-	  <MauiImage Include="Resources\Images\Products\smart_tv.png" />
+	  <MauiImage Include="Resources\Images\Product\hard_drive.png" />
+	  <MauiImage Include="Resources\Images\Product\headset.png" />
+	  <MauiImage Include="Resources\Images\Product\laptop.png" />
+	  <MauiImage Include="Resources\Images\Product\mobile.png" />
+	  <MauiImage Include="Resources\Images\Product\monitor.png" />
+	  <MauiImage Include="Resources\Images\Product\smartlight.png" />
+	  <MauiImage Include="Resources\Images\Product\watch.png" />
+	  <MauiImage Include="Resources\Images\Product\webcam.png" />
 	  <MauiImage Include="Resources\Images\revenue.png" />
 	  <MauiImage Include="Resources\Images\sales.png" />
 	  <MauiImage Include="Resources\Images\sparkles.png" />
 	  <MauiImage Include="Resources\Images\wrong.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiImage Include="Resources\Images\Products\smartphone.png" />
-	  <MauiImage Include="Resources\Images\Products\tv_app.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -121,27 +132,6 @@
 		<PackageReference Include="Azure.AI.OpenAI" Version="2.0.0" />
 		<PackageReference Include="Azure.Identity" Version="1.13.1" />
 		<PackageReference Include="Microsoft.Extensions.AI.OpenAI" Version="9.0.1-preview.1.24570.5" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Views\Prediction.xaml.cs">
-	    <DependentUpon>Prediction.xaml</DependentUpon>
-	  </Compile>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Update="Views\OrderDetails.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\ProductDetails.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\Prediction.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Views\SalesChart.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	</ItemGroup>
 
 </Project>

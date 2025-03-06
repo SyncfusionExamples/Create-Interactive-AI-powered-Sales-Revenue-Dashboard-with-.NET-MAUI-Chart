@@ -25,7 +25,6 @@
     <Grid RowDefinitions="8*,2*" ColumnDefinitions="8.5*,1.5*">
 
         <ScrollView Grid.RowSpan="2" Grid.ColumnSpan="2">
-            
             <Grid RowDefinitions="1*,3.49*,0.01*,2.49*,3*" ColumnDefinitions="5*,0.01*,4.99*">
 
                 <Grid Grid.Row="0" Grid.ColumnSpan="3" Margin="0,5,0,0" ColumnDefinitions="5.5*,4.5*" >
@@ -65,10 +64,10 @@
                     </Grid>
 
                         <comboBox:SfComboBox Grid.Column="1" Margin="6,6,10,6" x:Name="periodSelection"  ItemsSource="{Binding DateRanges}" 
-                            DisplayMemberPath="DisplayText"  DropDownIconColor="#333333" HorizontalOptions="End"
-                            WidthRequest="{OnPlatform Android=150, iOS=150, Default=160}" SelectionChanged="periodSelection_SelectionChanged"
-                            Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB"
-                            FontSize="16" IsClearButtonVisible="False" SelectedIndex="0" TextColor="#333333"/>
+         DisplayMemberPath="DisplayText"  DropDownIconColor="#333333" HorizontalOptions="End"
+         WidthRequest="{OnPlatform Android=150, iOS=150, Default=160}" SelectionChanged="periodSelection_SelectionChanged"
+         Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB"
+         FontSize="16" IsClearButtonVisible="False" SelectedIndex="0" TextColor="#333333"/>
 
                 </Grid>
 
@@ -162,27 +161,25 @@
                ImageSize="50" HorizontalOptions="End" ImageAlignment="Default" ImageSource="ai_button.png" TextColor="White"
                        Clicked="clickToShowPopup_Clicked"        >
 
-                <!--<sfButton:SfButton.GestureRecognizers>
-                    <PointerGestureRecognizer PointerExited="PointerGestureRecognizer_PointerExited"
-                        PointerMoved="PointerGestureRecognizer_PointerMoved" PointerReleased="PointerGestureRecognizer_PointerReleased"
-                        PointerPressed="PointerGestureRecognizer_PointerPressed"/>
-                </sfButton:SfButton.GestureRecognizers>-->
+                <sfButton:SfButton.GestureRecognizers>
+                    <PointerGestureRecognizer PointerExited="PointerGestureRecognizer_PointerExited"/>
+                </sfButton:SfButton.GestureRecognizers>
 
             </sfButton:SfButton>
 
             <popup:SfPopup x:Name="popup" ShowHeader="False" AnimationMode="SlideOnRight" 
                            WidthRequest="800" HeightRequest="400">
-                
                 <popup:SfPopup.ContentTemplate>
                     <DataTemplate>
+                        
                         <ScrollView HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
                             <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView, Mode=TwoWay}"
                               x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" 
-                                ShowHeader="True" AssistItems="{Binding Messages}">
+                             ShowHeader="True" AssistItems="{Binding Messages}">
                                 <aiassistview:SfAIAssistView.HeaderTemplate>
                                     <DataTemplate>
                                         <Label Text="How may I help you?" FontAttributes="Bold" Padding="0,20,0,0"
-                                            LineBreakMode="WordWrap" FontSize="14" HorizontalOptions="Center"/>
+                                    LineBreakMode="WordWrap" FontSize="14" HorizontalOptions="Center"/>
                                     </DataTemplate>
                                 </aiassistview:SfAIAssistView.HeaderTemplate>
                                 <aiassistview:SfAIAssistView.Shadow>
@@ -190,11 +187,10 @@
                                 </aiassistview:SfAIAssistView.Shadow>
                             </aiassistview:SfAIAssistView>
                         </ScrollView>
+                        
                     </DataTemplate>
                 </popup:SfPopup.ContentTemplate>
-                
             </popup:SfPopup>
-            
         </StackLayout>
 
     </Grid>

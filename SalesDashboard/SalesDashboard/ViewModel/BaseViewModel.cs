@@ -1,11 +1,11 @@
-﻿using Syncfusion.Maui.Toolkit.TabView;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace SalesDashboard
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-      
+        #region Properties
+
         private bool _isBusy;
         public bool IsBusy
         {
@@ -76,7 +76,6 @@ namespace SalesDashboard
             }
         }
 
-
         private bool _isError;
         public bool IsError
         {
@@ -103,41 +102,36 @@ namespace SalesDashboard
                     OnPropertyChanged(nameof(ErrorMessage));
                 }
             }
-        }
+        } 
 
-       
-
-        protected void ShowError(string message)
-        {
-            ErrorMessage = message;
-            IsError = true;
-        }
-
-        protected void ClearError()
-        {
-            ErrorMessage = string.Empty;
-            IsError = false;
-        }
-
-        protected void SetBusy(bool isBusy, string message = null)
-        {
-            IsBusy = isBusy;
-            StatusMessage = message ?? (isBusy ? "Processing..." : string.Empty);
-        }
-
+        #endregion
 
         public BaseViewModel()
         {
             Title = GetType().Name.Replace("ViewModel", "");
         }
 
-    
+        #region Methods
+
+        internal void ShowError(string message)
+        {
+            ErrorMessage = message;
+            IsError = true;
+        }
+
+        internal void SetBusy(bool isBusy, string message = null)
+        {
+            IsBusy = isBusy;
+            StatusMessage = message ?? (isBusy ? "Processing..." : string.Empty);
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        } 
+
+        #endregion
     }
 }

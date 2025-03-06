@@ -1,6 +1,8 @@
 using Azure;
 using Syncfusion.Maui.AIAssistView;
+using Syncfusion.Maui.Toolkit.Charts;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace SalesDashboard;
@@ -140,10 +142,15 @@ public partial class SalesChart : ContentView
         if (string.IsNullOrWhiteSpace(aiResponse))
             return string.Empty;
 
-        aiResponse = aiResponse.Replace("####", "")  
-                               .Replace("###", "")   
-                               .Replace("**", "");
-    
+        // Remove unwanted Markdown characters
+        aiResponse = aiResponse.Replace("####", "")
+                               .Replace("###", "")
+                               .Replace("[", "")
+                               .Replace("]", "")
+                                .Replace("/", "");
+
+
+
         aiResponse = Regex.Replace(aiResponse, @"(\d+\.\s)([A-Za-z\s]+)", m =>
             $"{m.Groups[1].Value}{m.Groups[2].Value.Trim()}");
 
@@ -155,5 +162,10 @@ public partial class SalesChart : ContentView
     {
         popup.Show();
         viewModel.ShowAssistView = true;
+    }
+
+    private void PointerGestureRecognizer_PointerExited(object sender, PointerEventArgs e)
+    {
+        viewModel.Messages.Clear();
     }
 }

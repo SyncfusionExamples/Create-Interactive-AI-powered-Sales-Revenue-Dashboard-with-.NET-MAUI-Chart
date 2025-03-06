@@ -18,11 +18,13 @@
             // In a real app, this would come from a database or API
             _products = new List<Product>
             {
-                new Product { Id = "P001", Name = "Smartphone X", Category = "Electronics", BasePrice = 999.99m, IsActive = true },
-                new Product { Id = "P002", Name = "Laptop Pro", Category = "Electronics", BasePrice = 1499.99m, IsActive = true },
+                new Product { Id = "P001", Name = "iPhone 5S", Category = "Electronics", BasePrice = 999.99m, IsActive = true },
+                new Product { Id = "P002", Name = "Smart TV", Category = "Electronics", BasePrice = 1499.99m, IsActive = true },
+                new Product { Id = "P002", Name = "Laptop", Category = "Electronics", BasePrice = 1799.99m, IsActive = true },
                 new Product { Id = "P003", Name = "Wireless Headphones", Category = "Audio", BasePrice = 199.99m, IsActive = true },
-                new Product { Id = "P004", Name = "Smart Watch", Category = "Wearables", BasePrice = 249.99m, IsActive = true },
-                new Product { Id = "P005", Name = "Tablet Ultra", Category = "Electronics", BasePrice = 599.99m, IsActive = true }
+                new Product { Id = "P004", Name = "iPhone 4", Category = "Wearables", BasePrice = 249.99m, IsActive = true },
+                new Product { Id = "P005", Name = "Tablet Ultra", Category = "Electronics", BasePrice = 599.99m, IsActive = true },
+                new Product { Id = "P005", Name = "Gaming Mouse", Category = "Electronics", BasePrice = 399.99m, IsActive = true },
             };
 
             _regions = new List<Region>

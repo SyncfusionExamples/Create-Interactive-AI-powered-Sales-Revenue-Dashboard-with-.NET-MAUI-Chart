@@ -18,70 +18,101 @@
     </ContentView.Resources>
 
     <ScrollView>
-
         <Grid RowDefinitions="0.5*, 4*,5.5*">
-
+            
             <comboBox:SfComboBox HorizontalOptions="End" Grid.Row="0" VerticalOptions="End" x:Name="exportSelection" Margin="0,0,5,0" ItemsSource="{Binding ExportOptions}" 
-                DropDownIconColor="#333333"   SelectionChanged="Export_SelectionChanged" WidthRequest="{OnPlatform Android=150, iOS=150, Default=170}"
-                Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB" Text="Export"
-                FontSize="16" IsClearButtonVisible="False"  SelectedIndex="-1" TextColor="#333333" DisplayMemberPath="Name">
+            DropDownIconColor="#333333"   SelectionChanged="Export_SelectionChanged" WidthRequest="{OnPlatform Android=150, iOS=150, Default=170}"
+            Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB" Text="Export"
+            FontSize="16" IsClearButtonVisible="False"  SelectedIndex="-1" TextColor="#333333" DisplayMemberPath="Name">
 
-                <comboBox:SfComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Padding="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="30"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+    <comboBox:SfComboBox.ItemTemplate>
+        <DataTemplate>
+            <Grid Padding="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="30"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                            <Image Source="{Binding Icon}" WidthRequest="14" HeightRequest="14"/>
-                            <Label Text="{Binding Name}" Grid.Column="1" VerticalTextAlignment="Center" Padding="5"/>
-                        </Grid>
-                    </DataTemplate>
-                </comboBox:SfComboBox.ItemTemplate>
+                <Image Source="{Binding Icon}" WidthRequest="14" HeightRequest="14"/>
+                <Label Text="{Binding Name}" Grid.Column="1" VerticalTextAlignment="Center" Padding="5"/>
+            </Grid>
+        </DataTemplate>
+    </comboBox:SfComboBox.ItemTemplate>
 
-            </comboBox:SfComboBox>
+</comboBox:SfComboBox>
 
             <Grid Grid.Row="1" ColumnDefinitions="5*,0.01*,4.99*" >
 
                 <chart:SfCircularChart Grid.Column="0" Margin="10">
-                    <chart:SfCircularChart.Title>
-                        <Label Text="Top Products" HorizontalOptions="Center" FontSize="17"/>
-                    </chart:SfCircularChart.Title>
+                        <chart:SfCircularChart.Title>
+                            <Label Text="Top Products" HorizontalOptions="Center" FontSize="17"/>
+                        </chart:SfCircularChart.Title>
 
-                    <chart:SfCircularChart.Legend>
-                        <chart:ChartLegend Placement="Bottom"/>
-                    </chart:SfCircularChart.Legend>
+                        <chart:SfCircularChart.Legend>
+                            <chart:ChartLegend Placement="Bottom"/>
+                        </chart:SfCircularChart.Legend>
 
                     <chart:PieSeries ItemsSource="{Binding Products}" ShowDataLabels="True"
-                            XBindingPath="Name" YBindingPath="BasePrice" PaletteBrushes="{Binding PaletteBrushes}"/>
-                </chart:SfCircularChart>
+                            XBindingPath="Category" YBindingPath="BasePrice"  PaletteBrushes="{Binding PaletteBrushes}"/>
+                    </chart:SfCircularChart>
 
                 <StackLayout Background="#D1D5DB" Grid.Column="1"/>
 
                 <VerticalStackLayout Grid.Column="2" Margin="10">
 
-                    <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5" FontSize="17"/>
+                        <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5" FontSize="17"/>
 
-                    <map:SfMaps>
-                        <map:SfMaps.Layer>
-                            <map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
-                                        Markers="{Binding MapMarkerCollection}"
-                                        ShapeHoverFill="Transparent" ShapeHoverStroke="Transparent">
+                        <map:SfMaps>
+                            <map:SfMaps.Layer>
+                            <map:MapShapeLayer DataSource="{Binding Regions}" ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
+                                        PrimaryValuePath="Name" ShowBubbles="True"  ShapeHoverFill="Transparent" ShowMarkerTooltip="True">
 
-                                <map:MapShapeLayer.MarkerTemplate>
+                                    <map:MapShapeLayer.MarkerTemplate>
+                                        <DataTemplate>
+                                            <StackLayout HorizontalOptions="Center">
+                                                <Image Source="map_pin.png"  HeightRequest="30" WidthRequest="30"/>
+                                            <Label Text="{Binding Country}" 
+                                                     HorizontalTextAlignment="Center" FontSize="10" FontAttributes="Bold"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </map:MapShapeLayer.MarkerTemplate>
+
+                                <!--<map:MapShapeLayer.MarkerTooltipTemplate>
                                     <DataTemplate>
-                                        <StackLayout HorizontalOptions="Center">
-                                            <Image Source="map_pin.png" HeightRequest="30" WidthRequest="30"/>
-                                            <Label Text="{Binding Name}"  HorizontalTextAlignment="Center" FontSize="12"/>
-                                        </StackLayout>
+                                        <HorizontalStackLayout>
+                                            --><!--<HorizontalStackLayout.BindingContext>
+                                                <Binding Path="DataItem"/>
+                                            </HorizontalStackLayout.BindingContext>
+                                            <Label x:DataType="local:ViewModel" Text="{Binding SelectedCityName}"/>
+                                            <Label Text=":"
+                                           Margin="2,0,2,0"/>
+                                            <Label x:DataType="local:ViewModel" Text="{Binding Density}" />
+                                            <Label Text="per sq. km." Margin="2,0,0,0" />--><!--
+                                        </HorizontalStackLayout>
                                     </DataTemplate>
-                                </map:MapShapeLayer.MarkerTemplate>
+                                </map:MapShapeLayer.MarkerTooltipTemplate>-->
 
-                            </map:MapShapeLayer>
-                        </map:SfMaps.Layer>
-                    </map:SfMaps>
-                </VerticalStackLayout>
+                                    <map:MapShapeLayer.Markers>
+                                        <map:MapMarkerCollection>
+                                            <map:MapMarker Latitude="40.7128"
+                                                Longitude="-74.0060" />
+                                            <map:MapMarker Latitude="52.5200"
+                                                    Longitude="13.4050" />
+                                            <map:MapMarker Latitude="35.6762"
+                                                Longitude="139.6503" />
+                                            <map:MapMarker Latitude="-23.5505"
+                                                Longitude="-46.6333" />
+                                        </map:MapMarkerCollection>
+                                    </map:MapShapeLayer.Markers>
+                             
+                                    <map:MapShapeLayer.Legend>
+                                        <map:MapLegend SourceType="Shape" Placement="Top" />
+                                    </map:MapShapeLayer.Legend>
+
+                                </map:MapShapeLayer>
+                            </map:SfMaps.Layer>
+                        </map:SfMaps>
+                    </VerticalStackLayout>
 
             </Grid>
 
@@ -120,7 +151,7 @@
             </dataGrid:SfDataGrid>
 
         </Grid>
-
     </ScrollView>
+ 
 
 </ContentView>
