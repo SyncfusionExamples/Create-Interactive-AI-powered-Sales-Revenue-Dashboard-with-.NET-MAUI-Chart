@@ -1,12 +1,11 @@
 ﻿using System.ComponentModel;
-using System.Text.Json.Serialization;
 
 namespace SalesDashboard
 {
     public class ExportOption
     {
         public string? Name { get; set; }
-        public string? Icon { get; set; } // Path to the image
+        public string? Icon { get; set; }
     }
 
     public class ProductInfo : INotifyPropertyChanged
@@ -71,11 +70,10 @@ namespace SalesDashboard
     {
         public string? Product { get; set; }
         public ImageSource? Image { get; set; }
-        public double MarginValue { get; set; } 
+        public double MarginValue { get; set; }
         public double ActualPrice { get; set; }
         public double SellingPrice { get; set; }
     }
-
 
     public class SalesData
     {
@@ -133,7 +131,7 @@ namespace SalesDashboard
     {
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-       
+
         public DateRange(DateTime startDate, DateTime endDate)
         {
             StartDate = startDate;

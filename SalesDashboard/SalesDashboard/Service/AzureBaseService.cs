@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace SalesDashboard
 {
-    public  class AzureBaseService
+    public class AzureBaseService
     {
         #region Fields
 
@@ -186,9 +186,7 @@ namespace SalesDashboard
 
         public async Task<List<SalesPrediction>> PredictSalesTrend(
             List<SalesData> historicalData,
-            DateRange predictionPeriod,
-            string productId = null,
-            string regionId = null)
+            DateRange predictionPeriod)
         {
             var systemMessage = @"
         You are an expert sales forecasting AI. Your task is to analyze historical sales data and provide accurate predictions.
@@ -210,8 +208,7 @@ namespace SalesDashboard
         {jsonData}
         
         Please predict sales from {startDate} to {endDate}.
-        " + (productId != null ? $" Focus on product ID: {productId}." : "")
-              + (regionId != null ? $" Focus on region ID: {regionId}." : "");
+        ";
 
             var response = await GetAnswerFromGPT(systemMessage + "\n\n" + userMessage);
 
@@ -229,13 +226,10 @@ namespace SalesDashboard
 
         }
 
+        #endregion
     }
 
-        #endregion
-
-
-
-public class JsonExtractor
+    public class JsonExtractor
     {
         public static string ExtractJson(string response)
         {
@@ -261,11 +255,5 @@ public class JsonExtractor
 
             return "Invalid or No JSON Found";
         }
-}
-
-
-
-        
-
-
     }
+}

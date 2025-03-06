@@ -201,7 +201,6 @@ namespace SalesDashboard
 
         public async Task GeneratePredictions()
         {
-
             try
             {
                 SetBusy(true, "Generating AI predictions...");
@@ -213,10 +212,7 @@ namespace SalesDashboard
                 // Get predictions
                 var predictions = await _predictionService.GetSalesPredictionsAsync(
                     historicalPeriod,
-                    PredictionPeriod,
-                    SelectedProduct?.Id,
-                    SelectedRegion?.Id
-                );
+                    PredictionPeriod);
                 Predictions.Clear();
                 foreach (var prediction in predictions)
                 {

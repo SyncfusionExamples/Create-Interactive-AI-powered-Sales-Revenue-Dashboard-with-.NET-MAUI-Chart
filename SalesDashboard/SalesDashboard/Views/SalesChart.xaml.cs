@@ -1,8 +1,6 @@
 using Azure;
 using Syncfusion.Maui.AIAssistView;
-using Syncfusion.Maui.Toolkit.Charts;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace SalesDashboard;
@@ -142,7 +140,6 @@ public partial class SalesChart : ContentView
         if (string.IsNullOrWhiteSpace(aiResponse))
             return string.Empty;
 
-        // Remove unwanted Markdown characters
         aiResponse = aiResponse.Replace("####", "")  
                                .Replace("###", "")   
                                .Replace("**", "");

@@ -5,7 +5,6 @@ namespace SalesDashboard
 {
     public partial class MainPage : ContentPage
     {
-        private readonly ViewModel viewModel = new();
         private readonly SalesTrendsViewModel salesTrendsViewModel;
         private readonly SalesDataService salesDataService;
         private readonly AzureBaseService baseAIService;
@@ -26,7 +25,6 @@ namespace SalesDashboard
             TabViewLoad();
         }
 
-
         void TabViewLoad()
         {
             SfTabView tabView = new SfTabView()
@@ -41,8 +39,8 @@ namespace SalesDashboard
             };
 
             SalesChart sales = new SalesChart(baseAIService) { BindingContext = salesTrendsViewModel };
-            ProductDetails productDetails = new ProductDetails() { BindingContext = viewModel };
-            OrderDetails orderDetails = new OrderDetails() { BindingContext = viewModel };
+            ProductDetails productDetails = new ProductDetails() { BindingContext = salesTrendsViewModel };
+            OrderDetails orderDetails = new OrderDetails() { BindingContext = salesTrendsViewModel };
             Prediction prediction = new Prediction() { BindingContext = predictionViewModel };
 
             var tabItems = new TabItemCollection

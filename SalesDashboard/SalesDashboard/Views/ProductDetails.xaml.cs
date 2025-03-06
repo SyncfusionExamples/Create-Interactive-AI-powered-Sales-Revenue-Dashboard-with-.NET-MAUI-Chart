@@ -1,4 +1,3 @@
-using Microsoft.Maui.Controls;
 using Syncfusion.Maui.DataGrid.Exporting;
 using Syncfusion.Pdf;
 
@@ -41,4 +40,3 @@ public partial class ProductDetails : ContentView
         }
     }
 }
-

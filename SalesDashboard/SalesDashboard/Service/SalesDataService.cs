@@ -11,25 +11,27 @@
             LoadSampleData();
         }
 
+        #region Methods
+
         private void LoadSampleData()
         {
             // In a real app, this would come from a database or API
             _products = new List<Product>
-        {
-            new Product { Id = "P001", Name = "Smartphone X", Category = "Electronics", BasePrice = 999.99m, IsActive = true },
-            new Product { Id = "P002", Name = "Laptop Pro", Category = "Electronics", BasePrice = 1499.99m, IsActive = true },
-            new Product { Id = "P003", Name = "Wireless Headphones", Category = "Audio", BasePrice = 199.99m, IsActive = true },
-            new Product { Id = "P004", Name = "Smart Watch", Category = "Wearables", BasePrice = 249.99m, IsActive = true },
-            new Product { Id = "P005", Name = "Tablet Ultra", Category = "Electronics", BasePrice = 599.99m, IsActive = true }
-        };
+            {
+                new Product { Id = "P001", Name = "Smartphone X", Category = "Electronics", BasePrice = 999.99m, IsActive = true },
+                new Product { Id = "P002", Name = "Laptop Pro", Category = "Electronics", BasePrice = 1499.99m, IsActive = true },
+                new Product { Id = "P003", Name = "Wireless Headphones", Category = "Audio", BasePrice = 199.99m, IsActive = true },
+                new Product { Id = "P004", Name = "Smart Watch", Category = "Wearables", BasePrice = 249.99m, IsActive = true },
+                new Product { Id = "P005", Name = "Tablet Ultra", Category = "Electronics", BasePrice = 599.99m, IsActive = true }
+            };
 
             _regions = new List<Region>
-        {
-            new Region { Id = "R001", Name = "North America", Country = "USA", Latitude = 40.7128, Longitude = -74.0060 },
-            new Region { Id = "R002", Name = "Europe", Country = "Germany", Latitude = 52.5200, Longitude = 13.4050 },
-            new Region { Id = "R003", Name = "Asia Pacific", Country = "Japan", Latitude = 35.6762, Longitude = 139.6503 },
-            new Region { Id = "R004", Name = "Latin America", Country = "Brazil", Latitude = -23.5505, Longitude = -46.6333 }
-        };
+            {
+                new Region { Id = "R001", Name = "North America", Country = "USA", Latitude = 38.7946, Longitude = -106.5348 },
+                new Region { Id = "R002", Name = "Europe", Country = "Germany", Latitude = 51.1657, Longitude = 10.4515 },
+                new Region { Id = "R003", Name = "Asia Pacific", Country = "Japan", Latitude = 36.2048, Longitude = 138.2529 },
+                new Region { Id = "R004", Name = "Latin America", Country = "Brazil", Latitude = -14.2350, Longitude = -51.9253 }
+            };
 
             // Generate 2 years of sample data
             _cachedSalesData = GenerateSampleData();
@@ -136,15 +138,13 @@
             return salesData;
         }
 
-        public async Task<List<SalesData>> GetSalesDataAsync(DateRange dateRange, string productId = null, string regionId = null)
+        public async Task<List<SalesData>> GetSalesDataAsync(DateRange dateRange)
         {
             // Simulate network delay
             await Task.Delay(200);
 
             return _cachedSalesData
                 .Where(x => x.Date >= dateRange.StartDate && x.Date <= dateRange.EndDate)
-                .Where(x => productId == null || x.ProductId == productId)
-                .Where(x => regionId == null || x.RegionId == regionId)
                 .ToList();
         }
 
@@ -187,6 +187,8 @@
             { "TotalQuantity", totalQuantity },
             { "RevenueGrowth", revenueGrowth }
         };
-        }
+        } 
+
+        #endregion
     }
 }
