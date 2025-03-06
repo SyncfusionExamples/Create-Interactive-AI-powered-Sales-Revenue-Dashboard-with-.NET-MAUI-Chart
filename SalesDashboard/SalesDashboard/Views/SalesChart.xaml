@@ -22,7 +22,7 @@
         
     </ContentView.Resources>
 
-    <Grid RowDefinitions="8*,2*" ColumnDefinitions="8*,2*">
+    <Grid RowDefinitions="8*,2*" ColumnDefinitions="8.5*,1.5*">
 
         <ScrollView Grid.RowSpan="2" Grid.ColumnSpan="2">
             <Grid RowDefinitions="1*,3.49*,0.01*,2.49*,3*" ColumnDefinitions="5*,0.01*,4.99*">
@@ -157,14 +157,15 @@
 
         <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="Start" Margin="0,0,50,0">
             
-            <sfButton:SfButton x:Name="clickToShowPopup" ShowIcon="True" Background="#0050EB" CornerRadius="8"
-               ImageSize="50" HorizontalOptions="End" ImageSource="ai_button.png" TextColor="White">
+            <sfButton:SfButton x:Name="clickToShowPopup" ShowIcon="True" Background="#0050EB" CornerRadius="55"
+               ImageSize="50" HorizontalOptions="End" ImageAlignment="Default" ImageSource="ai_button.png" TextColor="White"
+                       Clicked="clickToShowPopup_Clicked"        >
 
-                <sfButton:SfButton.GestureRecognizers>
+                <!--<sfButton:SfButton.GestureRecognizers>
                     <PointerGestureRecognizer PointerExited="PointerGestureRecognizer_PointerExited"
                         PointerMoved="PointerGestureRecognizer_PointerMoved" PointerReleased="PointerGestureRecognizer_PointerReleased"
                         PointerPressed="PointerGestureRecognizer_PointerPressed"/>
-                </sfButton:SfButton.GestureRecognizers>
+                </sfButton:SfButton.GestureRecognizers>-->
 
             </sfButton:SfButton>
 

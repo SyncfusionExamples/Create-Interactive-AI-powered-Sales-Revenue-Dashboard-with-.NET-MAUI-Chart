@@ -3,6 +3,7 @@ using Syncfusion.Maui.AIAssistView;
 using Syncfusion.Maui.Toolkit.Charts;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace SalesDashboard;
 
@@ -29,22 +30,43 @@ public partial class SalesChart : ContentView
             }
         }
     }
-   
-    private async void PointerGestureRecognizer_PointerMoved(object sender, PointerEventArgs e)
-    {
-        await ExpandPopupAsync();
-    }
 
-    private async void PointerGestureRecognizer_PointerExited(object sender, PointerEventArgs e)
-    {
-        await CollapsePopupAsync();
-    }
+    #region expandable button view
 
-    private async void PointerGestureRecognizer_PointerReleased(object sender, PointerEventArgs e)
-    {
-        popup.Show();
-        viewModel.ShowAssistView = true;
-    }
+    //private async void PointerGestureRecognizer_PointerMoved(object sender, PointerEventArgs e)
+    //{
+    //    await ExpandPopupAsync();
+    //}
+
+    //private async void PointerGestureRecognizer_PointerExited(object sender, PointerEventArgs e)
+    //{
+    //    await CollapsePopupAsync();
+    //}
+
+    //private async void PointerGestureRecognizer_PointerReleased(object sender, PointerEventArgs e)
+    //{
+    //    popup.Show();
+    //    viewModel.ShowAssistView = true;
+    //}
+
+    //private Task ExpandPopupAsync()
+    //{
+    //    clickToShowPopup.Text = "Syncfusion HelpBot";
+    //    return clickToShowPopup.ScaleTo(1.1, 200, Easing.CubicOut);
+    //}
+
+    //private Task CollapsePopupAsync()
+    //{
+    //    clickToShowPopup.Text = string.Empty;
+    //    return clickToShowPopup.ScaleTo(1, 200, Easing.CubicOut);
+    //}
+
+    //private void PointerGestureRecognizer_PointerPressed(object sender, PointerEventArgs e)
+    //{
+    //    popup.Show();
+    //} 
+
+    #endregion
 
     private async void aiAssistView_Request(object sender, RequestEventArgs e)
     {
@@ -72,10 +94,11 @@ public partial class SalesChart : ContentView
 
                 AssistItem assistItem = new AssistItem()
                 {
-                    Text = aiResponse.ToString(),
+                    Text = CleanAndFormatOutput(aiResponse),
                 };
 
                 viewModel.Messages.Add(assistItem);
+                assistItem.IsRequested = false;
             }
         }
     }
@@ -96,29 +119,44 @@ public partial class SalesChart : ContentView
         if (!filteredData.Any())
             return $"Customer query: \"{customerQuery}\". There is no sales data available for the selected period ({dateRange.StartDate:yyyy-MM-dd} to {dateRange.EndDate:yyyy-MM-dd}).";
 
-        // Format relevant sales data
-        string formattedItems = string.Join(", ", filteredData.Select(s => $"[{s.Date:yyyy-MM-dd}] {s.ProductName}: {s.Cost} sales, {s.Profit} profit"));
+        // Create a summary of sales data
+        var summary = filteredData
+            .GroupBy(s => s.ProductName)
+            .Select(g => new
+            {
+                ProductName = g.Key,
+                TotalSales = g.Sum(s => s.Cost),
+                TotalProfit = g.Sum(s => s.Profit)
+            })
+            .ToList();
 
-        // Construct the AI prompt using the customer query
-        return $"Customer query: \"{customerQuery}\". Based on sales data from {dateRange.StartDate:yyyy-MM-dd} to {dateRange.EndDate:yyyy-MM-dd}, here is the relevant information: {formattedItems}. Provide insights in response to the query.";
+        // Format the summary data for the prompt
+        string formattedSummary = string.Join(", ", summary.Select(s => $"{s.ProductName}: {s.TotalSales} total sales, {s.TotalProfit} total profit"));
+
+        // Construct the AI prompt using the customer query and summary data
+        return $"Customer query: \"{customerQuery}\". Sales data summary from {dateRange.StartDate:yyyy-MM-dd} to {dateRange.EndDate:yyyy-MM-dd}: {formattedSummary}.";
     }
 
-
-
-    private Task ExpandPopupAsync()
+    private string CleanAndFormatOutput(string aiResponse)
     {
-        clickToShowPopup.Text = "Syncfusion HelpBot";
-        return clickToShowPopup.ScaleTo(1.1, 200, Easing.CubicOut);
+        if (string.IsNullOrWhiteSpace(aiResponse))
+            return string.Empty;
+
+        // Remove unwanted Markdown characters
+        aiResponse = aiResponse.Replace("####", "")  
+                               .Replace("###", "")   
+                               .Replace("**", "");
+    
+        aiResponse = Regex.Replace(aiResponse, @"(\d+\.\s)([A-Za-z\s]+)", m =>
+            $"{m.Groups[1].Value}{m.Groups[2].Value.Trim()}");
+
+        return aiResponse.Trim();
     }
 
-    private Task CollapsePopupAsync()
-    {
-        clickToShowPopup.Text = string.Empty;
-        return clickToShowPopup.ScaleTo(1, 200, Easing.CubicOut);
-    }
 
-    private void PointerGestureRecognizer_PointerPressed(object sender, PointerEventArgs e)
+    private void clickToShowPopup_Clicked(object sender, EventArgs e)
     {
         popup.Show();
+        viewModel.ShowAssistView = true;
     }
 }
