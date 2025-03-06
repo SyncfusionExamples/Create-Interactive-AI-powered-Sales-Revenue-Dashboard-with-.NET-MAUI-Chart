@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
+             xmlns:local="clr-namespace:SalesDashboard"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="SalesDashboard.ProductDetails">
+
+    <ContentView.Resources>
+        <Style TargetType="dataGrid:DataGridCell">
+            <Setter Property="TextColor" Value="#7E7E7E"/>
+        </Style>
+        <Style TargetType="dataGrid:SfDataGridHeaderLabel">
+            <Setter Property="Background" Value="#F9FAFB" />
+        </Style>
+    </ContentView.Resources>
+
+    <Grid RowDefinitions="1*,9*">
+
+        <comboBox:SfComboBox HorizontalOptions="End" Grid.Row="0" VerticalOptions="End" x:Name="exportSelection"  ItemsSource="{Binding ExportOptions}" 
+            DropDownIconColor="#333333"   SelectionChanged="Export_SelectionChanged" WidthRequest="{OnPlatform Android=150, iOS=150, Default=170}"
+            Background="#FFFFFF" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" Stroke="#D1D5DB" Text="Export"
+            FontSize="16" IsClearButtonVisible="False"  SelectedIndex="-1" TextColor="#333333" DisplayMemberPath="Name"
+               Margin="0,5,5,0" ZIndex="1">
+
+            <comboBox:SfComboBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Padding="5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image Source="{Binding Icon}" WidthRequest="14" HeightRequest="14"/>
+                        <Label Text="{Binding Name}" Grid.Column="1" VerticalTextAlignment="Center" Padding="5"/>
+                    </Grid>
+                </DataTemplate>
+            </comboBox:SfComboBox.ItemTemplate>
+
+        </comboBox:SfComboBox>
+
+        <ScrollView Grid.Row="0" Grid.RowSpan="2">
+
+            <Grid RowDefinitions="4.5*,5.5*">
+
+                <Grid Grid.Row="0" ColumnDefinitions="5*,0.01*,4.99*" >
+
+                    <chart:SfCircularChart Grid.Column="0" Margin="10">
+                        <chart:SfCircularChart.Title>
+                            <Label Text="Top Products" HorizontalOptions="Center" FontSize="17"/>
+                        </chart:SfCircularChart.Title>
+
+                        <chart:SfCircularChart.Legend>
+                            <chart:ChartLegend Placement="Bottom"/>
+                        </chart:SfCircularChart.Legend>
+
+                        <chart:PieSeries ItemsSource="{Binding Products}" ShowDataLabels="True"
+                         XBindingPath="Name" YBindingPath="BasePrice" PaletteBrushes="{Binding PaletteBrushes}"/>
+                    </chart:SfCircularChart>
+
+                    <StackLayout Background="#D1D5DB" Grid.Column="1"/>
+
+                    <VerticalStackLayout Grid.Column="2" Margin="10">
+
+                        <Label Text="Top Regions " HorizontalOptions="Center" Margin="0,0,0,5" FontSize="17"/>
+
+                        <map:SfMaps>
+                            <map:SfMaps.Layer>
+                                <map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
+                                     Markers="{Binding MapMarkerCollection}"
+                                     ShapeHoverFill="Transparent" ShapeHoverStroke="Transparent">
+
+                                    <map:MapShapeLayer.MarkerTemplate>
+                                        <DataTemplate>
+                                            <StackLayout HorizontalOptions="Center">
+                                                <Image Source="map_pin.png" HeightRequest="25" WidthRequest="25"/>
+                                                <Label Text="{Binding Name}"  HorizontalTextAlignment="Center" FontSize="12"/>
+                                            </StackLayout>
+                                        </DataTemplate>
+                                    </map:MapShapeLayer.MarkerTemplate>
+
+                                </map:MapShapeLayer>
+                            </map:SfMaps.Layer>
+                        </map:SfMaps>
+                    </VerticalStackLayout>
+
+                </Grid>
+
+                <dataGrid:SfDataGrid Grid.Row="1" x:Name="dataGrid" ItemsSource="{Binding ProductInfos}"
+                  HorizontalScrollBarVisibility="Always"
+                  VerticalScrollBarVisibility="Always"
+                  AutoGenerateColumnsMode="None" SortingMode="Single">
+
+                    <dataGrid:SfDataGrid.Columns>
+
+                        <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="150" HeaderText="Product">
+                            <dataGrid:DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <HorizontalStackLayout Spacing="8" Padding="8" >
+                                        <Image x:DataType="local:ProductInfo" Source="{Binding Image}" WidthRequest="25" HeightRequest="25" />
+                                        <Label Text="{Binding Product}" TextColor="#7E7E7E"
+                            x:DataType="local:ProductInfo"
+                            VerticalTextAlignment="Center" 
+                            HorizontalTextAlignment="Center"/>
+                                    </HorizontalStackLayout>
+                                </DataTemplate>
+                            </dataGrid:DataGridTemplateColumn.CellTemplate>
+                        </dataGrid:DataGridTemplateColumn>
+
+                        <dataGrid:DataGridNumericColumn HeaderText="Stock" MappingName="ProductStockCount" Format="0" HeaderTextAlignment="Center">
+                        </dataGrid:DataGridNumericColumn>
+
+                        <dataGrid:DataGridNumericColumn HeaderText="Price" MappingName="BuyingPrice" Format="$#.##" HeaderTextAlignment="Center">
+                        </dataGrid:DataGridNumericColumn>
+
+                        <dataGrid:DataGridImageColumn  MappingName="AvailabilityImage" CellPadding="12"
+                              AllowSorting="False"  HeaderText="Availability" />
+
+                    </dataGrid:SfDataGrid.Columns>
+
+                </dataGrid:SfDataGrid>
+
+            </Grid>
+
+        </ScrollView>
+
+    </Grid>
+
+</ContentView>
