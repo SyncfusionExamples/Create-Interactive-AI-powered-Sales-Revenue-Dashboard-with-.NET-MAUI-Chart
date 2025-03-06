@@ -2,6 +2,7 @@
 using Syncfusion.Maui.AIAssistView;
 using Syncfusion.Maui.Toolkit.TabView;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace SalesDashboard
 {
@@ -259,11 +260,8 @@ namespace SalesDashboard
             };
 
             OrderInfos = Orders(1);
-
             MapMarkerCollection = new ObservableCollection<CustomMarker>();
-
             _salesDataService = salesDataService;
-            Title = "Sales Trends";
             Initialize();
             LoadDashboardData();
 
@@ -314,13 +312,8 @@ namespace SalesDashboard
 
         public async Task Initialize()
         {
-            if (IsBusy)
-                return;
-
             try
             {
-                SetBusy(true, "Loading sales data...");
-
                 var products = await _salesDataService.GetProductsAsync();
                 Products = new ObservableCollection<Product>(products);
 
@@ -343,11 +336,8 @@ namespace SalesDashboard
             }
             catch (Exception ex)
             {
-                ShowError($"Error initializing: {ex.Message}");
-            }
-            finally
-            {
-                SetBusy(false);
+                Debug.WriteLine($"Error generating predictions: {ex.Message}");
+
             }
         }
 
@@ -355,8 +345,6 @@ namespace SalesDashboard
         {
             try
             {
-                SetBusy(true, "Loading sales data...");
-
                 var data = await LoadSalesDataAsync();
 
                 SalesData = new ObservableCollection<SalesData>(data);
@@ -364,12 +352,7 @@ namespace SalesDashboard
             }
             catch (Exception ex)
             {
-                ShowError($"Error loading sales data: {ex.Message}");
-            }
-            finally
-            {
-                SetBusy(false);
-                IsRefreshing = false;
+                Debug.WriteLine($"Error generating predictions: {ex.Message}");
             }
         }
 
@@ -408,12 +391,6 @@ namespace SalesDashboard
             FilteredSalesData = new ObservableCollection<SalesData>(
                 filtered.OrderByDescending(x => x.Date).Take(100));
         }
-
-        public async Task RefreshData()
-        {
-            IsRefreshing = true;
-            await LoadSalesData();
-        } 
 
         #endregion
     }

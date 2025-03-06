@@ -5,6 +5,7 @@
              xmlns:local="clr-namespace:SalesDashboard"
              xmlns:gauges="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
              xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              x:Class="SalesDashboard.Prediction">
 
     <ContentView.Resources>
@@ -111,7 +112,7 @@
             </chart:SfCartesianChart>
 
             <Border Grid.Row="2" Grid.ColumnSpan="2" StrokeThickness="1" Stroke="LightGray" Padding="10">
-                <ScrollView>
+                <ScrollView HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always">
                     <VerticalStackLayout>
                         <Label Text="AI Insights" FontAttributes="Bold" FontSize="16" Margin="10,0,0,10" />
                         <Label Text="{Binding InsightsExplanation}" TextType="Html" />
@@ -140,6 +141,10 @@
                     </dataGrid:SfDataGrid.Columns>
                 </dataGrid:SfDataGrid>
             </VerticalStackLayout>
+
+            <core:SfBusyIndicator Grid.Row="0" Grid.ColumnSpan="2" Grid.RowSpan="4" IsVisible="{Binding IsBusy}" x:Name="busyIndicator"
+                       IsRunning="{Binding IsBusy}" AnimationType="DoubleCircle"/>
+
 
         </Grid>
     </ScrollView>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace SalesDashboard
 {
@@ -34,37 +35,7 @@ namespace SalesDashboard
                 }
             }
         }
-
-        private Product _selectedProduct;
-        public Product SelectedProduct
-        {
-            get => _selectedProduct;
-            set
-            {
-                if (_selectedProduct != value)
-                {
-                    _selectedProduct = value;
-                    OnPropertyChanged(nameof(SelectedProduct));
-                    OnSelectedProductChanged(value);
-                }
-            }
-        }
-
-        private Region _selectedRegion;
-        public Region SelectedRegion
-        {
-            get => _selectedRegion;
-            set
-            {
-                if (_selectedRegion != value)
-                {
-                    _selectedRegion = value;
-                    OnPropertyChanged(nameof(SelectedRegion));
-                    OnSelectedRegionChanged(value);
-                }
-            }
-        }
-
+      
         private ObservableCollection<SalesPrediction> _predictions = new();
         public ObservableCollection<SalesPrediction> Predictions
         {
@@ -153,19 +124,15 @@ namespace SalesDashboard
         {
             _predictionService = predictionService;
             _salesDataService = salesDataService;
-            Title = "Sales Prediction";
             PredictionPeriod = new DateRange(DateTime.Now.AddDays(1), DateTime.Now.AddDays(30));
             Initialize();
         }
 
         public async Task Initialize()
         {
-            if (IsBusy)
-                return;
 
             try
             {
-                SetBusy(true, "Initializing...");
                 // Load products
                 var products = await _salesDataService.GetProductsAsync();
                 Products.Clear();
@@ -180,22 +147,15 @@ namespace SalesDashboard
                 {
                     Regions.Add(region);
                 }
-                // Add "All" options
-                Products.Insert(0, new Product { Id = null, Name = "All Products" });
-                Regions.Insert(0, new Region { Id = null, Name = "All Regions" });
-                // Set default selections
-                SelectedProduct = Products[0];
-                SelectedRegion = Regions[0];
+                
                 // Load initial predictions
                 await GeneratePredictions();
+
+                IsBusy = false;
             }
             catch (Exception ex)
             {
-                ShowError($"Error initializing: {ex.Message}");
-            }
-            finally
-            {
-                SetBusy(false);
+                Debug.WriteLine($"Error generating predictions: {ex.Message}");
             }
         }
 
@@ -203,12 +163,11 @@ namespace SalesDashboard
         {
             try
             {
-                SetBusy(true, "Generating AI predictions...");
-                // Historical period for model training
                 var historicalPeriod = new DateRange(
                     DateTime.Now.AddMonths(-6),
                     DateTime.Now
                 );
+
                 // Get predictions
                 var predictions = await _predictionService.GetSalesPredictionsAsync(
                     historicalPeriod,
@@ -233,12 +192,7 @@ namespace SalesDashboard
             }
             catch (Exception ex)
             {
-                ShowError($"Error generating predictions: {ex.Message}");
-            }
-            finally
-            {
-                SetBusy(false);
-                IsRefreshing = false;
+                Debug.WriteLine($"Error generating predictions: {ex.Message}");
             }
         }
 
@@ -279,11 +233,6 @@ namespace SalesDashboard
                 _ = GeneratePredictions();
             }
         }
-
-        public async Task RefreshPredictions()
-        {
-            IsRefreshing = true;
-            await GeneratePredictions();
-        }
+       
     }
 }
