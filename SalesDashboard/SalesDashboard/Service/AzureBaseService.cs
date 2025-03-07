@@ -3,6 +3,7 @@ using Azure;
 using Microsoft.Extensions.AI;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Diagnostics;
 
 namespace SalesDashboard
 {
@@ -116,7 +117,6 @@ namespace SalesDashboard
             }
             catch
             {
-                // If an exception occurs (e.g., network issues, API errors), return an empty string.
                 return "";
             }
 
@@ -124,45 +124,78 @@ namespace SalesDashboard
         }
 
         public async Task<List<SalesPrediction>> PredictSalesTrend(
-            List<SalesData> historicalData,
-            DateRange predictionPeriod)
+       List<SalesData> historicalData,
+       DateRange predictionPeriod)
         {
-            var systemMessage = @"
-        You are an expert sales forecasting AI. Your task is to analyze historical sales data and provide accurate predictions.
-        Follow these guidelines:
-        1. Analyze trends, seasonality, and patterns in the data
-        2. Consider product-specific and region-specific patterns
-        3. Output predictions in JSON format with confidence intervals
-        4. Identify and explain potential anomalies
-        5. Provide a brief explanation for each prediction
-        ";
-
-            var jsonData = JsonSerializer.Serialize(historicalData.Take(10).ToList());
-
-            var startDate = predictionPeriod.StartDate.ToString("yyyy-MM-dd");
-            var endDate = predictionPeriod.EndDate.ToString("yyyy-MM-dd");
-
-            var userMessage = $@"
-        Here is the historical sales data:
-        {jsonData}
-        
-        Please predict sales from {startDate} to {endDate}.
-        ";
-
-            var response = await GetAnswerFromGPT(systemMessage + "\n\n" + userMessage);
-
-            string extractedJson = JsonExtractor.ExtractJson(response);
-
+            if (historicalData == null || !historicalData.Any())
+                return new List<SalesPrediction>();
 
             try
             {
-                return JsonSerializer.Deserialize<List<SalesPrediction>>(extractedJson) ?? new List<SalesPrediction>();
+                // Limit JSON serialization to the latest 10 entries for efficiency
+                var jsonData = JsonSerializer.Serialize(historicalData.OrderByDescending(d => d.Date).Take(10));
+
+                string startDate = predictionPeriod.StartDate.ToString("dd-MM-yyyy");
+                string endDate = predictionPeriod.EndDate.ToString("dd-MM-yyyy");
+
+                var systemMessage = @"
+        You are an advanced AI specialized in sales forecasting. Your task is to analyze historical sales data and generate accurate future sales predictions while ensuring data consistency.
+
+        ✅ **Guidelines**:
+            - Forecast revenue trends for each product and region.
+            - Provide confidence intervals (`LowerBound`, `UpperBound`) for uncertainty estimation.
+            - Detect and flag anomalies (`IsAnomaly = true`), explaining any unusual trends.
+            - Ensure all predictions follow the JSON schema:
+
+            ```json
+            [
+                {
+                    ""Date"": ""yyyy-MM-dd"",
+                    ""ProductId"": ""string"",
+                    ""RegionId"": ""string"",
+                    ""PredictedRevenue"": decimal,
+                    ""LowerBound"": decimal,
+                    ""UpperBound"": decimal,
+                    ""Confidence"": decimal,
+                    ""Explanation"": ""string"",
+                    ""IsAnomaly"": true/false,
+                    AnomalyExplanation"": ""string (if applicable)""
+                }
+            ]
+            ```";
+
+                var userMessage = $@"
+            Generate daily sales predictions from {startDate} to {endDate}.
+            Ensure:
+            - Each date appears **only once**.
+            - Revenue fluctuates **randomly** between **50,000 and 130,000**.  
+            - Dont skip any date in the range. provide whole month data.
+            - The response **must contain exactly one entry for every date in this range**.
+            - Upper and lower bounds vary **naturally** instead of using a fixed pattern.
+            - Revenue can increase or decrease over time.
+
+            ### Fields per entry:
+            - **Date**: (""dd-MM-yyyy"") , make sure to include all dates in the range in DateTime format only.
+            - **Revenue**: 50,000 - 130,000 (random)
+            - **Lower Bound**: Revenue minus (3,000 - 12,000)
+            - **Upper Bound**: Revenue plus (3,000 - 12,000)
+            - **AnomalyExplanation**: Not a empty string 
+            - **IsAnomaly**: True/False, with explanation.";
+
+                // Request prediction from AI
+                string response = await GetAnswerFromGPT(systemMessage + "\n\n" + userMessage);
+                string extractedJson = JsonExtractor.ExtractJson(response);
+
+                return !string.IsNullOrEmpty(extractedJson)
+                    ? JsonSerializer.Deserialize<List<SalesPrediction>>(extractedJson) ?? new List<SalesPrediction>()
+                    : new List<SalesPrediction>();
             }
-            catch (Exception)
+            catch (JsonException jsonEx)
             {
-                return new List<SalesPrediction>();
+                Console.WriteLine($"JSON Parsing Error: {jsonEx.Message}");
             }
 
+            return new List<SalesPrediction>();
         }
 
         #endregion
@@ -174,22 +207,18 @@ namespace SalesDashboard
         {
             try
             {
-                // Use Regex to extract JSON content from the response
                 Match match = Regex.Match(response, @"\[\s*\{[\s\S]*?\}\s*\]", RegexOptions.Singleline);
-                if (match.Success)
-                {
-                    string json = match.Value;
 
-                    // Validate JSON format to ensure it's correct
-                    using (JsonDocument.Parse(json))
-                    {
-                        return json; // Return extracted JSON
-                    }
+                if (match.Success && !string.IsNullOrWhiteSpace(match.Value))
+                {
+                    string json = match.Value.Trim();
+                    return json;
                 }
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error extracting JSON: {ex.Message}");
+                Debug.WriteLine($"Error extracting JSON: {ex.Message}");
             }
 
             return "Invalid or No JSON Found";

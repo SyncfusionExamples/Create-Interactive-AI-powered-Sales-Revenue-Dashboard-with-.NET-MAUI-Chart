@@ -1,4 +1,7 @@
-﻿namespace SalesDashboard
+﻿using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+namespace SalesDashboard
 {
     public class PredictionService
     {
@@ -27,6 +30,30 @@
             var predictions = await _baseAIService.PredictSalesTrend(historicalData, futurePeriod);
 
             return predictions;
+        }
+
+        internal async Task<string> GetRandomExplanationAsync(List<SalesPrediction> predictions)
+        {
+            string prompt = $"Based on the {predictions.Count} sales data points, provide an insightful explanation.";
+
+            string insights = await _baseAIService.GetAnswerFromGPT(prompt);
+
+            return CleanAndFormatOutput(insights);
+        }
+
+        private string CleanAndFormatOutput(string aiResponse)
+        {
+            if (string.IsNullOrWhiteSpace(aiResponse))
+                return string.Empty;
+
+            aiResponse = aiResponse.Replace("####", "")
+                                   .Replace("###", "")
+                                   .Replace("**", "");
+
+            aiResponse = Regex.Replace(aiResponse, @"(\d+\.\s)([A-Za-z\s]+)", m =>
+                $"{m.Groups[1].Value}{m.Groups[2].Value.Trim()}");
+
+            return aiResponse.Trim();
         }
     }
 }

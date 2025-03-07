@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Text.Json.Serialization;
 
 namespace SalesDashboard
 {
@@ -92,17 +93,37 @@ namespace SalesDashboard
 
     public class SalesPrediction
     {
+        [JsonPropertyName("Date")]
         public DateTime Date { get; set; }
+
+        [JsonPropertyName("ProductId")]
         public string? ProductId { get; set; }
+
+        [JsonPropertyName("RegionId")]
         public string? RegionId { get; set; }
+
+        [JsonPropertyName("PredictedRevenue")]
         public decimal PredictedRevenue { get; set; }
+
+        [JsonPropertyName("LowerBound")]
         public decimal LowerBound { get; set; }
+
+        [JsonPropertyName("UpperBound")]
         public decimal UpperBound { get; set; }
+
+        [JsonPropertyName("Confidence")]
         public decimal Confidence { get; set; }
+
+        [JsonPropertyName("Explanation")]
         public string? Explanation { get; set; }
+
+        [JsonPropertyName("IsAnomaly")]
         public bool IsAnomaly { get; set; }
+
+        [JsonPropertyName("AnomalyExplanation")]
         public string? AnomalyExplanation { get; set; }
     }
+
 
     public class Product
     {

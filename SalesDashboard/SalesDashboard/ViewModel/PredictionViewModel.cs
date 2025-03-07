@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 
 namespace SalesDashboard
 {
@@ -119,12 +120,41 @@ namespace SalesDashboard
                 }
             }
         }
+     
+        private DateTime startDate = DateTime.Now.AddDays(1);
+        public DateTime StartDate
+        {
+            get => startDate;
+            set
+            {
+                if (startDate != value)
+                {
+                    startDate = value;
+                    OnPropertyChanged(nameof(StartDate));
+                }
+            }
+        }
+
+        private DateTime endDate = DateTime.Now.AddDays(30);
+        public DateTime EndDate
+        {
+            get => endDate;
+            set
+            {
+                if (endDate != value)
+                {
+                    endDate = value;
+                    OnPropertyChanged(nameof(EndDate));
+                }
+            }
+        }
+
 
         public PredictionViewModel(PredictionService predictionService, SalesDataService salesDataService)
         {
             _predictionService = predictionService;
             _salesDataService = salesDataService;
-            PredictionPeriod = new DateRange(DateTime.Now.AddDays(1), DateTime.Now.AddDays(30));
+            PredictionPeriod = new DateRange(startDate, endDate);
             Initialize();
         }
 
@@ -178,15 +208,15 @@ namespace SalesDashboard
                     Predictions.Add(prediction);
                 }
                 // Calculate metrics
-                ConfidenceAverage = predictions.Any() ? predictions.Average(p => p.Confidence) : 0;
+                ConfidenceAverage = predictions.Any() ? predictions.Average(p => p.Confidence) * 100 : 0;
                 PredictedTotalRevenue = predictions.Sum(p => p.PredictedRevenue);
 
-                // Get a random explanation from the predictions for display
+                var recentPredictions = predictions.OrderByDescending(d => d.Date).Take(5).ToList();
                 if (predictions.Any())
                 {
-                    var randomPrediction = predictions[new Random().Next(predictions.Count)];
-                    InsightsExplanation = randomPrediction.Explanation;
+                    InsightsExplanation = await _predictionService.GetRandomExplanationAsync(recentPredictions);
                 }
+
                 // Prepare chart data
                 PrepareChartData(predictions);
             }
@@ -217,22 +247,5 @@ namespace SalesDashboard
             PredictionChartData.Add(new KeyValuePair<string, List<decimal>>("Lower Bound", lowerBoundValues));
             PredictionChartData.Add(new KeyValuePair<string, List<decimal>>("Upper Bound", upperBoundValues));
         }
-
-        private void OnSelectedProductChanged(Product value)
-        {
-            if (!IsBusy && Predictions.Any())
-            {
-                _ = GeneratePredictions();
-            }
-        }
-
-        private void OnSelectedRegionChanged(Region value)
-        {
-            if (!IsBusy && Predictions.Any())
-            {
-                _ = GeneratePredictions();
-            }
-        }
-       
     }
 }
