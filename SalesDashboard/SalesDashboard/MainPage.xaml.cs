@@ -144,6 +144,7 @@ namespace SalesDashboard
         {
             salesTrendsViewModel.ShowAssistView = true;
             assistViewHeader.IsVisible = true;
+            assistViewBorder.IsVisible = true;
             clickToShowPopup.IsVisible = false;
         }
 
@@ -151,6 +152,7 @@ namespace SalesDashboard
         {
             salesTrendsViewModel.ShowAssistView = false;
             assistViewHeader.IsVisible = false;
+            assistViewBorder.IsVisible = false;
             clickToShowPopup.IsVisible = true;
         }
     }

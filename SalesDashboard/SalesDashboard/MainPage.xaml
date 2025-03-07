@@ -13,30 +13,32 @@
                            TabBarHeight="75" IndicatorPlacement="Fill" IndicatorBackground="#F5F5F5">
         </tabView:SfTabView>
 
-        <Grid RowDefinitions="1*,9*"  Grid.Row="1" Grid.RowSpan="2" Grid.Column="1">
+        <Border Grid.Row="1" x:Name="assistViewBorder" Grid.RowSpan="2" Grid.Column="1" StrokeShape="RoundRectangle 10" IsVisible="False"  Margin="0,0,20,0">
+            <Grid RowDefinitions="1*,9*">
 
-            <Grid Grid.Row="0" ColumnDefinitions="8*,2*" BackgroundColor="#D1D5DB" x:Name="assistViewHeader"
-                  IsVisible="False" Margin="0,0,20,0">
-                <Label Text="How may I help you?" FontAttributes="Bold" VerticalOptions="Center" TextColor="#7E7E7E"
+                <Grid Grid.Row="0" ColumnDefinitions="8*,2*" BackgroundColor="#edeff2" x:Name="assistViewHeader"
+                  IsVisible="False">
+                    <Label Text="How may I help you?" FontAttributes="Bold" VerticalOptions="Center" TextColor="#7E7E7E"
                     LineBreakMode="WordWrap" FontSize="14" HorizontalOptions="Center"/>
 
-                <sfButton:SfButton x:Name="close" ShowIcon="True" Background="Transparent" Grid.Column="1"
+                    <sfButton:SfButton x:Name="close" ShowIcon="True" Background="Transparent" Grid.Column="1"
                     ImageSize="25"  ImageSource="closebutton.png" ImageAlignment="End"
                     Clicked="close_Clicked" />
-            </Grid>
+                </Grid>
 
-            <ScrollView Grid.Row="1">
-                <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView}"
+                <ScrollView Grid.Row="1">
+                    <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView}"
                  x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" 
-                     Margin="0,0,20,0" ShowHeader="False" AssistItems="{Binding Messages}">
+                     ShowHeader="False" AssistItems="{Binding Messages}">
 
-                    <aiassistview:SfAIAssistView.Shadow>
-                        <Shadow Brush="Black"  Opacity="0.5" Offset="4,4" Radius="5"/>
-                    </aiassistview:SfAIAssistView.Shadow>
-                </aiassistview:SfAIAssistView>
-            </ScrollView>
+                        <aiassistview:SfAIAssistView.Shadow>
+                            <Shadow Brush="Black"  Opacity="0.5" Offset="4,4" Radius="5"/>
+                        </aiassistview:SfAIAssistView.Shadow>
+                    </aiassistview:SfAIAssistView>
+                </ScrollView>
 
-        </Grid>
+            </Grid>
+        </Border>
 
         <sfButton:SfButton Grid.Row="2" Grid.Column="1" x:Name="clickToShowPopup" ShowIcon="True" Background="#0050EB" CornerRadius="55"
             ImageSize="50" HorizontalOptions="End" ImageAlignment="Default" ImageSource="ai_button.png" 

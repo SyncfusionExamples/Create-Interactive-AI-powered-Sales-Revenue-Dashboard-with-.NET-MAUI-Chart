@@ -172,6 +172,7 @@ namespace SalesDashboard
             - Dont skip any date in the range. provide whole month data.
             - The response **must contain exactly one entry for every date in this range**.
             - Upper and lower bounds vary **naturally** instead of using a fixed pattern.
+            - RegionId and ProductId should start with R00 , P00 
             - Revenue can increase or decrease over time.
 
             ### Fields per entry:

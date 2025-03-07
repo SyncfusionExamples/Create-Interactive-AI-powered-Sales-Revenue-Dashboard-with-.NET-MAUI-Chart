@@ -79,14 +79,14 @@
                 </chart:SfCartesianChart.Title>
 
                 <chart:SfCartesianChart.XAxes>
-                    <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" 
+                    <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" LabelCreated="DateTimeAxis_LabelCreated"
                                         Minimum="{Binding StartDate}" Maximum="{Binding EndDate}"/>
                 </chart:SfCartesianChart.XAxes>
-                
+
                 <chart:SfCartesianChart.YAxes>
                     <chart:NumericalAxis />
                 </chart:SfCartesianChart.YAxes>
-                
+
                 <chart:SfCartesianChart.Series>
                     <chart:LineSeries XBindingPath="Date" YBindingPath="PredictedRevenue" Label="Predicted Revenue"
                                                         ItemsSource="{Binding Predictions}" EnableTooltip="False"
