@@ -131,8 +131,11 @@ namespace SalesDashboard
                 return string.Empty;
 
             aiResponse = aiResponse.Replace("####", "")
-                                   .Replace("###", "")
-                                   .Replace("**", "");
+                            .Replace("###", "")
+                            .Replace("**", "")
+                            .Replace("/", "")
+                            .Replace("[", "")
+                            .Replace("]", "");
 
             aiResponse = Regex.Replace(aiResponse, @"(\d+\.\s)([A-Za-z\s]+)", m =>
                 $"{m.Groups[1].Value}{m.Groups[2].Value.Trim()}");

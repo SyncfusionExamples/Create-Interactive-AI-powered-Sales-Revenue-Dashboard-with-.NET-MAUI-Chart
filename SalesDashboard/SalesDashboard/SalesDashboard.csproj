@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Remove="Resources\Raw\prediction.json" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\AppIcon\appicon.svg" />
 	  <None Remove="Resources\Images\closebutton.png" />
 	  <None Remove="Resources\Images\correct.png" />
@@ -80,6 +84,12 @@
 	  <None Remove="Resources\Images\sales.png" />
 	  <None Remove="Resources\Images\sparkles.png" />
 	  <None Remove="Resources\Images\wrong.png" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Raw\prediction.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>

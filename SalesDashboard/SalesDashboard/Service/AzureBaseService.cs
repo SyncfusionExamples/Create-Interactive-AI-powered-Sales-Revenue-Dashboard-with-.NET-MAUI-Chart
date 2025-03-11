@@ -4,6 +4,7 @@ using Microsoft.Extensions.AI;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace SalesDashboard
 {
@@ -135,8 +136,8 @@ namespace SalesDashboard
                 // Limit JSON serialization to the latest 10 entries for efficiency
                 var jsonData = JsonSerializer.Serialize(historicalData.OrderByDescending(d => d.Date).Take(10));
 
-                string startDate = predictionPeriod.StartDate.ToString("dd-MM-yyyy");
-                string endDate = predictionPeriod.EndDate.ToString("dd-MM-yyyy");
+                string startDate = predictionPeriod.StartDate.ToString("yyyy-MM-dd");
+                string endDate = predictionPeriod.EndDate.ToString("yyyy-MM-dd");
 
                 var systemMessage = @"
         You are an advanced AI specialized in sales forecasting. Your task is to analyze historical sales data and generate accurate future sales predictions while ensuring data consistency.
@@ -159,7 +160,7 @@ namespace SalesDashboard
                     ""Confidence"": decimal,
                     ""Explanation"": ""string"",
                     ""IsAnomaly"": true/false,
-                    AnomalyExplanation"": ""string (if applicable)""
+                    AnomalyExplanation"": ""string (must applicable)""
                 }
             ]
             ```";
@@ -176,7 +177,7 @@ namespace SalesDashboard
             - Revenue can increase or decrease over time.
 
             ### Fields per entry:
-            - **Date**: (""dd-MM-yyyy"") , make sure to include all dates in the range in DateTime format only.
+            - **Date**: (""yyyy-MM-dd"") , make sure to include all dates in the range in DateTime format only.
             - **Revenue**: 50,000 - 130,000 (random)
             - **Lower Bound**: Revenue minus (3,000 - 12,000)
             - **Upper Bound**: Revenue plus (3,000 - 12,000)
@@ -193,10 +194,30 @@ namespace SalesDashboard
             }
             catch (JsonException jsonEx)
             {
-                Console.WriteLine($"JSON Parsing Error: {jsonEx.Message}");
+                GetPredictionsFromEmbeddedJson();
+
+                await Application.Current.MainPage.DisplayAlert(
+                            "Server Issue",
+                            "Please try again.",
+                            "OK"
+                        );
             }
 
             return new List<SalesPrediction>();
+        }
+
+        public List<SalesPrediction> GetPredictionsFromEmbeddedJson()
+        {
+            var executingAssembly = typeof(App).GetTypeInfo().Assembly;
+
+            using (var stream = executingAssembly.GetManifestResourceStream("SalesDashboard.SalesDashboard.Resources.Raw.prediction.json"))
+            using (var textStream = new StreamReader(stream))
+            {
+                // Read the JSON content from the embedded resource
+                string json = textStream.ReadToEnd();
+
+                return JsonSerializer.Deserialize<List<SalesPrediction>>(json) ?? new List<SalesPrediction>();
+            }
         }
 
         #endregion
@@ -208,7 +229,10 @@ namespace SalesDashboard
         {
             try
             {
-                Match match = Regex.Match(response, @"\[\s*\{[\s\S]*?\}\s*\]", RegexOptions.Singleline);
+                // Regex pattern to capture JSON, starting with `[ {` and ending with `} ]`
+              //  Match match = Regex.Match(response, @"\[\s*\{[\s\S]*?\}\s*\]", RegexOptions.Singleline);
+                Match match = Regex.Match(response, @"\[.*?\]", RegexOptions.Singleline);
+
 
                 if (match.Success && !string.IsNullOrWhiteSpace(match.Value))
                 {

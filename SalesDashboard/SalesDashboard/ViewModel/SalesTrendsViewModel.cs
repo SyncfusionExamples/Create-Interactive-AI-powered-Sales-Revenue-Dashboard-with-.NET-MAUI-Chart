@@ -320,17 +320,15 @@ namespace SalesDashboard
                 var regions = await _salesDataService.GetRegionsAsync();
                 Regions = new ObservableCollection<Region>(regions);
 
-                // adding map marker collection
-
-                foreach (var region in regions)
-                {
-                    MapMarkerCollection.Add(new CustomMarker()
+                // Adding map marker collection using LINQ
+                MapMarkerCollection = new ObservableCollection<CustomMarker>(
+                    regions.Select(region => new CustomMarker
                     {
                         Latitude = region.Latitude,
                         Longitude = region.Longitude,
-                        Name = region.Country,
-                    });
-                }
+                        Name = region.Country
+                    }).ToList()
+                );
 
                 await LoadSalesData();
             }
