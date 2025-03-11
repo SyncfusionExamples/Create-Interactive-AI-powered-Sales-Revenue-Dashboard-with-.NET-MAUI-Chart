@@ -208,7 +208,6 @@ namespace SalesDashboard
                     Predictions.Add(prediction);
                 }
 
-
                 // Calculate metrics
                 ConfidenceAverage = predictions.Any() ? predictions.Average(p => p.Confidence) * 100 : 0;
                 PredictedTotalRevenue = predictions.Sum(p => p.PredictedRevenue);

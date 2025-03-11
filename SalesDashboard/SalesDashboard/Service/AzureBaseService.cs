@@ -194,23 +194,21 @@ namespace SalesDashboard
             }
             catch (JsonException jsonEx)
             {
-                GetPredictionsFromEmbeddedJson();
-
                 await Application.Current.MainPage.DisplayAlert(
-                            "Server Issue",
-                            "Please try again.",
+                            "404 JSON not found",
+                            "Data has been loaded from the previously forecasted JSON file.",
                             "OK"
                         );
-            }
 
-            return new List<SalesPrediction>();
+                return GetPredictionsFromEmbeddedJson();
+            }
         }
 
         public List<SalesPrediction> GetPredictionsFromEmbeddedJson()
         {
             var executingAssembly = typeof(App).GetTypeInfo().Assembly;
 
-            using (var stream = executingAssembly.GetManifestResourceStream("SalesDashboard.SalesDashboard.Resources.Raw.prediction.json"))
+            using (var stream = executingAssembly.GetManifestResourceStream("SalesDashboard.Resources.Raw.prediction.json"))
             using (var textStream = new StreamReader(stream))
             {
                 // Read the JSON content from the embedded resource
