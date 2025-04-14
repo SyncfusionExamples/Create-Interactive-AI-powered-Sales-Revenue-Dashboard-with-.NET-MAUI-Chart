@@ -16,13 +16,13 @@ namespace SalesDashboard
         /// The EndPoint
         /// </summary>
      //   internal const string Endpoint = "YOUR_END_POINT_NAME";
-        internal const string Endpoint = "https://mobilemaui.openai.azure.com/";
+        internal const string Endpoint = "";
 
         /// <summary>
         /// The Deployment name
         /// </summary>
        // internal const string DeploymentName = "DEPLOYMENT_NAME";
-        internal const string DeploymentName = "gpt-4o";
+        internal const string DeploymentName = "";
 
         /// <summary>
         /// The Image Deployment name
@@ -33,7 +33,7 @@ namespace SalesDashboard
         /// The API key
         /// </summary>
        // internal const string Key = "API_KEY";
-        internal const string Key = "6673b6975f334c79bd0db8a1cd70aa49";
+        internal const string Key = "";
 
         /// <summary>
         /// The already credential validated field
