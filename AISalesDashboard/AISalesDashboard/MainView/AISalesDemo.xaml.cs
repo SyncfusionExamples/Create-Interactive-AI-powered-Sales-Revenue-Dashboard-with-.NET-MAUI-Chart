@@ -5,8 +5,5 @@ public partial class AISalesDemo : ContentPage
 	public AISalesDemo()
 	{
 		InitializeComponent();
-     
     }
-
-  
 }

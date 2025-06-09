@@ -5,7 +5,6 @@
              xmlns:core="clr-namespace:Syncfusion.Maui.Core;assembly=Syncfusion.Maui.Core"
              x:Class="AISalesDashboard.Prediction">
 
-
     <ScrollView x:DataType="local:PredictionViewModel" Background="#F7F2FB">
         <Grid RowDefinitions="0.3*,9.7*" RowSpacing="5" Padding="10">
 

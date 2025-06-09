@@ -7,10 +7,6 @@
              xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView">
 
-    <ContentView.Resources>
-        <local:BoolToDarkThemeColorConverter x:Key="SelectionBackgroundConverter"/>
-    </ContentView.Resources>
-
     <Grid RowDefinitions="8.5*,1.5*" ColumnDefinitions="1.4*,5.6*,3*">
 
         <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
@@ -24,7 +20,7 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <Border x:DataType="local:PageInfo" x:Name="item" HeightRequest="70" BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectionBackgroundConverter}}" StrokeShape="RoundRectangle 8" Stroke="Transparent">
+                                            <Border x:DataType="local:PageInfo" x:Name="item" HeightRequest="70" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8" Stroke="Transparent">
                                                 <HorizontalStackLayout Spacing="5" HorizontalOptions="Start" Padding="20">
                                                     <Label Text="{Binding PageIcon}" FontFamily="MaterialSymbolOutlined" FontSize="27" TextColor="#1C1B1F"/>
                                                     <Label Text="{Binding Title}"

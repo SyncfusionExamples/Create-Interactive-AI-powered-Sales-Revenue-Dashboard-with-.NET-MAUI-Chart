@@ -4,7 +4,6 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 using System.Reflection;
-using System.Collections.ObjectModel;
 using Microsoft.Extensions.AI;
 
 namespace AISalesDashboard
@@ -17,13 +16,11 @@ namespace AISalesDashboard
         /// The EndPoint
         /// </summary>
         internal const string Endpoint = "YOUR_END_POINT_NAME";
-        //internal const string Endpoint = "https://mobilemaui.openai.azure.com/";
 
         /// <summary>
         /// The Deployment name
         /// </summary>
         internal const string DeploymentName = "DEPLOYMENT_NAME";
-        //internal const string DeploymentName = "gpt-4o";
 
         /// <summary>
         /// The Image Deployment name
@@ -34,7 +31,6 @@ namespace AISalesDashboard
         /// The API key
         /// </summary>
         internal const string Key = "API_KEY";
-        //internal const string Key = "6673b6975f334c79bd0db8a1cd70aa49";
 
         /// <summary>
         /// The already credential validated field

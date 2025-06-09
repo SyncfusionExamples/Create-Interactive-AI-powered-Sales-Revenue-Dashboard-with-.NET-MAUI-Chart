@@ -172,30 +172,4 @@ public partial class DesktopUI : ContentView
                 break;
         }
     }
-
-    private void Button_Clicked(object sender, EventArgs e)
-    {
-        if (App.Current.RequestedTheme == AppTheme.Light)
-        {
-            App.Current.UserAppTheme = AppTheme.Dark;
-        }
-        else
-        {
-            App.Current.UserAppTheme = AppTheme.Light;
-        }
-    }
-}
-
-public class BoolToDarkThemeColorConverter : IValueConverter
-{
-    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
-    {
-        bool isSelected = false;
-        _ = bool.TryParse(value?.ToString(), out isSelected);
-
-        return Colors.Transparent;
-    }
-
-    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
-        throw new NotImplementedException();
 }
