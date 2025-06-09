@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             x:Class="AISalesDashboard.SalesDataGrid">
+
+    <VerticalStackLayout Margin="15" x:DataType="local:SalesTrendsViewModel">
+
+        <Label Text="Sales Data" FontSize="16" Margin="0,0,0,10" FontFamily="RobotoMedium" TextColor="#1C1B1F"/>
+        <dataGrid:SfDataGrid ItemsSource="{Binding SalesPagedItems}" 
+            AutoGenerateColumnsMode="None" SortingMode="Single"
+            GridLinesVisibility="Both" HeaderGridLinesVisibility="Both" ColumnWidthMode="Fill" DefaultStyle="{StaticResource customStyle}">
+            <dataGrid:SfDataGrid.Columns>
+                <dataGrid:DataGridTextColumn HeaderText="Date" MappingName="Date" Format="d" HeaderTextAlignment="Start" MinimumWidth="100"/>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" MappingName="ProductName" MinimumWidth="250" HeaderText="Product">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local:SalesData">
+                            <HorizontalStackLayout Spacing="8" Padding="8" Margin="7,0,0,0">
+                                <Image Source="{Binding Icon}" WidthRequest="32" HeightRequest="32" />
+                                <Label Text="{Binding ProductName}" TextColor="#1C1B1F"
+                            VerticalTextAlignment="Center" 
+                            HorizontalTextAlignment="Center" FontFamily="RobotoRegular" FontSize="14"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridTextColumn HeaderText="Region (Highest sell)" MappingName="RegionName" HeaderTextAlignment="Start" MinimumWidth="150" ColumnWidthMode="FitByHeader"/>
+                <dataGrid:DataGridTemplateColumn HeaderText="Quantity" MappingName="Quantity" MinimumWidth="120" HeaderTextAlignment="Start">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local:SalesData">
+                            <Border StrokeShape="RoundRectangle 20" Margin="15,10,10,10" Stroke="Transparent" Background="#F6EDFF" WidthRequest="45" HorizontalOptions="Start">
+                                <Label Text="{Binding Quantity}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="#6750A4" FontFamily="RobotoRegular" FontSize="14"/>
+                            </Border>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+                <dataGrid:DataGridTextColumn HeaderText="Revenue" MappingName="Revenue" Format="$#.#" HeaderTextAlignment="Start" MinimumWidth="120"/>
+                <dataGrid:DataGridTextColumn HeaderText="Cost" MappingName="Cost" Format="$#.#" HeaderTextAlignment="Start" MinimumWidth="100"/>
+                <dataGrid:DataGridTextColumn HeaderText="Profit" MappingName="Profit" Format="$#.#" HeaderTextAlignment="Start" MinimumWidth="100"/>
+                <dataGrid:DataGridTextColumn HeaderText="Profit %" MappingName="ProfitPercent" Format="P0" HeaderTextAlignment="Start" MinimumWidth="100">
+                    <dataGrid:DataGridTextColumn.CellStyle>
+                        <Style TargetType="dataGrid:SfDataGridLabel">
+                            <Setter Property="TextColor" Value="#15803D"/>
+                        </Style>
+                    </dataGrid:DataGridTextColumn.CellStyle>
+                </dataGrid:DataGridTextColumn>
+            </dataGrid:SfDataGrid.Columns>
+        </dataGrid:SfDataGrid>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="10">
+            <Button Text="Prev" Command="{Binding PreviousSalesPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
+            <Label Text="{Binding SalesPageInfo}" VerticalOptions="Center"/>
+            <Button Text="Next" Command="{Binding NextSalesPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentView>
