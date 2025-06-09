@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AISalesDashboard.SplashScreenView">
+    
+    <Border Background="#6750A4" Stroke="Transparent">
+        <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center" Spacing="{OnPlatform Default=50, Android=30}">
+            <Image Source="sync.png" WidthRequest="{OnPlatform Default=200, Android=100}" HeightRequest="{OnPlatform Default=200, Android=100}"/>
+            <Label Text="SYNC AI SALES DASHBOARD" TextColor="#FFFFFF" FontFamily="RobotoRegular" FontSize="{OnPlatform Default=50, Android=25}"/>
+        </VerticalStackLayout>
+    </Border>
+    
+</ContentView>

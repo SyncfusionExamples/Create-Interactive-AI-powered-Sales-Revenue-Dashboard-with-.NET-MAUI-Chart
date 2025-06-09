@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             x:Class="AISalesDashboard.ProductSalesRegion">
+
+    <ContentView.Resources>
+
+        <Style x:Key="labelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="RobotoMedium"/>
+            <Setter Property="TextColor" Value="#1C1B1F"/>
+        </Style>
+
+    </ContentView.Resources>
+
+    <VerticalStackLayout Margin="10" x:DataType="local:SalesTrendsViewModel">
+
+        <Label Text="Top Regions" FontSize="16" Margin="5,5,0,10" Style="{StaticResource labelStyle}"/>
+
+        <map:SfMaps WidthRequest="{OnPlatform MacCatalyst=500}" HeightRequest="{OnPlatform MacCatalyst=500}">
+            <map:SfMaps.Layer>
+                <map:MapShapeLayer ShapesSource="https://cdn.syncfusion.com/maps/map-data/world-map.json"
+                     Markers="{Binding MapMarkerCollection}"
+                     ShapeHoverFill="Transparent" ShapeHoverStroke="Transparent">
+
+                    <map:MapShapeLayer.MarkerTemplate>
+                        <DataTemplate>
+                            <VerticalStackLayout HorizontalOptions="Center" x:DataType="local:CustomMarker" WidthRequest="{OnPlatform WinUI=50}">
+                                <Image Source="map_pin.png" HeightRequest="{OnPlatform MacCatalyst=40, Default=20}" WidthRequest="{OnPlatform MacCatalyst=40, Default=14}"/>
+                                <Label Text="{Binding Name}" FontSize="{OnPlatform MacCatalyst=16, Default=12}" HorizontalOptions="Center" FontFamily="RobotoRegular" TextColor="#1C1B1F"/>
+                            </VerticalStackLayout>
+                        </DataTemplate>
+                    </map:MapShapeLayer.MarkerTemplate>
+
+                </map:MapShapeLayer>
+            </map:SfMaps.Layer>
+        </map:SfMaps>
+    </VerticalStackLayout>
+</ContentView>

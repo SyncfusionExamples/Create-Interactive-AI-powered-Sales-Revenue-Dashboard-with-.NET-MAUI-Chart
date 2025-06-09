@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+            xmlns:local="clr-namespace:AISalesDashboard"
+             xmlns:effects="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="AISalesDashboard.OrderDetails" x:DataType="local:SalesTrendsViewModel" Background="#F7F2FB">
+
+    <local:CustomBorder>
+        <local:CustomBorder.Content>
+            <local:OrderList/>
+        </local:CustomBorder.Content>
+    </local:CustomBorder>
+
+</ContentView>

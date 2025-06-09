@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:rating="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             x:Class="AISalesDashboard.ProductList">
+
+    <ContentView.Resources>
+
+        <ResourceDictionary>
+            <local:ProductIdFormatter x:Key="ProductIdFormatter"/>
+            <local:ProductStockCountContentBackground x:Key="ContentBackground"/>
+        </ResourceDictionary>
+
+        <Style x:Key="labelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="RobotoMedium"/>
+            <Setter Property="TextColor" Value="#1C1B1F"/>
+        </Style>
+
+    </ContentView.Resources>
+
+    <VerticalStackLayout Margin="10" x:DataType="local:SalesTrendsViewModel">
+
+        <Grid VerticalOptions="Center" ColumnDefinitions="5.7*, 3*, 1.3*" Padding="10">
+            <Label Text="Product's List"
+           FontSize="16"
+           VerticalOptions="Center" Style="{StaticResource labelStyle}"/>
+
+            <Border IsVisible="{OnPlatform Android=False, iOS=False}" StrokeShape="RoundRectangle 30" Grid.Column="2" Stroke="#6750A4" WidthRequest="{OnPlatform MacCatalyst=180}">
+                <HorizontalStackLayout Padding="15,8,8,8" Spacing="5">
+                    <Image Source="export1.png" WidthRequest="17" HeightRequest="17"/>
+                    <comboBox:SfComboBox HorizontalOptions="End" VerticalTextAlignment="Center" x:Name="exportSelection" ItemsSource="{Binding ExportOptions}" 
+                        DropDownIconColor="#6750A4" SelectionChanged="Export_SelectionChanged"
+                        Background="#FFFBFE" ShowBorder="False" Text="Export Option"
+                        FontSize="14" IsClearButtonVisible="False" SelectedIndex="-1" TextColor="#6750A4" DisplayMemberPath="Name"
+                        ZIndex="1">
+                    </comboBox:SfComboBox>
+                </HorizontalStackLayout>
+            </Border>
+        </Grid>
+
+        <dataGrid:SfDataGrid x:Name="dataGrid" ItemsSource="{Binding ProductPagedItems}"
+                      HorizontalScrollBarVisibility="Always" HeightRequest="{OnPlatform MacCatalyst=600}"
+                      VerticalScrollBarVisibility="Always"
+                      AutoGenerateColumnsMode="None" SortingMode="Single" Margin="10" HeaderGridLinesVisibility="Both" GridLinesVisibility="Both" ColumnWidthMode="Fill" DefaultStyle="{StaticResource customStyle}">
+
+            <dataGrid:SfDataGrid.Columns>
+
+                <dataGrid:DataGridTemplateColumn Width="70">
+                    <dataGrid:DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <buttons:SfCheckBox IsChecked="True" CheckedColor="#6750A4" Margin="7,0,0,0"/>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.HeaderTemplate>
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <buttons:SfCheckBox IsChecked="True" CheckedColor="#6750A4" Margin="7,0,0,0"/>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridTemplateColumn HeaderText="ProductID" MappingName="ProductID" MaximumWidth="150" HeaderTextAlignment="Start" CellTextAlignment="Start">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local:ProductInfo">
+                            <Label Margin="15,0,0,0" Text="{Binding ProductID, Converter={StaticResource ProductIdFormatter}}" VerticalTextAlignment="Center" FontFamily="RobotoRegular" TextColor="#1C1B1F"/>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="150" HeaderText="Product">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="8" Padding="8" x:DataType="local:ProductInfo" Margin="7,0,0,0">
+                                <Image Source="{Binding Image}" WidthRequest="32" HeightRequest="32"/>
+                                <Label Text="{Binding Product}" TextColor="#1C1B1F"
+                                VerticalTextAlignment="Center" 
+                                HorizontalTextAlignment="Center" FontFamily="RobotoRegular"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridTemplateColumn HeaderText="Current Stock" MappingName="ProductStockCount" Format="0" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="180">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="local:ProductInfo">
+                            <Border StrokeShape="RoundRectangle 20" Margin="15,10,10,10" Stroke="Transparent" BackgroundColor="{Binding ProductStockCount, Converter={StaticResource ContentBackground}, ConverterParameter=Background}" WidthRequest="45" HorizontalOptions="Start">
+                                <Label Text="{Binding ProductStockCount}" HorizontalOptions="Center" VerticalOptions="Center" TextColor="{Binding ProductStockCount, Converter={StaticResource ContentBackground}, ConverterParameter=TextColor}" FontFamily="RobotoRegular" FontSize="14"/>
+                            </Border>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridNumericColumn MappingName="TotalSales" Format="#.#" HeaderText="Total Sales" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="180"/>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" MappingName="ProductRating" MaximumWidth="200" HeaderText="Product Rating">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <rating:SfRating x:DataType="local:ProductInfo" ItemCount="5" Value="{Binding ProductRating}" ItemSize="20" IsReadOnly="True" HorizontalOptions="Start" Margin="15,0,0,0">
+                                <rating:SfRating.RatingSettings>
+                                    <rating:RatingSettings UnratedStrokeThickness="0.5" RatedFill="#6750A4" RatedStrokeThickness="0"/>
+                                </rating:SfRating.RatingSettings>
+                            </rating:SfRating>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="Price" MappingName="BuyingPrice" Format="$#.#" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="180">
+                </dataGrid:DataGridNumericColumn>
+
+            </dataGrid:SfDataGrid.Columns>
+
+        </dataGrid:SfDataGrid>
+
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="10">
+            <Button Text="Previous" Command="{Binding PreviousProductPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
+            <Label Text="{Binding ProductPageInfo}" VerticalOptions="Center" Style="{StaticResource labelStyle}"/>
+            <Button Text="Next" Command="{Binding NextProductPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+
+</ContentView>

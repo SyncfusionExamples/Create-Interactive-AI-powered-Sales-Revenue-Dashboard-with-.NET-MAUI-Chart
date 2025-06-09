@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Toolkit.Charts;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:map="clr-namespace:Syncfusion.Maui.Maps;assembly=Syncfusion.Maui.Maps"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             xmlns:effects="clr-namespace:Syncfusion.Maui.Toolkit.EffectsView;assembly=Syncfusion.Maui.Toolkit"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:rating="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="AISalesDashboard.ProductDetails">
+
+    <ContentView.Resources>
+
+        <ResourceDictionary>
+            <local:ProductIdFormatter x:Key="ProductIdFormatter"/>
+        </ResourceDictionary>
+
+        <Style x:Key="labelStyle" TargetType="Label">
+            <Setter Property="FontFamily" Value="RobotoMedium"/>
+            <Setter Property="TextColor" Value="#1C1B1F"/>
+        </Style>
+
+    </ContentView.Resources>
+
+    <ScrollView Background="#F7F2FB" Padding="10" x:DataType="local:SalesTrendsViewModel">
+
+        <Grid RowDefinitions="{OnPlatform MacCatalyst='3*,7*', Default='6*,4*'}" RowSpacing="10">
+
+            <Grid Grid.Row="0" ColumnDefinitions="5*,5*" ColumnSpacing="10">
+
+                <local:CustomBorder Grid.Column="0">
+                    <local:CustomBorder.Content>
+                        <local:ProductChart/>
+                    </local:CustomBorder.Content>
+                </local:CustomBorder>
+
+                <local:CustomBorder Grid.Column="1">
+                    <local:CustomBorder.Content>
+                        <local:ProductSalesRegion/>
+                    </local:CustomBorder.Content>
+                </local:CustomBorder>
+
+            </Grid>
+
+            <local:CustomBorder Grid.Row="1">
+                <local:CustomBorder.Content>
+                    <local:ProductList/>
+                </local:CustomBorder.Content>
+            </local:CustomBorder>
+
+        </Grid>
+
+    </ScrollView>
+
+</ContentView>
