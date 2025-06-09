@@ -234,11 +234,11 @@
 	</ItemGroup>
 	
 <ItemGroup>
-		<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
+	<PackageReference Include="Microsoft.Maui.Controls" Version="9.0.70" />
+	<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.5" />
 	<PackageReference Include="Syncfusion.Maui.Buttons" Version="*" />
 	<PackageReference Include="Syncfusion.Maui.Charts" Version="*" />
-	<PackageReference Include="Syncfusion.Maui.Chat" Version="100.2.1573" />
+	<PackageReference Include="Syncfusion.Maui.Chat" Version="*" />
 	<PackageReference Include="Syncfusion.Maui.Core" Version="*" />
 	<PackageReference Include="Syncfusion.Maui.DataGrid" Version="*" />
 	<PackageReference Include="Syncfusion.Maui.DataGridExport" version="*" />
