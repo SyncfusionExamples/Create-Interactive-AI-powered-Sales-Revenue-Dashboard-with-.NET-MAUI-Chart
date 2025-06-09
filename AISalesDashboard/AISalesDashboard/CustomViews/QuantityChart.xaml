@@ -6,7 +6,7 @@
 
     <VerticalStackLayout Spacing="10" VerticalOptions="Center">
 
-        <Label Text="Quantity Sold" FontSize="16" FontFamily="RobotoMedium" Margin="15,10,0,0" TextColor="#1C1B1F"/>
+        <Label Text="Quantity Sold" FontSize="16"  FontAttributes="Bold" Margin="15,10,0,0" TextColor="#1C1B1F"/>
 
         <chart:SfCartesianChart Margin="10">
 

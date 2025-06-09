@@ -48,7 +48,6 @@ public partial class AndroidUI : ContentView
 
         if (request != null)
         {
-            await Task.Run(() => salesTrendsViewModel.Initialize());
 
             var prompt = GeneratePrompt(request.Text, salesTrendsViewModel.SalesData!);
 
@@ -127,28 +126,28 @@ public partial class AndroidUI : ContentView
         switch (e.NewIndex)
         {
             case 0:
-                homeView.ImageSource = "home_dark.png";
-                productsView.ImageSource = "product.png";
-                ordersView.ImageSource = "orders.png";
-                predictionsView.ImageSource = "predictions.png";
+                homeView.TextColor = Color.FromArgb("#6750A4");
+                productsView.TextColor = Color.FromArgb("#FFFFFF");
+                ordersView.TextColor = Color.FromArgb("#FFFFFF");
+                predictionsView.TextColor = Color.FromArgb("#FFFFFF");
                 break;
             case 1:
-                homeView.ImageSource = "home.png";
-                productsView.ImageSource = "product_dark.png";
-                ordersView.ImageSource = "orders.png";
-                predictionsView.ImageSource = "predictions.png";
+                homeView.TextColor = Color.FromArgb("#FFFFFF");
+                productsView.TextColor = Color.FromArgb("#6750A4");
+                ordersView.TextColor = Color.FromArgb("#FFFFFF");
+                predictionsView.TextColor = Color.FromArgb("#FFFFFF");
                 break;
             case 2:
-                homeView.ImageSource = "home.png";
-                productsView.ImageSource = "product.png";
-                ordersView.ImageSource = "orders_dark.png";
-                predictionsView.ImageSource = "predictions.png";
+                homeView.TextColor = Color.FromArgb("#FFFFFF");
+                productsView.TextColor = Color.FromArgb("#FFFFFF");
+                ordersView.TextColor = Color.FromArgb("#6750A4");
+                predictionsView.TextColor = Color.FromArgb("#FFFFFF");
                 break;
             case 3:
-                homeView.ImageSource = "home.png";
-                productsView.ImageSource = "product.png";
-                ordersView.ImageSource = "orders.png";
-                predictionsView.ImageSource = "prediction_dark.png";
+                homeView.TextColor = Color.FromArgb("#FFFFFF");
+                productsView.TextColor = Color.FromArgb("#FFFFFF");
+                ordersView.TextColor = Color.FromArgb("#FFFFFF");
+                predictionsView.TextColor = Color.FromArgb("#6750A4");
                 break;
         }
     }

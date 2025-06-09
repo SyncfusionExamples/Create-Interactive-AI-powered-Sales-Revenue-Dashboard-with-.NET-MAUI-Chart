@@ -5,18 +5,9 @@
              xmlns:local="clr-namespace:AISalesDashboard"
              x:Class="AISalesDashboard.ProductSalesRegion">
 
-    <ContentView.Resources>
-
-        <Style x:Key="labelStyle" TargetType="Label">
-            <Setter Property="FontFamily" Value="RobotoMedium"/>
-            <Setter Property="TextColor" Value="#1C1B1F"/>
-        </Style>
-
-    </ContentView.Resources>
-
     <VerticalStackLayout Margin="10" x:DataType="local:SalesTrendsViewModel">
 
-        <Label Text="Top Regions" FontSize="16" Margin="5,5,0,10" Style="{StaticResource labelStyle}"/>
+        <Label Text="Top Regions" FontSize="16" Margin="5,5,0,10" FontAttributes="Bold"/>
 
         <map:SfMaps WidthRequest="{OnPlatform MacCatalyst=500}" HeightRequest="{OnPlatform MacCatalyst=500}">
             <map:SfMaps.Layer>

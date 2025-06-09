@@ -6,7 +6,7 @@
 
     <VerticalStackLayout>
 
-        <Label Text="Profit Margin %" FontSize="16"  FontFamily="RobotoMedium" Margin="15,20,0,15" TextColor="#1C1B1F"/>
+        <Label Text="Profit Margin %" FontSize="16" FontAttributes="Bold" Margin="15,20,0,15" TextColor="#1C1B1F"/>
 
         <chart:SfCartesianChart Margin="10">
 

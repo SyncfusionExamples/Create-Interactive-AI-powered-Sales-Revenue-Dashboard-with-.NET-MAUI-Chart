@@ -7,6 +7,10 @@
              xmlns:navigationdrawer="clr-namespace:Syncfusion.Maui.NavigationDrawer;assembly=Syncfusion.Maui.NavigationDrawer"
              xmlns:aiassistview="clr-namespace:Syncfusion.Maui.AIAssistView;assembly=Syncfusion.Maui.AIAssistView">
 
+    <ContentView.Resources>
+        <local:BoolToDarkThemeColorConverter x:Key="SelectionBackgroundConverter"/>
+    </ContentView.Resources>
+
     <Grid RowDefinitions="8.5*,1.5*" ColumnDefinitions="1.4*,5.6*,3*">
 
         <navigationdrawer:SfNavigationDrawer x:Name="navigationDrawer" Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="3">
@@ -20,7 +24,7 @@
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
                                         <ViewCell>
-                                            <Border x:DataType="local:PageInfo" x:Name="item" HeightRequest="70" BackgroundColor="Transparent" StrokeShape="RoundRectangle 8" Stroke="Transparent">
+                                            <Border x:DataType="local:PageInfo" x:Name="item" HeightRequest="70" BackgroundColor="{Binding IsSelected, Converter={StaticResource SelectionBackgroundConverter}}" StrokeShape="RoundRectangle 8" Stroke="Transparent">
                                                 <HorizontalStackLayout Spacing="5" HorizontalOptions="Start" Padding="20">
                                                     <Label Text="{Binding PageIcon}" FontFamily="MaterialSymbolOutlined" FontSize="27" TextColor="#1C1B1F"/>
                                                     <Label Text="{Binding Title}"
@@ -41,10 +45,11 @@
                     <HorizontalStackLayout Background="#6750A4" Spacing="5">
                         <sfButton:SfButton x:Name="menuButton"
                      HeightRequest="50"
-                     WidthRequest="50"
-                     HorizontalOptions="Start" ShowIcon="True"
-                     ImageSource="menu.png"
-                     Clicked="menuButton_Clicked" Background="#6750A4"/>
+                     WidthRequest="50" Text="&#xe5d2;" 
+                     FontFamily="MaterialIcons" FontSize="24" TextColor="#FFFFFF"
+                     Clicked="menuButton_Clicked"
+                     HorizontalOptions="Start"
+                     Background="#6750A4"/>
                         <Label x:Name="headerLabel" 
                            HeightRequest="50" 
                            HorizontalTextAlignment="Center" 
@@ -64,29 +69,28 @@
             <Grid RowDefinitions="1.2*,8.8*">
 
                 <Grid Grid.Row="0" ColumnDefinitions="1.2*,8.8*" Background="#6750A4" x:Name="assistViewHeader"
-                  IsVisible="False" Padding="10" ColumnSpacing="5">
+          IsVisible="False" Padding="10" ColumnSpacing="5">
                     <Border Background="#FFFBFE" Stroke="#6750A4" StrokeShape="{OnPlatform Default='RoundRectangle 40', MacCatalyst='RoundRectangle 50'}" HeightRequest="{OnPlatform MacCatalyst=50, Default=40}" WidthRequest="{OnPlatform MacCatalyst=50, Default=40}">
                         <Image Source="ai_icon1.png" HeightRequest="{OnPlatform MacCatalyst=20, Default=15}" WidthRequest="{OnPlatform MacCatalyst=20, Default=15}"/>
                     </Border>
                     <VerticalStackLayout Grid.Column="1" VerticalOptions="Center">
                         <Label Text="Assistant" TextColor="#FFFFFF"
-                           FontSize="{OnPlatform MacCatalyst=16, Default=14}" FontFamily="RobotoRegular"/>
+       FontSize="{OnPlatform MacCatalyst=16, Default=14}"/>
                         <Label Text="How may I help you?" TextColor="#FFFFFF"
-                           FontSize="{OnPlatform MacCatalyst=16, Default=14}" FontFamily="RobotoRegular"/>
+       FontSize="{OnPlatform MacCatalyst=16, Default=14}"/>
                     </VerticalStackLayout>
                 </Grid>
 
                 <ScrollView Grid.Row="1" x:DataType="local:SalesTrendsViewModel">
-                    <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView}"
-             x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" 
-                 ShowHeader="False" AssistItems="{Binding Messages}" Suggestions="{Binding Suggestions}">
+                    <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView}" x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" 
+                        AssistItems="{Binding Messages}" Suggestions="{Binding Suggestions}" ShowHeader="True">
 
                         <aiassistview:SfAIAssistView.HeaderTemplate>
                             <DataTemplate>
                                 <Grid Padding="5">
                                     <Label Text="Here some of prompt suggestions"
-                                            TextColor="#1C1B1F" 
-                                            FontSize="14" VerticalOptions="Center" HorizontalOptions="Center"/>
+                           TextColor="#1C1B1F" 
+                           FontSize="14" VerticalOptions="Center" HorizontalOptions="Center"/>
                                 </Grid>
                             </DataTemplate>
                         </aiassistview:SfAIAssistView.HeaderTemplate>
@@ -94,19 +98,19 @@
                         <aiassistview:SfAIAssistView.SuggestionTemplate>
                             <DataTemplate x:DataType="aiassistview:AssistSuggestion">
                                 <Border HeightRequest="40" 
-                                        BackgroundColor="#F7F2FB"
-                                        Stroke="Transparent" Margin="0,0,0,5"
-                                        StrokeShape="RoundRectangle 8"
-                                        Padding="12,8,12,0">
+                       BackgroundColor="#F7F2FB"
+                       Stroke="Transparent" Margin="0,0,0,5"
+                       StrokeShape="RoundRectangle 8"
+                       Padding="12,8,12,0">
                                     <Border.Shadow>
                                         <Shadow Brush="#26000000" Offset="0,2" Radius="1.5" Opacity="1"/>
                                     </Border.Shadow>
                                     <Label 
-                                        Text="{Binding Text}" 
-                                        FontSize="16" 
-                                        TextColor="#1C1B1F"
-                                        HorizontalTextAlignment="Center"
-                                        HorizontalOptions="Center"/>
+                       Text="{Binding Text}" 
+                       FontSize="16" 
+                       TextColor="#1C1B1F"
+                       HorizontalTextAlignment="Center"
+                       HorizontalOptions="Center"/>
                                 </Border>
                             </DataTemplate>
                         </aiassistview:SfAIAssistView.SuggestionTemplate>
@@ -126,7 +130,7 @@
         </sfButton:SfButton>
 
         <sfButton:SfButton Grid.Row="2" Grid.Column="2" x:Name="close" ShowIcon="True" Background="#6750A4" HorizontalOptions="End"
-        ImageSize="20" ImageSource="close.png" ImageAlignment="Default" WidthRequest="60" CornerRadius="60" HeightRequest="60"
+        Text="&#xe5cd;" FontSize="30" TextColor="#FFFFFF" FontFamily="MaterialIcons" WidthRequest="60" CornerRadius="60" HeightRequest="60"
         Clicked="close_Clicked" IsVisible="False" Margin="{OnPlatform Default='0,0,40,40', MacCatalyst='0,0,80,40'}"/>
 
     </Grid>

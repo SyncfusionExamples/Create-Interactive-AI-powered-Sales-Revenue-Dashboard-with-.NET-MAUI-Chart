@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             x:Class="AISalesDashboard.PredictionPeriod">
+
+    <Grid ColumnDefinitions="{OnPlatform WinUI='1.5*, 8.5*', MacCatalyst='1.5*, 8.5*'}" ColumnSpacing="{OnPlatform WinUI=12, MacCatalyst=12}">
+        <Border Background="#FFDAEC" StrokeShape="RoundRectangle 8" Stroke="Transparent" WidthRequest="56" HeightRequest="56" IsVisible="{OnPlatform Android=False, iOS=False}">
+            <Label Text="&#xe916;" FontSize="32" FontFamily="MaterialIcons" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#E2227E"/>
+        </Border>
+        <VerticalStackLayout Spacing="4" Grid.Column="{OnPlatform WinUI=1, MacCatalyst=1}" VerticalOptions="{OnPlatform Default=Center, Android=Start, iOS=Start}" Margin="{OnPlatform Android=12, iOS=12}">
+            <Label Text="Prediction Period" FontSize="{OnPlatform Default=16, Android=12, iOS=12}" TextColor="#49454F"/>
+            <Label FontSize="{OnPlatform Default=22, Android=16, iOS=15}" TextColor="#1C1B1F">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding FormattedStartDate}"/>
+                        <Span Text=" - "/>
+                        <Span Text="{Binding PredictionPeriod.EndDate, StringFormat='{0:dd MMM, yyyy}'}"/>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

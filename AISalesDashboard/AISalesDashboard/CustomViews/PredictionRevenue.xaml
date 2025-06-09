@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             xmlns:gauges="clr-namespace:Syncfusion.Maui.Gauges;assembly=Syncfusion.Maui.Gauges"
+             x:Class="AISalesDashboard.PredictionRevenue">
+
+    <Grid ColumnDefinitions="{OnPlatform WinUI='2*, 8*', MacCatalyst='2*, 8*'}" ColumnSpacing="{OnPlatform WinUI=12, MacCatalyst=12}">
+        <Border Background="#CFE2FF" StrokeShape="RoundRectangle 8" Stroke="Transparent" WidthRequest="56" HeightRequest="56" IsVisible="{OnPlatform Android=False, iOS=False}">
+            <Label Text="&#xe227;" FontSize="30" FontFamily="MaterialIcons" VerticalOptions="Center" HorizontalOptions="Center" TextColor="#116DFE"/>
+        </Border>
+        <VerticalStackLayout Spacing="4" Grid.Column="{OnPlatform WinUI=1, MacCatalyst=1}" VerticalOptions="{OnPlatform Default=Center, Android=Start, iOS=Start}" Margin="{OnPlatform Android=12, iOS=12}">
+            <Label Text="Performance Revenue" FontSize="{OnPlatform Default=16, Android=12, iOS=12}" FontFamily="RobotoMedium" TextColor="#49454F"/>
+            <Label Text="{Binding PredictedTotalRevenue, StringFormat='${0:N0}'}"
+                FontSize="{OnPlatform Default=22, Android=16, iOS=16}" TextColor="#1C1B1F"/>
+        </VerticalStackLayout>
+    </Grid>
+</ContentView>

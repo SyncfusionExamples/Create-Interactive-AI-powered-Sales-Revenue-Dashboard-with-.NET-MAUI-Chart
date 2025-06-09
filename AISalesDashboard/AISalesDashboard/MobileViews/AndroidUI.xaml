@@ -11,13 +11,13 @@
 
         <tabView:SfTabView Grid.Row="0" Grid.RowSpan="2" Grid.ColumnSpan="2" x:Name="tabView" TabWidthMode="Default" TabBarPlacement="Bottom" SelectedIndex="0"
                    TabBarHeight="60" IndicatorPlacement="Fill" IndicatorBackground="#F5F5F5" TabBarBackground="#6750A4" IndicatorWidthMode="Fit" IndicatorCornerRadius="20" SelectionChanged="tabView_SelectionChanged">
-            <tabView:SfTabItem x:Name="homeView" ImageSource="home_dark.png" ImageSize="25"/>
+            <tabView:SfTabItem x:Name="homeView" Header="&#xe88a;" FontFamily="MaterialSymbolOutlined" FontSize="25" TextColor="#6750A4"/>
 
-            <tabView:SfTabItem x:Name="productsView" ImageSource="product.png" ImageSize="25"/>
+            <tabView:SfTabItem x:Name="productsView" Header="&#xf569;" FontFamily="MaterialSymbolOutlined" FontSize="25" TextColor="#FFFFFF"/>
 
-            <tabView:SfTabItem x:Name="ordersView" ImageSource="orders.png" ImageSize="25"/>
+            <tabView:SfTabItem x:Name="ordersView" Header="&#xe8cc;" FontFamily="MaterialSymbolOutlined" FontSize="25" TextColor="#FFFFFF"/>
 
-            <tabView:SfTabItem x:Name="predictionsView" ImageSource="predictions.png" ImageSize="25"/>
+            <tabView:SfTabItem x:Name="predictionsView" Header="&#xe26b;" FontFamily="MaterialSymbolOutlined" FontSize="25" TextColor="#FFFFFF"/>
 
         </tabView:SfTabView>
 
@@ -26,7 +26,7 @@
 
                 <Grid Grid.Row="0" ColumnDefinitions="1*,1*,8*" Background="#6750A4" x:Name="assistViewHeader"
                 Padding="10" ColumnSpacing="20">
-                    <sfButton:SfButton ImageSource="back_arrow.png" ImageSize="25" WidthRequest="70" HeightRequest="40" ShowIcon="True" Grid.Column="0" Clicked="SfButton_Clicked" Margin="20,0,0,0"/>
+                    <sfButton:SfButton Text="&#xf1e6;" TextColor="#FFFFFF" FontFamily="MaterialIcons" FontSize="27" WidthRequest="70" HeightRequest="40" Grid.Column="0" Clicked="SfButton_Clicked" Margin="20,0,0,0"/>
                     <Border Background="#FFFBFE" Stroke="#6750A4" StrokeShape="RoundRectangle 45" Grid.Column="1" WidthRequest="50" HeightRequest="50">
                         <Image Source="ai_icon1.png" WidthRequest="20" HeightRequest="20"/>
                     </Border>
@@ -40,7 +40,33 @@
 
                 <ScrollView Grid.Row="1">
                     <aiassistview:SfAIAssistView IsVisible="{Binding ShowAssistView}"
-                x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" AssistItems="{Binding Messages}">
+     x:Name="aiAssistView" HorizontalOptions="Fill" Request ="aiAssistView_Request" AssistItems="{Binding Messages}" ShowHeader="True" Suggestions="{Binding Suggestions}">
+
+                        <aiassistview:SfAIAssistView.HeaderTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5">
+                                    <Label Text="Here some of prompt suggestions" TextColor="#1C1B1F" FontSize="14" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                </Grid>
+                            </DataTemplate>
+                        </aiassistview:SfAIAssistView.HeaderTemplate>
+
+                        <aiassistview:SfAIAssistView.SuggestionTemplate>
+                            <DataTemplate x:DataType="aiassistview:AssistSuggestion">
+                                <Border HeightRequest="40" 
+                                 BackgroundColor="#F7F2FB"
+                                 Stroke="Transparent" Margin="0,0,0,5"
+                                 StrokeShape="RoundRectangle 8"
+                                 Padding="12,0,12,0">
+                                    <Border.Shadow>
+                                        <Shadow Brush="#26000000" Offset="0,2" Radius="1.5" Opacity="1"/>
+                                    </Border.Shadow>
+                                    <Label Text="{Binding Text}" 
+                                     FontSize="16"
+                                     HorizontalTextAlignment="Center"
+                                     HorizontalOptions="Center" VerticalTextAlignment="Center"/>
+                                </Border>
+                            </DataTemplate>
+                        </aiassistview:SfAIAssistView.SuggestionTemplate>
                     </aiassistview:SfAIAssistView>
                 </ScrollView>
 

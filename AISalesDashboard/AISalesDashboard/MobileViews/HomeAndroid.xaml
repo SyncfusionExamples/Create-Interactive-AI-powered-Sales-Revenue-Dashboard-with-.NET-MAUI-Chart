@@ -16,17 +16,18 @@
 
             <CollectionView Grid.Row="0" ItemsSource="{Binding HomePageCardLabels}">
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="10" VerticalItemSpacing="10"/>
+                    <GridItemsLayout Orientation="Vertical" Span="2" HorizontalItemSpacing="12" VerticalItemSpacing="12"/>
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <local:CustomBorder Padding="10">
-                            <HorizontalStackLayout Spacing="10" x:DataType="local:DashboardLabelCardModel">
-                                <Image Source="{Binding ImageSource}" WidthRequest="32" HeightRequest="32"/>
-                                <VerticalStackLayout Spacing="5">
-                                    <Label Text="{Binding Title}" FontSize="12" FontFamily="RobotoMedium"
-                                            TextColor="#49454F"/>
-                                    <Label Text="{Binding Value}" FontSize="14" FontFamily="RobotoMedium" TextColor="{Binding ValueColor}"/>
+                        <local:CustomBorder HeightRequest="64">
+                            <HorizontalStackLayout Spacing="4" x:DataType="local:DashboardLabelCardModel">
+                                <Border StrokeShape="RoundRectangle 8" BackgroundColor="{Binding Background}" Stroke="Transparent" WidthRequest="{OnPlatform Default=48, Android=32, iOS=32}" HeightRequest="{OnPlatform Default=48, Android=32, iOS=32}" Margin="12,16,0,16">
+                                    <Label Text="{Binding Icon}" TextColor="{Binding IconColor}" FontSize="{OnPlatform Default=30, Android=15, iOS=15}" FontFamily="MaterialSymbolOutlined" VerticalOptions="Center" HorizontalOptions="Center"/>
+                                </Border>
+                                <VerticalStackLayout Spacing="4" Margin="0,12,24,12">
+                                    <Label Text="{Binding Title}" FontSize="12" TextColor="#49454F"/>
+                                    <Label Text="{Binding Value}" FontSize="14" TextColor="{Binding ValueColor}"/>
                                 </VerticalStackLayout>
                             </HorizontalStackLayout>
                         </local:CustomBorder>
@@ -34,102 +35,11 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
 
-            <!--<Border Grid.Row="1" Stroke="{AppThemeBinding Light={StaticResource SalesDemoMainContentBackground}, Dark={StaticResource SalesDemoMainContentBackgroundDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoContentBackground}, Dark={StaticResource SalesDemoContentBackgroundDark}}" StrokeShape="RoundRectangle 8" Padding="10">
-
-                <Grid RowDefinitions="2*, 8*">
-
-                    <Grid ColumnDefinitions="5*, 5*" Grid.Row="0">
-                        <Label Text="Revenue Trend" FontSize="16" VerticalOptions="Center" Padding="5" FontFamily="RobotoMedium" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}"/>
-
-                        <Border StrokeShape="RoundRectangle 8" Grid.Column="1" Stroke="#D1D5DB" WidthRequest="180">
-                            <HorizontalStackLayout Margin="10,-10,10,0">
-                                <Image Source="{AppThemeBinding Light='calendar.png',Dark='calendar_dark.png'}" WidthRequest="15" HeightRequest="15" Margin="0,10,0,0"/>
-                                <comboBox:SfComboBox Margin="0,10,10,0" x:Name="periodSelection" x:DataType="local:SalesTrendsViewModel" ItemsSource="{Binding DateRanges}" 
-                                    DisplayMemberPath="DisplayText" DropDownIconColor="{AppThemeBinding Light={StaticResource SalesDemoComboBoxDropDownIcon}, Dark={StaticResource SalesDemoComboBoxDropDownIconDark}}"
-                                    WidthRequest="150" SelectionChanged="periodSelection_SelectionChanged" Background="{AppThemeBinding Light={StaticResource SalesDemoContentBackground}, Dark={StaticResource SalesDemoContentBackgroundDark}}" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" ShowBorder="False"
-                                    FontSize="14" IsClearButtonVisible="False" SelectedIndex="0" TextColor="{AppThemeBinding Light={StaticResource SalesDemoContentLabelTextColor}, Dark={StaticResource SalesDemoContentLabelTextColorDark}}">
-                                </comboBox:SfComboBox>
-                            </HorizontalStackLayout>
-                        </Border>
-
-                    </Grid>
-
-                    <chart:SfCartesianChart Grid.Row="1" Margin="5">
-                        
-                        <chart:SfCartesianChart.XAxes>
-                            <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" LabelCreated="DateTimeAxis_LabelCreated">
-                                <chart:DateTimeAxis.LabelStyle>
-                                    <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                                </chart:DateTimeAxis.LabelStyle>
-                            </chart:DateTimeAxis>
-                        </chart:SfCartesianChart.XAxes>
-
-                        <chart:SfCartesianChart.YAxes>
-                            <chart:NumericalAxis>
-                                <chart:NumericalAxis.LabelStyle>
-                                    <chart:ChartAxisLabelStyle  TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                                </chart:NumericalAxis.LabelStyle>
-                                <chart:NumericalAxis.MajorGridLineStyle>
-                                    <chart:ChartLineStyle Stroke="{AppThemeBinding Light={StaticResource SalesDemoChartGridLineColor}, Dark={StaticResource SalesDemoChartGridLineColorDark}}"/>
-                                </chart:NumericalAxis.MajorGridLineStyle>
-                            </chart:NumericalAxis>
-                        </chart:SfCartesianChart.YAxes>
-
-                        <chart:SplineAreaSeries XBindingPath="Date" YBindingPath="Revenue" 
-                                         ItemsSource="{Binding SalesData}" EnableTooltip="True"
-                                         Stroke="{AppThemeBinding Light={StaticResource SalesDemoRevenueChartStroke}, Dark={StaticResource SalesDemoRevenueChartStrokeDark}}" StrokeWidth="1.5">
-                            <chart:SplineAreaSeries.Fill>
-                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                    <GradientStop Color="{AppThemeBinding Light={StaticResource SalesDemoRevenueChartFillGradient1}, Dark={StaticResource SalesDemoRevenueChartFillGradient1Dark}}" Offset="0.0"/>
-                                    <GradientStop Color="{AppThemeBinding Light={StaticResource SalesDemoRevenueChartFillGradient2}, Dark={StaticResource SalesDemoRevenueChartFillGradient2Dark}}" Offset="1.0"/>
-                                </LinearGradientBrush>
-                            </chart:SplineAreaSeries.Fill>
-                        </chart:SplineAreaSeries>
-
-                    </chart:SfCartesianChart>
-                </Grid>
-
-            </Border>-->
-
             <local:CustomBorder Grid.Row="1">
                 <local:CustomBorder.Content>
                     <local:RevenueTrendChart/>
                 </local:CustomBorder.Content>
             </local:CustomBorder>
-
-            <!--<Border Grid.Row="2" Stroke="{AppThemeBinding Light={StaticResource SalesDemoMainContentBackground}, Dark={StaticResource SalesDemoMainContentBackgroundDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoContentBackground}, Dark={StaticResource SalesDemoContentBackgroundDark}}" StrokeShape="RoundRectangle 8" Padding="10">
-                
-                <chart:SfCartesianChart Margin="5">
-
-                    <chart:SfCartesianChart.Title>
-                        <Label Text="Quantity Sold" FontSize="16" Margin="0,0,0,10" FontFamily="RobotoMedium" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}"/>
-                    </chart:SfCartesianChart.Title>
-
-                    <chart:SfCartesianChart.XAxes>
-                        <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" LabelCreated="DateTimeAxis_LabelCreated" EdgeLabelsDrawingMode="Fit">
-                            <chart:DateTimeAxis.LabelStyle>
-                                <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                            </chart:DateTimeAxis.LabelStyle>
-                        </chart:DateTimeAxis>
-                    </chart:SfCartesianChart.XAxes>
-                    
-                    <chart:SfCartesianChart.YAxes>
-                        <chart:NumericalAxis Minimum="0">
-                            <chart:NumericalAxis.LabelStyle>
-                                <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                            </chart:NumericalAxis.LabelStyle>
-                            <chart:NumericalAxis.MajorGridLineStyle>
-                                <chart:ChartLineStyle Stroke="{AppThemeBinding Light={StaticResource SalesDemoChartGridLineColor}, Dark={StaticResource SalesDemoChartGridLineColorDark}}"/>
-                            </chart:NumericalAxis.MajorGridLineStyle>
-                        </chart:NumericalAxis>
-                    </chart:SfCartesianChart.YAxes>
-
-                    <chart:ColumnSeries XBindingPath="Date" YBindingPath="Quantity" 
-                            ItemsSource="{Binding SalesData}" EnableTooltip="True"
-                            Fill="{AppThemeBinding Light={StaticResource SalesDemoQuantityChartFill}, Dark={StaticResource SalesDemoQuantityChartFillDark}}"/>
-                    
-                </chart:SfCartesianChart>
-            </Border>-->
 
             <local:CustomBorder Grid.Row="2">
                 <local:CustomBorder.Content>
@@ -137,91 +47,11 @@
                 </local:CustomBorder.Content>
             </local:CustomBorder>
 
-            <!--<Border Grid.Row="3" Stroke="{AppThemeBinding Light={StaticResource SalesDemoMainContentBackground}, Dark={StaticResource SalesDemoMainContentBackgroundDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoContentBackground}, Dark={StaticResource SalesDemoContentBackgroundDark}}" StrokeShape="RoundRectangle 8" Padding="10">
-
-                <chart:SfCartesianChart Margin="5">
-
-                    <chart:SfCartesianChart.Title>
-                        <Label Text="Profit Margin %" FontSize="16" Margin="0,0,0,10" FontFamily="RobotoMedium" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}"/>
-                    </chart:SfCartesianChart.Title>
-
-                    <chart:SfCartesianChart.XAxes>
-                        <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" LabelCreated="DateTimeAxis_LabelCreated">
-                            <chart:DateTimeAxis.LabelStyle>
-                                <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                            </chart:DateTimeAxis.LabelStyle>
-                        </chart:DateTimeAxis>
-                    </chart:SfCartesianChart.XAxes>
-                    
-                    <chart:SfCartesianChart.YAxes>
-                        <chart:NumericalAxis Minimum="10" Maximum="100">
-                            <chart:NumericalAxis.LabelStyle>
-                                <chart:ChartAxisLabelStyle TextColor="{AppThemeBinding Light={StaticResource SalesDemoChartAxisLabelTextColor}, Dark={StaticResource SalesDemoChartAxisLabelTextColorDark}}"/>
-                            </chart:NumericalAxis.LabelStyle>
-                            <chart:NumericalAxis.MajorGridLineStyle>
-                                <chart:ChartLineStyle Stroke="{AppThemeBinding Light={StaticResource SalesDemoChartGridLineColor}, Dark={StaticResource SalesDemoChartGridLineColorDark}}"/>
-                            </chart:NumericalAxis.MajorGridLineStyle>
-                        </chart:NumericalAxis>
-                    </chart:SfCartesianChart.YAxes>
-
-                    <chart:LineSeries XBindingPath="Date" YBindingPath="ProfitMargin" 
-                            ItemsSource="{Binding SalesData}" EnableTooltip="True"
-                            Fill="{AppThemeBinding Light={StaticResource SalesDemoMarginChartFill}, Dark={StaticResource SalesDemoMarginChartFillDark}}" StrokeWidth="2"/>
-                    
-                </chart:SfCartesianChart>
-
-            </Border>-->
-
             <local:CustomBorder Grid.Row="3">
                 <local:CustomBorder.Content>
                     <local:ProfitMarginChart/>
                 </local:CustomBorder.Content>
             </local:CustomBorder>
-
-            <!--<Border Grid.Row="4" Stroke="{AppThemeBinding Light={StaticResource SalesDemoMainContentBackground}, Dark={StaticResource SalesDemoMainContentBackgroundDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoContentBackground}, Dark={StaticResource SalesDemoContentBackgroundDark}}" StrokeShape="RoundRectangle 8" Padding="10">
-                <VerticalStackLayout x:DataType="local:SalesTrendsViewModel">
-                    <Label Text="Sales Data" FontSize="16" Margin="0,0,0,10" FontFamily="RobotoMedium" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}"/>
-                    <dataGrid:SfDataGrid ItemsSource="{Binding SalesPagedItems}" 
-                            AutoGenerateColumnsMode="None" SortingMode="Single" DefaultStyle="{StaticResource customStyle}"
-                            GridLinesVisibility="Both" HeaderGridLinesVisibility="Both" ColumnWidthMode="Fill">
-                        <dataGrid:SfDataGrid.Columns>
-                            <dataGrid:DataGridTextColumn HeaderText="Date" MappingName="Date" Format="d" HeaderTextAlignment="Start" MinimumWidth="100"/>
-
-                            <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" MappingName="ProductName" MinimumWidth="250" HeaderText="Product">
-                                <dataGrid:DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate x:DataType="local:SalesData">
-                                        <HorizontalStackLayout Spacing="8" Padding="8">
-                                            <Image Source="{Binding Icon}" WidthRequest="25" HeightRequest="25" />
-                                            <Label Text="{Binding ProductName}" TextColor="{AppThemeBinding Light={StaticResource SalesDemoContentLabelTextColor}, Dark={StaticResource SalesDemoContentLabelTextColorDark}}"
-                                                VerticalTextAlignment="Center" 
-                                                HorizontalTextAlignment="Center" FontFamily="RobotoRegular" FontSize="14"/>
-                                        </HorizontalStackLayout>
-                                    </DataTemplate>
-                                </dataGrid:DataGridTemplateColumn.CellTemplate>
-                            </dataGrid:DataGridTemplateColumn>
-
-                            <dataGrid:DataGridTextColumn HeaderText="Region" MappingName="RegionName" HeaderTextAlignment="Start" MinimumWidth="150"/>
-                            <dataGrid:DataGridTextColumn MappingName="Quantity" MinimumWidth="120">
-                                <dataGrid:DataGridTextColumn.HeaderTemplate>
-                                    <DataTemplate>
-                                        <Label Text="Quantity" VerticalOptions="Center" Margin="15,0,0,0" FontSize="14" FontFamily="RobotoRegular" TextColor="{AppThemeBinding Light={StaticResource SalesDemoContentLabelTextColor}, Dark={StaticResource SalesDemoContentLabelTextColorDark}}"/>
-                                    </DataTemplate>
-                                </dataGrid:DataGridTextColumn.HeaderTemplate>
-                            </dataGrid:DataGridTextColumn>
-                            <dataGrid:DataGridTextColumn HeaderText="Revenue" MappingName="Revenue" Format="$#.##" HeaderTextAlignment="Start" MinimumWidth="120"/>
-                            <dataGrid:DataGridTextColumn HeaderText="Cost" MappingName="Cost" Format="$#.##" HeaderTextAlignment="Start" MinimumWidth="100"/>
-                            <dataGrid:DataGridTextColumn HeaderText="Profit" MappingName="Profit" Format="$#.##" HeaderTextAlignment="Start" MinimumWidth="100"/>
-                            <dataGrid:DataGridTextColumn HeaderText="Profit %" MappingName="ProfitMargin" Format="P2" HeaderTextAlignment="Start" MinimumWidth="100"/>
-                        </dataGrid:SfDataGrid.Columns>
-                    </dataGrid:SfDataGrid>
-
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="10">
-                        <Button Text="Previous" Command="{Binding PreviousSalesPageCommand}" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoNavigationDrawerBackgroundColor}, Dark={StaticResource SalesDemoNavigationDrawerBackgroundColorDark}}" FontSize="14"/>
-                        <Label Text="{Binding SalesPageInfo}" VerticalOptions="Center"/>
-                        <Button Text="Next" Command="{Binding NextSalesPageCommand}" TextColor="{AppThemeBinding Light={StaticResource SalesDemoHeaderLabelTextColor}, Dark={StaticResource SalesDemoHeaderLabelTextColorDark}}" Background="{AppThemeBinding Light={StaticResource SalesDemoNavigationDrawerBackgroundColor}, Dark={StaticResource SalesDemoNavigationDrawerBackgroundColorDark}}" FontSize="14"/>
-                    </HorizontalStackLayout>
-                </VerticalStackLayout>
-            </Border>-->
 
             <local:CustomBorder Grid.Row="4">
                 <local:CustomBorder.Content>

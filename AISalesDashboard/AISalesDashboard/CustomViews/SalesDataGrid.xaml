@@ -52,7 +52,7 @@
 
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Margin="10">
             <Button Text="Prev" Command="{Binding PreviousSalesPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
-            <Label Text="{Binding SalesPageInfo}" VerticalOptions="Center"/>
+            <Label Text="{Binding SalesPageInfo}" VerticalOptions="Center"  FontAttributes="Bold"/>
             <Button Text="Next" Command="{Binding NextSalesPageCommand}" TextColor="#FFFFFF" Background="#6750A4" CornerRadius="10"/>
         </HorizontalStackLayout>
     </VerticalStackLayout>

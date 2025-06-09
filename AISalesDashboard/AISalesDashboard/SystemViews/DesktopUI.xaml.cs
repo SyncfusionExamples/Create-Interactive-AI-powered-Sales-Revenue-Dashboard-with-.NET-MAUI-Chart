@@ -70,8 +70,6 @@ public partial class DesktopUI : ContentView
 
         if (request != null)
         {
-            await Task.Run(() => salesTrendsViewModel.Initialize());
-
             var prompt = GeneratePrompt(request.Text, salesTrendsViewModel.SalesData!);
 
             // Get AI response
@@ -172,4 +170,18 @@ public partial class DesktopUI : ContentView
                 break;
         }
     }
+}
+
+public class BoolToDarkThemeColorConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+    {
+        bool isSelected = false;
+        _ = bool.TryParse(value?.ToString(), out isSelected);
+
+        return Colors.Transparent;
+    }
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>
+        throw new NotImplementedException();
 }

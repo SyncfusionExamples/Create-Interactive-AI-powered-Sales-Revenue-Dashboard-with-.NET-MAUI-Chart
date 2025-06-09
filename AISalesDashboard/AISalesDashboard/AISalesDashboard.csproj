@@ -63,8 +63,6 @@
 
 	<ItemGroup>
 	  <None Remove="Resources\Images\ai_icon.png" />
-	  <None Remove="Resources\Images\calendar.png" />
-	  <None Remove="Resources\Images\close.png" />
 	  <None Remove="Resources\Images\map_pin.png" />
 	  <None Remove="Resources\Images\menu.png" />
 	  <None Remove="Resources\Images\NewProductImages\blackberry_bold.png" />
@@ -97,11 +95,6 @@
 	  <None Remove="Resources\Images\NewProductImages\vr_headset.png" />
 	  <None Remove="Resources\Images\NewProductImages\webcam.png" />
 	  <None Remove="Resources\Images\NewProductImages\wireless_earbuds.png" />
-	  <None Remove="Resources\Images\SaleChartImages\ai_icon1.png" />
-	  <None Remove="Resources\Images\SaleChartImages\growth_rate.png" />
-	  <None Remove="Resources\Images\SaleChartImages\profit_margin.png" />
-	  <None Remove="Resources\Images\SaleChartImages\total_profit.png" />
-	  <None Remove="Resources\Images\SaleChartImages\total_revenue.png" />
 	  <None Remove="Resources\Images\sync.png" />
 	</ItemGroup>
 
@@ -111,8 +104,6 @@
 
 	<ItemGroup>
 	  <MauiImage Include="Resources\Images\ai_icon.png" />
-	  <MauiImage Include="Resources\Images\calendar.png" />
-	  <MauiImage Include="Resources\Images\close.png" />
 	  <MauiImage Include="Resources\Images\map_pin.png" />
 	  <MauiImage Include="Resources\Images\menu.png" />
 	  <MauiImage Include="Resources\Images\NewProductImages\blackberry_bold.png" />
@@ -144,16 +135,12 @@
 	  <MauiImage Include="Resources\Images\NewProductImages\vr_headset.png" />
 	  <MauiImage Include="Resources\Images\NewProductImages\webcam.png" />
 	  <MauiImage Include="Resources\Images\NewProductImages\wireless_earbuds.png" />
-	  <MauiImage Include="Resources\Images\SaleChartImages\ai_icon1.png" />
-	  <MauiImage Include="Resources\Images\SaleChartImages\growth_rate.png" />
-	  <MauiImage Include="Resources\Images\SaleChartImages\profit_margin.png" />
-	  <MauiImage Include="Resources\Images\SaleChartImages\total_profit.png" />
-	  <MauiImage Include="Resources\Images\SaleChartImages\total_revenue.png" />
+	  <MauiImage Include="Resources\Images\ai_icon1.png" />
 	  <MauiImage Include="Resources\Images\sync.png" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MultiDexMainDexList Include="Resources\Images\NewProductImages\gaming_mouse.png" />
+	  <MauiImage Include="Resources\Images\NewProductImages\gaming_mouse.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -163,6 +150,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="CustomViews\AIInsightsDetails.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CustomViews\AverageConfidence.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="CustomViews\CustomBorder.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -172,7 +165,10 @@
 	  <MauiXaml Update="CustomViews\PredictionDetails.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="CustomViews\PredictionSummary.xaml">
+	  <MauiXaml Update="CustomViews\PredictionPeriod.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="CustomViews\PredictionRevenue.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="CustomViews\ProductChart.xaml">

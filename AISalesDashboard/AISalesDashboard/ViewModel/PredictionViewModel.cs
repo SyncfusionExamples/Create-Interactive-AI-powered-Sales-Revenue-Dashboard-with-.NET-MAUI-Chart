@@ -135,7 +135,7 @@ namespace AISalesDashboard
                 }
             }
         }
-
+        
         private DateTime endDate = DateTime.Now.AddDays(30);
         public DateTime EndDate
         {
@@ -147,6 +147,18 @@ namespace AISalesDashboard
                     endDate = value;
                     OnPropertyChanged(nameof(EndDate));
                 }
+            }
+        }
+
+        public string FormattedStartDate
+        {
+            get
+            {
+#if ANDROID || IOS
+                return startDate.ToString("dd MMM");
+#else
+                return startDate.ToString("dd MMM, yyyy");
+#endif
             }
         }
 

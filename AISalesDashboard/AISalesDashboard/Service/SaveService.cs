@@ -12,4 +12,5 @@ namespace AISalesDashboard
     {
         public string? Name { get; set; }
     }
+
 }

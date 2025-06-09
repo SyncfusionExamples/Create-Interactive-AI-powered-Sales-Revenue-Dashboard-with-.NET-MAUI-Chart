@@ -10,11 +10,11 @@
 
         <Grid ColumnDefinitions="{OnPlatform Default='8.8*, 1.2*', Android='5.3*, 4.7*',iOS='5*, 5*'}" Padding="10">
 
-            <Label Grid.Column="0" Text="Revenue Trend" FontSize="16" HorizontalOptions="Start" FontFamily="RobotoMedium" TextColor="#1C1B1F" VerticalOptions="Center" Margin="5,0,0,0"/>
+            <Label Grid.Column="0" Text="Revenue Trend" FontSize="16" HorizontalOptions="Start" TextColor="#1C1B1F" FontAttributes="Bold" VerticalOptions="Center" Margin="5,0,0,0"/>
 
             <Border StrokeShape="RoundRectangle 8" Grid.Column="1" Stroke="#D1D5DB" WidthRequest="{OnPlatform MacCatalyst=180}" HeightRequest="{OnPlatform Android=40, iOS=40}">
                 <HorizontalStackLayout Margin="10,-10,0,0">
-                    <Image Source="calendar.png" WidthRequest="15" HeightRequest="15" Margin="{OnPlatform Default='0,10,0,0', Android='0,7,0,0', iOS='0,7,0,0'}"/>
+                    <Label Text="&#xebcc;" FontSize="17" FontFamily="MaterialIcons" TextColor="#49454F" VerticalOptions="Center" Margin="{OnPlatform Default='0,17,0,0', Android='0,7,0,0', iOS='0,7,0,0'}"/>
                     <comboBox:SfComboBox Margin="{OnPlatform Default='0,10,10,0', Android='0,7,10,0'}" x:Name="periodSelection" x:DataType="local:SalesTrendsViewModel" ItemsSource="{Binding DateRanges}"
                 DisplayMemberPath="DisplayText" DropDownIconColor="#49454F"
                 WidthRequest="150" SelectionChanged="periodSelection_SelectionChanged" Background="#FFFBFE" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" ShowBorder="False"

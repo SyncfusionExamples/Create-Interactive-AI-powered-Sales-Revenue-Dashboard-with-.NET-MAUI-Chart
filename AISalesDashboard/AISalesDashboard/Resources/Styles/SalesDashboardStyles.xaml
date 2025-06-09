@@ -9,8 +9,7 @@
         RowTextColor="{AppThemeBinding Light='#1C1B1F', Dark='#E6E1E5'}"
         HeaderRowBackground="{AppThemeBinding Light='#F7F2FB', Dark='#25232A'}"
         HeaderRowFontSize="14"
-        RowFontSize="14"
-        HeaderRowFontFamily="RobotoMedium"
-        RowFontFamily="RobotoRegular" GridLineStrokeThickness="2" HeaderGridLineStrokeThickness="2"/>
+        RowFontSize="14" HeaderRowFontAttributes="Bold"
+        GridLineStrokeThickness="2" HeaderGridLineStrokeThickness="2"/>
 
 </ResourceDictionary>

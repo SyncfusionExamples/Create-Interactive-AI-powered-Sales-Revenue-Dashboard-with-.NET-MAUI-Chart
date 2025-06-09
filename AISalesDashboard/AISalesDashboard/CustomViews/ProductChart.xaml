@@ -5,18 +5,9 @@
              xmlns:local="clr-namespace:AISalesDashboard"
              x:Class="AISalesDashboard.ProductChart">
 
-    <ContentView.Resources>
-        
-        <Style x:Key="labelStyle" TargetType="Label">
-            <Setter Property="FontFamily" Value="RobotoMedium"/>
-            <Setter Property="TextColor" Value="#1C1B1F"/>
-        </Style>
-
-    </ContentView.Resources>
-
     <chart:SfCircularChart Margin="10" HeightRequest="{OnPlatform Android=400, iOS=400}" VerticalOptions="{OnPlatform Android=Start, iOS=Start}">
         <chart:SfCircularChart.Title>
-            <Label Text="Top Products" FontSize="16" Style="{StaticResource labelStyle}" Margin="5,5,0,0"/>
+            <Label Text="Top Products" FontSize="16" FontAttributes="Bold" Margin="5,5,0,0"/>
         </chart:SfCircularChart.Title>
 
         <chart:SfCircularChart.Legend>
