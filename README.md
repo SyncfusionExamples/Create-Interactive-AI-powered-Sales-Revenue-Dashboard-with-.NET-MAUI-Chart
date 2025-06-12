@@ -76,17 +76,13 @@ This project uses a rich set of Syncfusion .NET MAUI controls to deliver a highl
   - Users can query sales data using natural language.
   - Includes pre-suggested questions and chat context display.
 
-![image](https://github.com/user-attachments/assets/20bd83c0-ba10-4a0e-b44e-d23ba3445000)
-![image](https://github.com/user-attachments/assets/75b143e4-2f78-4a5e-88b5-a5d6e7e7ed3d)
-![image](https://github.com/user-attachments/assets/7dbd229c-87bc-4b56-bf98-18ac6895fabf)
-![image](https://github.com/user-attachments/assets/ccbea688-b754-416d-b282-b85060b70a2e)
 
-
+![Interactive-AI-Assistant](https://github.com/user-attachments/assets/64a739a9-ef48-4b7b-892a-3db8b48e4f9d)
 
 
 ## Troubleshooting
 ### Path too long exception
 If you are facing a path too long exception when building this example project, close Visual Studio and rename the repository to a shorter name before building the project.
 
-For a step-by-step procedure, refer to the [AI powered Sales Revenue Dashboard Blog]().
+For a step-by-step procedure, refer to the [AI powered Sales Revenue Dashboard Blog](https://www.syncfusion.com/blogs/post/ai-sales-dashboard-dotnet-maui-charts).
 
