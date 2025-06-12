@@ -80,6 +80,9 @@ This project uses a rich set of Syncfusion .NET MAUI controls to deliver a highl
 ![Interactive-AI-Assistant](https://github.com/user-attachments/assets/64a739a9-ef48-4b7b-892a-3db8b48e4f9d)
 
 
+![Assist View](https://github.com/user-attachments/assets/d693f26f-f2bc-4f42-a007-1262b5b9f459)
+
+
 ## Troubleshooting
 ### Path too long exception
 If you are facing a path too long exception when building this example project, close Visual Studio and rename the repository to a shorter name before building the project.
