@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Border xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AISalesDashboard.CustomBorder" 
+        Stroke="#F7F2FB" 
+        StrokeShape="RoundRectangle 8" 
+        Background="#FFFBFE">
+
+    <Border.Shadow>
+        <Shadow
+            Brush="#1F000000"
+            Offset="{OnPlatform Default='0,1', Android='0,4', iOS='0,4'}"
+            Radius="{OnPlatform Default=1, Android=12, iOS=12}"
+            Opacity="{OnPlatform Default=1, Android=0.06, iOS=0.06}" />
+    </Border.Shadow>
+
+</Border>

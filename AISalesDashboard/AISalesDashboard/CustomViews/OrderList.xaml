@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:dataGrid="clr-namespace:Syncfusion.Maui.DataGrid;assembly=Syncfusion.Maui.DataGrid"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             xmlns:buttons="clr-namespace:Syncfusion.Maui.Buttons;assembly=Syncfusion.Maui.Buttons"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             x:Class="AISalesDashboard.OrderList">
+
+    <Grid RowDefinitions="*,9*" Padding="5" Margin="10">
+
+        <Grid Grid.Row="0" ColumnDefinitions="{OnPlatform Default='8.7*, 1.3*', Android='6*, 4*', iOS='6*, 4*'}" Padding="10">
+            <Label Text="Orders" FontSize="16" VerticalOptions="Center" HorizontalOptions="Start" TextColor="#1C1B1F" FontAttributes="Bold" Margin="5,0,0,0"/>
+
+            <Border HeightRequest="45" Grid.Column="1"
+                Background="Transparent"
+                Stroke="#6750A4" WidthRequest="{OnPlatform Default=150, Android=140, iOS=140}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="20"/>
+                </Border.StrokeShape>
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer NumberOfTapsRequired="1"
+         Tapped="ExportAsPDF" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="2*,8*" Padding="16,10" ColumnSpacing="8">
+                    <Label Grid.Column="0"
+                        FontSize="18"
+                        Text="&#xe799;"
+                        TextColor="#6750A4"
+                        FontFamily="{OnPlatform Default ='MauiMaterialAssets', WinUI ='MauiMaterialAssets.ttf#MauiMaterialAssets'}"
+                        VerticalOptions="Center"/>
+                    <Label Grid.Column="1"
+                        Text="Export PDF"
+                        TextColor="#6750A4"
+                        Margin="{OnPlatform Default='0,2,0,0', MacCatalyst='0,-2,0,0'}"
+                        VerticalTextAlignment="Center"/>
+                </Grid>
+
+            </Border>
+        </Grid>
+
+        <dataGrid:SfDataGrid Grid.Row="1" Margin="15" x:Name="dataGrid" DefaultStyle="{StaticResource customStyle}" ItemsSource="{Binding OrderInfos}" HorizontalScrollBarVisibility="Always"
+  VerticalScrollBarVisibility="Always"
+  AutoGenerateColumnsMode="None" SortingMode="Single" HeaderGridLinesVisibility="Both" GridLinesVisibility="Both" ColumnWidthMode="Fill">
+
+            <dataGrid:SfDataGrid.Columns>
+
+                <dataGrid:DataGridTemplateColumn Width="60">
+                    <dataGrid:DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <buttons:SfCheckBox IsChecked="True" CheckedColor="#6750A4" Margin="7,0,0,0"/>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.HeaderTemplate>
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <buttons:SfCheckBox IsChecked="True" CheckedColor="#6750A4" Margin="7,0,0,0"/>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="OrderID" MappingName="Id" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="{OnPlatform WinUI=150, MacCatalyst=150}" MinimumWidth="{OnPlatform Android=100, iOS=100}" Format="'#'#.#"/>
+
+                <dataGrid:DataGridTextColumn HeaderText="Customer" MappingName="Customer" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="{OnPlatform WinUI=180, MacCatalyst=180}" MinimumWidth="{OnPlatform Android=100, iOS=100}"/>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="Product" MinimumWidth="{OnPlatform Default=120, Android=250, iOS=250}" HeaderText="Product">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout Spacing="8" Padding="8">
+                                <Image x:DataType="local:OrderInfo" Source="{Binding Image}" HeightRequest="25" WidthRequest="25" />
+                                <Label Text="{Binding Product}" FontFamily="RobotoRegular"
+                                x:DataType="local:OrderInfo"
+                                VerticalTextAlignment="Center" 
+                                HorizontalTextAlignment="Center" TextColor="#1C1B1F"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridTextColumn HeaderText="Order Date" MappingName="OrderDate" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="{OnPlatform WinUI=180, MacCatalyst=180}" MinimumWidth="{OnPlatform Android=150, iOS=150}"/>
+
+                <dataGrid:DataGridTemplateColumn HeaderTextAlignment="Start" ColumnWidthMode="LastColumnFill" MappingName="OrderStatus" HeaderText="Status" MaximumWidth="{OnPlatform WinUI=180, MacCatalyst=180}" MinimumWidth="{OnPlatform Android=150, iOS=150}">
+                    <dataGrid:DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <HorizontalStackLayout x:DataType="local:OrderInfo" Spacing="8" Padding="8">
+                                <BoxView Background="{Binding Brush}" HeightRequest="20" WidthRequest="20" CornerRadius="3"/>
+                                <Label Text="{Binding OrderStatus}" VerticalTextAlignment="Center" FontFamily="RobotoRegular" TextColor="#1C1B1F"/>
+                            </HorizontalStackLayout>
+                        </DataTemplate>
+                    </dataGrid:DataGridTemplateColumn.CellTemplate>
+                </dataGrid:DataGridTemplateColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="Amount" MappingName="ActualPrice" Format="$#.##" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="{OnPlatform WinUI=180, MacCatalyst=180}" MinimumWidth="{OnPlatform Android=100, iOS=100}">
+                </dataGrid:DataGridNumericColumn>
+
+                <dataGrid:DataGridNumericColumn HeaderText="Selling Price" MappingName="SellingPrice" Format="$#.##" HeaderTextAlignment="Start" CellTextAlignment="Start" MaximumWidth="{OnPlatform WinUI=180, MacCatalyst=180}" MinimumWidth="{OnPlatform Android=120, iOS=120}">
+                </dataGrid:DataGridNumericColumn>
+
+            </dataGrid:SfDataGrid.Columns>
+
+        </dataGrid:SfDataGrid>
+
+    </Grid>
+
+</ContentView>
