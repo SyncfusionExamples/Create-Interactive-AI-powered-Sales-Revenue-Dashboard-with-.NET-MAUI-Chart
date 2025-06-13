@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AISalesDashboard.AIInsightsDetails">
+
+    <ScrollView HorizontalScrollBarVisibility="Always" VerticalScrollBarVisibility="Always" Margin="{OnPlatform WinUI='16,12,16,16', MacCatalyst='16,12,16,16'}">
+        <VerticalStackLayout Spacing="10">
+            <Label Text="AI Insights" FontSize="16" TextColor="#49454F"/>
+            <Label Text="{Binding InsightsExplanation}" TextType="Html" TextColor="#1C1B1F"/>
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentView>

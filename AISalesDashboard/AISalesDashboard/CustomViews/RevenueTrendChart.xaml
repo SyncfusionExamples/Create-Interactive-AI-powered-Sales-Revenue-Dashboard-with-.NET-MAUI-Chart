@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:AISalesDashboard"
+             xmlns:comboBox="clr-namespace:Syncfusion.Maui.Inputs;assembly=Syncfusion.Maui.Inputs"
+             xmlns:chart="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
+             x:Class="AISalesDashboard.RevenueTrendChart">
+
+    <VerticalStackLayout>
+
+        <Grid ColumnDefinitions="{OnPlatform Default='8.8*, 1.2*', Android='5.3*, 4.7*',iOS='5*, 5*'}" Padding="10">
+
+            <Label Grid.Column="0" Text="Revenue Trend" FontSize="16" HorizontalOptions="Start" TextColor="#1C1B1F" FontAttributes="Bold" VerticalOptions="Center" Margin="5,0,0,0"/>
+
+            <Border StrokeShape="RoundRectangle 8" Grid.Column="1" Stroke="#D1D5DB" WidthRequest="{OnPlatform MacCatalyst=180}" HeightRequest="{OnPlatform Android=40, iOS=40}">
+                <HorizontalStackLayout Margin="10,-10,0,0">
+                    <Label Text="&#xebcc;" FontSize="17" FontFamily="MaterialIcons" TextColor="#49454F" VerticalOptions="Center" Margin="{OnPlatform Default='0,10,0,0', Android='0,7,0,0', iOS='0,10,0,0', MacCatalyst='0,10,0,0'}"/>
+                    <comboBox:SfComboBox Margin="{OnPlatform Default='0,10,10,0', Android='0,7,10,0'}" x:Name="periodSelection" x:DataType="local:SalesTrendsViewModel" ItemsSource="{Binding DateRanges}"
+                DisplayMemberPath="DisplayText" DropDownIconColor="#49454F"
+                WidthRequest="150" SelectionChanged="periodSelection_SelectionChanged" Background="#FFFBFE" DropDownStroke="#D1D5DB" HorizontalTextAlignment="Center" ShowBorder="False"
+                FontSize="14" FontFamily="RobotoRegular" IsClearButtonVisible="False" SelectedIndex="3" TextColor="#1C1B1F">
+                    </comboBox:SfComboBox>
+                </HorizontalStackLayout>
+            </Border>
+
+        </Grid>
+
+        <chart:SfCartesianChart Margin="10">
+
+            <chart:SfCartesianChart.XAxes>
+                <chart:DateTimeAxis IntervalType="Days" ShowMajorGridLines="False" LabelCreated="DateTimeAxis_LabelCreated">
+                    <chart:DateTimeAxis.LabelStyle>
+                        <chart:ChartAxisLabelStyle TextColor="#49454F"/>
+                    </chart:DateTimeAxis.LabelStyle>
+                    <chart:DateTimeAxis.AxisLineStyle>
+                        <chart:ChartLineStyle Stroke="#CAC4D0"/>
+                    </chart:DateTimeAxis.AxisLineStyle>
+                </chart:DateTimeAxis>
+            </chart:SfCartesianChart.XAxes>
+
+            <chart:SfCartesianChart.YAxes>
+                <chart:NumericalAxis EdgeLabelsDrawingMode="Center" PlotOffsetEnd="5" LabelCreated="NumericalAxis_LabelCreated">
+                    <chart:NumericalAxis.LabelStyle>
+                        <chart:ChartAxisLabelStyle TextColor="#49454F"/>
+                    </chart:NumericalAxis.LabelStyle>
+                    <chart:NumericalAxis.MajorGridLineStyle>
+                        <chart:ChartLineStyle Stroke="#E7E0EC"/>
+                    </chart:NumericalAxis.MajorGridLineStyle>
+                </chart:NumericalAxis>
+            </chart:SfCartesianChart.YAxes>
+
+            <chart:SplineAreaSeries XBindingPath="Date" YBindingPath="Revenue" 
+      ItemsSource="{Binding SalesData}"
+      Stroke="#3068F7" StrokeWidth="1.5">
+                <chart:SplineAreaSeries.Fill>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#C43068F7" Offset="0.0"/>
+                        <GradientStop Color="{OnPlatform Default='#0073E600', MacCatalyst=White, iOS=White}" Offset="1.0"/>
+                    </LinearGradientBrush>
+                </chart:SplineAreaSeries.Fill>
+            </chart:SplineAreaSeries>
+
+        </chart:SfCartesianChart>
+
+    </VerticalStackLayout>
+
+    
+</ContentView>
