@@ -140,10 +140,10 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0" />
-		<PackageReference Include="Syncfusion.Maui.AIAssistView" Version="29.2.10" />
+		<PackageReference Include="Syncfusion.Maui.AIAssistView" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Buttons" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Charts" Version="*" />
-		<PackageReference Include="Syncfusion.Maui.Chat" Version="29.2.10" />
+		<PackageReference Include="Syncfusion.Maui.Chat" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.Core" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.DataGrid" Version="*" />
 		<PackageReference Include="Syncfusion.Maui.DataGridExport" version="*" />
