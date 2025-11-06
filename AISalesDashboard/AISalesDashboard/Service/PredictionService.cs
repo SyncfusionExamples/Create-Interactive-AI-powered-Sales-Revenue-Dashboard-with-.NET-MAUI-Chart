@@ -33,7 +33,15 @@ namespace AISalesDashboard
 
         internal async Task<string> GetRandomExplanationAsync(List<SalesPrediction> predictions)
         {
-            string prompt = $"Based on the {predictions.Count} sales data points, provide an insightful explanation.";
+            var fullData = predictions
+                .Select(p =>
+                    $"Date: {p.Date:yyyy-MM-dd}, Revenue: {p.PredictedRevenue}, Confidence: {p.Confidence}, Anomaly: {p.IsAnomaly}, AnomalyExplanation: {p.AnomalyExplanation ?? "N/A"}")
+                .ToList();
+
+            string dataText = string.Join("\n", fullData);
+
+            string prompt = $@"You are analyzing {predictions.Count} sales predictions. Here is the full data: {dataText}
+                               Based on this data, provide an insightful explanation.";
 
             string insights = await _baseAIService.GetAnswerFromGPT(prompt);
 
